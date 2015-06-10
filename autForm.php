@@ -1,9 +1,6 @@
-<?php
-    include_once 'header.html';
-
-?>
+<?php include_once 'header.html'; ?>
 	<div class="border-form">
-		<label class="col-sm-2"><h2><b>Autorization</b></h2></label><br><br><br><br>	
+		<label class="col-sm-2"><h2><b>Autorization</b></h2></label><br><br><br><br>
 		<form class="form-horizontal" method="POST">
 			 <div class="form-group">
 			    <label for="inputEmail3" class="col-sm-5 control-label">Login</label>
@@ -19,8 +16,8 @@
 			  </div>
 			  <div class="form-group">
                   <div class="center-block">
-			        <button style="margin:5px;" type="submit" class="btn btn-inverse">Sign in</button>
-                    <a href="" style="margin:5px;" type="submit" class="btn btn-success">Sign up</a>
+			        <button style="margin:5px;" type="submit" class="btn btn-primary">Sign in</button>
+                    <a href="regForm.php" style="margin:5px;" type="submit" class="btn btn-success">Sign up</a>
                   </div>
               </div>
 		</form>	
