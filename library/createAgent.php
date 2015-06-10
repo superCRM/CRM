@@ -7,6 +7,9 @@
  */
 function createAgent($db, $login, $password, $email){
 
+    if(validateAgentInfo($login,$password,$email)===false)
+        return -1;
+
     $res = array();
 
     $query2 = $db->prepare("SELECT * FROM agents WHERE login = :login");
@@ -34,5 +37,6 @@ function createAgent($db, $login, $password, $email){
 
         return true;
     }
-    else return false;
+    else
+        return -2;
 }
