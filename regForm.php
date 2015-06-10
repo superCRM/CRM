@@ -28,4 +28,12 @@
             </div>
         </form>
     </div>
-<?php include_once 'footer.html'; ?>
+<?php include_once 'footer.html';
+
+include_once('library/db.php');
+include_once ('library/createAgent.php');
+
+if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email']) && createAgent(getConnect(), $_POST["login"], $_POST["password"], $_POST["email"]))
+    echo "You are registered!  ";
+
+?>
