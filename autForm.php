@@ -1,6 +1,6 @@
 <?php include_once 'header.html'; ?>
 	<div class="border-form">
-		<label class="col-sm-2"><h2><b>Autorization</b></h2></label><br><br><br><br>
+		<label class="col-sm-2"><h2><b>Authorization</b></h2></label><br><br><br><br>
 		<form class="form-horizontal" method="POST">
 			 <div class="form-group">
 			    <label for="inputEmail3" class="col-sm-5 control-label">Login</label>
