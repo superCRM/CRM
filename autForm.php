@@ -25,5 +25,15 @@
               </div>
 		</form>	
 	</div>
-<?php include_once 'footer.html'; ?>
+<?php include_once 'footer.html';
+
+include_once('library/db.php');
+include_once ('library/checkAgent.php');
+include_once ('library/userList.php');
+
+if ($_POST['login'] && $_POST['password'] && checkAgent(getConnect(), $_POST['login'] , $_POST['password']))
+    echo "true";
+$users = getUserList(getConnect());
+var_dump($users);
+?>
 	
