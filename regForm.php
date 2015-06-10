@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-5 control-label">Email</label>
                 <div class="col-sm-5">
-                    <input type="password" class="form-control" name="email" id="inputPassword3" placeholder="Email">
+                    <input type="text" class="form-control" name="email" id="inputPassword3" placeholder="Email">
                 </div>
             </div>
             <div class="form-group">
@@ -32,8 +32,20 @@
 
 include_once('library/db.php');
 include_once ('library/createAgent.php');
-
-if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email']) && createAgent(getConnect(), $_POST["login"], $_POST["password"], $_POST["email"]))
-    echo "You are registered!  ";
-
+include_once('library/validateAgentInfo.php');
+if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email'])){
+    $status = createAgent(getConnect(), $_POST["login"], $_POST["password"], $_POST["email"]);
+    if($status===true)
+    {
+        echo "You are registered!";
+    }
+    elseif($status===-1)
+    {
+        echo "Enter correct data!";
+    }
+    else
+    {
+        echo "User with login " . $_POST['login'] . " is already exist!";
+    }
+}
 ?>
