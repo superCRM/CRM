@@ -32,7 +32,7 @@
 
 include_once('library/db.php');
 include_once ('library/createAgent.php');
-include_once('library/validateAgentInfo.php');
+include_once('library/validate.php');
 if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email'])){
     $status = createAgent(getConnect(), $_POST["login"], $_POST["password"], $_POST["email"]);
     if($status===true)

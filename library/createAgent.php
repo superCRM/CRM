@@ -7,8 +7,18 @@
  */
 function createAgent($db, $login, $password, $email){
 
-    if(validateAgentInfo($login,$password,$email)===false)
+    if(validateLogin($login)===false)
         return -1;
+
+    if(validateEmail($email)===false)
+    {
+        return -1;
+    }
+
+    if(validatePassword($password)===false)
+    {
+        return -1;
+    }
 
     $res = array();
 
