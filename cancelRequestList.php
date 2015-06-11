@@ -28,7 +28,7 @@ $cancelRequestList = getRefundList(getConnect(),0);
                         <td><?=$request['order_num']?></td>
                         <td><?=$request['email_us']?></td>
                         <td><?=$request['date']?></td>
-                        <td><a href="calcelRequestItem.php?id=<?=$request['id']?>">Details</a> </td>
+                        <td><a href="cancelRequestItem.php?id=<?=$request['id']?>">Details</a> </td>
                     </tr>
                 </tbody>
             <?php endforeach ?>
