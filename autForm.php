@@ -1,6 +1,6 @@
 <?php include_once 'header.html'; ?>
 	<div class="border-form">
-		<label class="col-sm-2"><h2><b>Autorization</b></h2></label><br><br><br><br>
+		<label class="col-sm-2"><h2><b>Authorization</b></h2></label><br><br><br><br>
 		<form class="form-horizontal" method="POST">
 			 <div class="form-group">
 			    <label for="inputEmail3" class="col-sm-5 control-label">Login</label>
@@ -28,8 +28,11 @@ include_once('library/db.php');
 include_once ('library/checkAgent.php');
 include_once ('library/userList.php');
 
-if (isset($_POST['login']) && isset($_POST['password']) && checkAgent(getConnect(), $_POST['login'] , $_POST['password']))
-    echo "logged in";
+if (isset($_POST['login']) && isset($_POST['password']) && checkAgent(getConnect(), $_POST['login'] , $_POST['password'])){
+    session_start();
+    $_SESSION['login'] = $_POST['login'];
+    header("Location: account.php");
+}
 
 ?>
 	
