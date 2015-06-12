@@ -9,11 +9,13 @@
 
 function validateLogin($login)
 {
-    $loginPattern = '/^[a-z0-9_-]{3,20}$/';
+    $loginPattern = '/^[А-Я][а-я][a-z0-9_-]{2,20}$/';
     if(preg_match($loginPattern,$login)!=1)
     {
         return false;
     }
+    else
+        return true;
 }
 
 function validatePassword($password)
@@ -23,10 +25,11 @@ function validatePassword($password)
     {
         return false;
     }
+    else
+        return true;
 }
 
 function validateEmail($email)
 {
     return filter_var($email,FILTER_VALIDATE_EMAIL);
 }
-?>

@@ -22,11 +22,15 @@
               </div>
 		</form>	
 	</div>
-<?php include_once 'footer.html';
+<?php
 
+include_once 'footer.html';
 include_once('library/db.php');
 include_once ('library/checkAgent.php');
 include_once ('library/userList.php');
+include_once ('library/validate.php');
+
+var_dump(validateLogin('аыфа'));
 
 if (isset($_POST['login']) && isset($_POST['password']) && checkAgent(getConnect(), $_POST['login'] , $_POST['password'])){
     session_start();
