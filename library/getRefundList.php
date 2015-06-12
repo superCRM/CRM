@@ -22,4 +22,3 @@ function getRefundList($db,$status)
 
     return $res;
 }
-?>
