@@ -6,67 +6,72 @@
  * Time: 19:54
  */
 
-function createRefund($db, $email, $order_num, $products){
+function createRefund($db, $email, $product, $product_num, $order_num){
+
 
     //checking data
+echo "$product_num";
+    $query = $db->prepare("SELECT * FROM users WHERE email = :email");
+    $query->bindParam(':email', $email, PDO::PARAM_STR);
 
-    for ($i = 0; $i < count($products); $i++) {
-        $res1 = array();
-        $res2 = array();
+    $query->execute();
 
-        $query = $db->prepare("SELECT sum FROM products WHERE order_id = :order_id AND name = :name");
-        $query->bindParam(':order_id', $order_num, PDO::PARAM_STR);
-        $query->bindParam(':name', $products[$i]['name'], PDO::PARAM_STR);
+    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+        $res2[] = $row;
+    }
+    if(empty($res2)) {  return false;} // no users with this email
 
-        $query->execute();
-
-        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $res1[] = $row;
-        }
-
-        $query = $db->prepare("SELECT refund_sum FROM products WHERE order_id = :order_id AND name = :name");
-        $query->bindParam(':order_id', $order_num, PDO::PARAM_STR);
-        $query->bindParam(':name', $products[$i]['name'], PDO::PARAM_STR);
+    $res2 = array();
+    if ($order_num == 0){
+        //find and set order_num
+        $query = $db->prepare("SELECT order_num FROM orders WHERE email_us = :email AND product = :product");
+        $query->bindParam(':product', $product, PDO::PARAM_STR);
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
 
         $query->execute();
 
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
             $res2[] = $row;
         }
-
-        $diff = $res1['sum'] - $res2['refund_sum'];
-        if ($diff < $products[$i]['sum']) return 0;
+        $order_num = $res2[0]['order_num'];
     }
 
-    //addind
-    $res = array();
 
-        $query = $db->prepare("INSERT INTO refund (email_us, order_num, data, status)
-			 VALUES (:email, :order_num, now(),0)");
-        $query->bindParam(':order_num', $order_num, PDO::PARAM_STR);
+    $query = $db->prepare("SELECT prod_num, prod_num_refunded FROM orders WHERE email_us = :email AND order_num = :order_num AND product = :product");
+    $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
+    $query->bindParam(':product', $product, PDO::PARAM_STR);
+    $query->bindParam(':email', $email, PDO::PARAM_STR);
+
+    $query->execute();
+
+    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+        $res1[] = $row;
+    }
+
+    $diff = $res1[0]['prod_num'] - $res1[0]['prod_num_refunded'];
+    echo "$product_num";
+    if (empty($res1) || $diff < $product_num) return false; //no order or refund sum is too big
+
+
+    //addind
+
+        $query = $db->prepare("INSERT INTO refund (email_us, product, date, product_num, status)
+			 VALUES (:email, :product, now(), :product_num, 0)");
+        $query->bindParam(':product_num', $product_num, PDO::PARAM_INT);
+        $query->bindParam(':product', $product, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
 
         $query->execute();
-    $inserted_id = $db->lastInsertId();
 
-    for ($i = 0; $i < count($products); $i++) {
-        $query = $db->prepare("INSERT INTO refund_product (product_name, sum, id_refund)
-			 VALUES (:product_name, :sum, :id_refund)");
-        $query->bindParam(':product_name', $products[$i]['name'], PDO::PARAM_STR);
-        $query->bindParam(':sum', $products[$i]['sum']);
-        $query->bindParam(':id_refund', $inserted_id);
+        $query = $db->prepare("UPDATE orders SET prod_num_refunded = prod_num_refunded + :product_num
+                                WHERE email_us = :email AND product = :product AND order_num = :order_num");
+        $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
+        $query->bindParam(':product', $product, PDO::PARAM_STR);
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':product_num', $product_num, PDO::PARAM_INT);
 
         $query->execute();
 
-        $query = $db->prepare("UPDATE products SET refund_sum = refund_sum + :sum WHERE name = :name AND order_id = :order_num");
-        $query->bindParam(':sum', $products[$i]['sum']);
-        $query->bindParam(':name', $products[$i]['name'], PDO::PARAM_STR);
-        $query->bindParam(':order_num', $order_num, PDO::PARAM_STR);
-        $query->execute();
-    }
-
-
-
-    return 1;
+    return true;
 
 }
