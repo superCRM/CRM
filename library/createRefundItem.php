@@ -6,7 +6,7 @@
  * Time: 19:54
  */
 
-function createRefund($db, $email, $product, $product_num, $order_num){
+function createRefund($db, $email, $product, $product_num, $order_num, $product_id=0){
 
 
     //checking data
@@ -55,11 +55,12 @@ echo "$product_num";
 
     //addind
 
-        $query = $db->prepare("INSERT INTO refund (email_us, product, date, product_num, status)
-			 VALUES (:email, :product, now(), :product_num, 0)");
+        $query = $db->prepare("INSERT INTO refund (email_us, product, date, product_num, status,product_id)
+			 VALUES (:email, :product, now(), :product_num, 0,:product_id)");
         $query->bindParam(':product_num', $product_num, PDO::PARAM_INT);
         $query->bindParam(':product', $product, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':product_id',$product_id,PDO::PARAM_INT);
 
         $query->execute();
 

@@ -5,28 +5,24 @@
  * Date: 6/11/15
  * Time: 8:05 PM
  */
+include_once "library/db.php";
+include_once "library/updateCancelRequest.php";
+include_once "library/getRefundItem.php";
+include_once "library/sendJsonData.php";
 
-$user = array("name" =>"alex","email"=>"alex@gmail.com");
+$address = "http://10.55.33.21/billing_v1/test_get_refunds.php";
+$cancelRequest = array();
+if(isset($_GET['id'])){
+    $cancelRequest = getRefundItem(getConnect(), $_GET['id']);
 
-$json = json_encode($user);
-echo sendData("regInfo",$json,"10.55.33.24/dev/addUser.php");
-function sendData($key_info,$info, $address){
-    $url = $address;
-    $fields = array(
-
-        $key_info => $info
-    );
-    $fields_str = '';
-    foreach($fields as $key=>$value)
-    {
-        $fields_str .= $key.'='.$value.'&';
-    }
-    $fields_str = trim($fields_str, '&');
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_str);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($ch);
-    curl_close($ch);
-    return $response;
 }
+if(count($cancelRequest)>0)
+{
+    $jsonCancelRequest = json_encode($cancelRequest);
+    sendData("cancelRequest",$jsonCancelRequest,$address);
+    updateCancelRequest(getConnect(),$_GET['id'],1);
+
+    header("Location: cancelRequestList.php");
+}
+
 ?>
