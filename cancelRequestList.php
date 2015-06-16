@@ -15,6 +15,7 @@ $cancelRequestList = getRefundList(getConnect(), 0);
 /*
 var_dump($_POST);
 
+
 if(array_key_exists('but',$_POST)) {
     if (isset($_POST['email']) && isset($_POST['product']) && isset($_POST['quantity']) &&
         createRefund(getConnect(), $_POST['email'], $_POST['product'], $_POST['quantity'], 0)) {

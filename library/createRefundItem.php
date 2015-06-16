@@ -7,7 +7,7 @@
  */
 
 
-function createRefund($db, $email, $product, $sum, $order_num){
+function createRefund($db, $email, $product, $sum, $order_num, $agent_id){
 
 
     //checking data
@@ -55,14 +55,13 @@ function createRefund($db, $email, $product, $sum, $order_num){
     //addind
 
 
-        $query = $db->prepare("INSERT INTO refund (email_us, product, date, sum, status, order_num)
-			 VALUES (:email, :product, now(), :sum, 0, :order_num)");
+        $query = $db->prepare("INSERT INTO refund (email_us, product, date, sum, status, order_num, agent_id, final_sum)
+			 VALUES (:email, :product, now(), :sum, 0, :order_num, :agent_id, :sum)");
         $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
         $query->bindParam(':sum', $sum);
-
+        $query->bindParam(':agent_id', $agent_id, PDO::PARAM_INT);
         $query->bindParam(':product', $product, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
-        $query->bindParam(':product_id',$product_id,PDO::PARAM_INT);
 
         $query->execute();
 

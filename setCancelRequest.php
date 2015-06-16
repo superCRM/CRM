@@ -17,7 +17,7 @@ $numb = 0;
 
 
 
-
+session_start();
 
 
 ?>
@@ -85,7 +85,7 @@ if (isset($_POST['email']))
 
 if(array_key_exists('addButton',$_POST)) {
 var_dump($ordr);
-    if (createRefund(getConnect(), $ordr[0]['email_us'], $ordr[0]['product'], $sum, $numb)) {
+    if (createRefund(getConnect(), $ordr[0]['email_us'], $ordr[0]['product'], $sum, $numb, $_SESSION['id'])) {
         echo "Added";
         header("Location: setCancelRequest.php");
     }

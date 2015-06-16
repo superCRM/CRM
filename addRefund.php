@@ -26,7 +26,6 @@ if(isset($_POST['cancel'])){
 
 
     if(/*validateRefund($productName,$productId,$productCount)&&*/validateEmail($email)){
-
         echo $email;
         echo $productId;
         echo $productName;
