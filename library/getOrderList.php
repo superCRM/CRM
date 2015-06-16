@@ -8,7 +8,9 @@
 
 function getOrderList ($db, $email) {
 
-    $query = $db->prepare("SELECT order_num, product, prod_num, prod_num_refunded from orders WHERE email_us = :email");
+    $res = array();
+
+    $query = $db->prepare("SELECT order_num, product, sum, refunded_sum from orders WHERE email_us = :email");
     $query->bindParam(':email', $email, PDO::PARAM_STR);
 
     $query->execute();

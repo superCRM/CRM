@@ -6,7 +6,7 @@
  * Time: 17:15
  */
 
-function createOrder($db, $email, $product, $product_num, $order_num){
+function createOrder($db, $email, $product, $sum, $order_num){
 
     //checking data
 
@@ -23,10 +23,10 @@ function createOrder($db, $email, $product, $product_num, $order_num){
 
     //addind
 
-    $query = $db->prepare("INSERT INTO orders (order_num, product, prod_num, prod_num_refunded, email_us)
-			 VALUES (:order_num, :product, :prod_num, 0, :email)");
+    $query = $db->prepare("INSERT INTO orders (order_num, product, sum, refunded_sum, email_us)
+			 VALUES (:order_num, :product, :sum, 0, :email)");
     $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
-    $query->bindParam(':prod_num', $product_num, PDO::PARAM_INT);
+    $query->bindParam(':sum', $sum);
     $query->bindParam(':product', $product, PDO::PARAM_STR);
     $query->bindParam(':email', $email, PDO::PARAM_STR);
 
