@@ -9,7 +9,7 @@
 
 function validateLogin($login)
 {
-    $loginPattern = '/^[А-Я][а-я][a-z0-9_-]{2,20}$/';
+    $loginPattern = '/^[A-Za-z0-9]{2,20}$/';
     if(preg_match($loginPattern,$login)!=1)
     {
         return false;
@@ -20,7 +20,7 @@ function validateLogin($login)
 
 function validatePassword($password)
 {
-    $passwordPattern = '/^[a-z0-9_-]{6,25}$/';
+    $passwordPattern = '/^[A-Za-zА-Яа-яЁё]+[\s\,\.\-]*/';
     if(preg_match($passwordPattern,$password)!=1)
     {
         return false;

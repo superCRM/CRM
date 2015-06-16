@@ -31,6 +31,7 @@ if(array_key_exists('but',$_POST)) {
                     <th>User email</th>
                     <th>Product</th>
                     <th>Sum</th>
+                    <th>Final sum</th>
                     <th>Date</th>
                     <th></th>
                 </tr>
@@ -41,8 +42,9 @@ if(array_key_exists('but',$_POST)) {
                         <td><?=$request['email_us']?></td>
                         <td><?=$request['product']?></td>
                         <td><?=$request['sum']?></td>
+                        <td><input class="col-sm-5 control-label" type="text" name="finalSum" value="<?=$request['sum']?>"></td>
                         <td><?=$request['date']?></td>
-                        <td><a href="cancelRequestItem.php?id=<?=$request['id']?>">Send</a> </td>
+                        <td><a href="sendCancelRequest.php?id=<?=$request['id']?>">Send</a> </td>
                     </tr>
                 </tbody>
             <?php endforeach /*?>

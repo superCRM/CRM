@@ -18,7 +18,7 @@ function checkAgent ($db, $login, $pass) {
 
 
     if (!empty($res) && $res[0]['password'] == crypt($pass, 'CRYPT_SHA256')) {
-        return true;
+        return $res[0]['id'];
     }
 
     return false;

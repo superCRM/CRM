@@ -30,12 +30,19 @@ include_once ('library/checkAgent.php');
 include_once ('library/userList.php');
 include_once ('library/validate.php');
 
-var_dump(validateLogin('аыфа'));
+var_dump(validateLogin('тимь'));
 
-if (isset($_POST['login']) && isset($_POST['password']) && checkAgent(getConnect(), $_POST['login'] , $_POST['password'])){
-    session_start();
-    $_SESSION['login'] = $_POST['login'];
-    header("Location: account.php");
+if (isset($_POST['login']) && isset($_POST['password'])){
+
+    $id = checkAgent(getConnect(), $_POST['login'] , $_POST['password']);
+
+    if($id != false){
+        session_start();
+        $_SESSION['login'] = $_POST['login'];
+        $_SESSION['id'] = $id;
+        header("Location: account.php");
+    }
+
 }
 
 ?>
