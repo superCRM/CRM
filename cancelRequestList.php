@@ -13,13 +13,11 @@ include_once ('library/createRefundItem.php');
 $cancelRequestList = getRefundList(getConnect(), 0);
 
 
-var_dump($_POST);
 
 if(array_key_exists('but',$_POST)) {
     if (isset($_POST['email']) && isset($_POST['product']) && isset($_POST['quantity']) &&
         createRefund(getConnect(), $_POST['email'], $_POST['product'], $_POST['quantity'], 0)) {
         header("Location: cancelRequestList.php");
-        echo "67";
         //   exit();
     }
 }
@@ -43,7 +41,7 @@ if(array_key_exists('but',$_POST)) {
                         <td><?=$request['product']?></td>
                         <td><?=$request['product_num']?></td>
                         <td><?=$request['date']?></td>
-                        <td><a href="cancelRequestItem.php?id=<?=$request['id']?>">Send</a> </td>
+                        <td><a href="sendCancelRequest.php?id=<?=$request['id']?>">Send</a> </td>
                     </tr>
                 </tbody>
             <?php endforeach ?>

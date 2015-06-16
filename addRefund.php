@@ -23,14 +23,14 @@ if(isset($_POST['key'])){
 
 
 
-    if(validateRefund($productName,$productId,$productCount)&&validateEmail($email)){
+    if(validateEmail($email)){
 
         echo $email;
         echo $productId;
         echo $productName;
         echo $productCount;
 
-        if(!createRefundItem(getConnect(),$email, $productName, $productCount, $orderNumber, $productId)){
+        if(createRefundItem(getConnect(),$email, $productName, $productCount, $orderNumber, $productId)){
             echo 'fail';
         }
         else{
