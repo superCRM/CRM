@@ -5,43 +5,92 @@
  * Date: 6/15/15
  * Time: 4:26 PM
  */
+include_once 'header.html';
 include_once "library/db.php";
-include_once "/library/getOrderList.php";
+include_once "library/getOrder.php";
+include_once "library/getOrderList.php";
+include_once ('library/createRefundItem.php');
 $orderList = array();
-if(isset($_POST['email']))
-$orderList= getOrderList(getConnect(),$_POST['email']);
+$ordr = array();
+$sum = 0;
+$numb = 0;
+
+
+
+
+
 
 ?>
 <div class="border-form">
     <form class="form-horizontal" method = post>
-        <td><input type="text" class="form-control" name="email"  placeholder="Email"></td>
-        <td></td>
-        <td><button style="margin:5px;" type="submit" class="btn btn-primary" name="but" value="search">Search</button></td>
+        <table>
+        <th><input type="text" class="form-control" name="email"  placeholder="Email"></th>
+       <th><button style="margin:5px;" type="submit" class="btn btn-primary" name="searchButton" value="search">Search</button></th>
+        </table>
+        <br>
 
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>Order number</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Date</th>
-            <th></th>
-        </tr>
-        </thead>
-        <?php foreach($cancelRequestList as $request):?>
+<?php
+        if(array_key_exists('searchButton',$_POST) || array_key_exists('addButton',$_POST)) {
+if (isset($_POST['email']))
+    $orderList = getOrderList(getConnect(), $_POST['email']);
+?>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Order number</th>
+                <th>Product</th>
+                <th>Sum</th>
+                <th>Already refunded sum</th>
+                <th></th>
+            </tr>
+            </thead>
+            <?php for ($i = 0;
+            $i < count($orderList);
+            $i++) { ?>
+
+
             <tbody>
             <tr class="success">
-                <td><?=$request['email_us']?></td>
-                <td><?=$request['product']?></td>
-                <td><?=$request['product_num']?></td>
-                <td><?=$request['date']?></td>
+                <td><input type="radio" name="ordr_num" value="<?= $orderList[$i]['order_num'] ?>"></td>
+                <td><?= $orderList[$i]['order_num'] ?></td>
+                <td><?= $orderList[$i]['product'] ?></td>
+                <td><?= $orderList[$i]['sum'] ?></td>
+                <td><?= $orderList[$i]['refunded_sum'] ?></td>
 
-                <td><a href="cancelRequestItem.php?id=<?=$request['id']?>">Send</a> </td>
             </tr>
+            <?php } ?>
+            <td><input type="text" class="form-control" name="sum" id="inputPassword3" placeholder="Sum"></td>
+            <td>
+                <button style="margin:5px;" type="submit" class="btn btn-primary" name="addButton" value="addButton">
+                    Add
+                </button>
+            </td>
             </tbody>
-        <?php endforeach ?>
 
-    </table>
+
+        </table>
     </form>
+
+
+    <?php
+    if (isset($_POST['ordr_num'])) $ordr = getOrder(getConnect(), $_POST['ordr_num']);
+    global $sum;
+    global $numb;
+    if (isset($_POST['sum'])) $sum = $_POST['sum'];
+    if (isset($_POST['ordr_num'])) $numb = $_POST['ordr_num'];
+
+    }
+
+if(array_key_exists('addButton',$_POST)) {
+var_dump($ordr);
+    if (createRefund(getConnect(), $ordr[0]['email_us'], $ordr[0]['product'], $sum, $numb)) {
+        echo "Added";
+        header("Location: setCancelRequest.php");
+    }
+
+}
+?>
 
 </div>
