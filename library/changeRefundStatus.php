@@ -7,7 +7,7 @@
  */
 function getOrderList ($db, $id) {
 
-$query = $db->prepare("UPDATE refund SET status = 1 WHERE id = :id");
+$query = $db->prepare("UPDATE refund SET status = 2 WHERE id = :id");
 $query->bindParam(':id', $id, PDO::PARAM_INT);
 
 $query->execute();
