@@ -62,7 +62,6 @@ function createRefund($db, $email, $product, $sum, $order_num){
 
         $query->bindParam(':product', $product, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
-        $query->bindParam(':product_id',$product_id,PDO::PARAM_INT);
 
         $query->execute();
 
