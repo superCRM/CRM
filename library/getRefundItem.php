@@ -7,7 +7,7 @@
  */
 function getRefundItem($db, $id_refund) {
     $res = array();
-    $query = $db->prepare("SELECT * FROM refund_product where id_refund = :id_refund");
+    $query = $db->prepare("SELECT * FROM refund where id = :id_refund");
 	$query->bindParam(':id_refund', $id_refund, PDO::PARAM_INT);
 
     $query->execute();
