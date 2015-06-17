@@ -12,7 +12,7 @@
  * @param $status
  * @return mixed
  */
-function updateCancelRequest($db,$id, $agent_id, $final_sum,$status)
+function updateCancelRequest($db, $id, $agent_id, $final_sum, $status)
 {
     $query = $db->prepare("UPDATE refund SET status = :status, agent_id = :agent_id, final_sum= :final_sum WHERE id=:id");
     $query->bindParam(':id', $id, PDO::PARAM_INT);

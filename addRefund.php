@@ -12,9 +12,6 @@ include_once 'library/validate.php';
 
 $json = json_decode($_POST['cancel'],true);
 
-
-echo $json[0];
-exit();
 if(isset($_POST['cancel'])){
 
     $json = json_decode($_POST['cancel'],true);
