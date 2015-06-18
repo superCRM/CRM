@@ -6,6 +6,8 @@
  * Time: 6:58 PM
  */
 
+include_once "library/db.php";
+
 
 function validateLogin($login)
 {
@@ -32,4 +34,30 @@ function validatePassword($password)
 function validateEmail($email)
 {
     return filter_var($email,FILTER_VALIDATE_EMAIL);
+}
+
+/**
+ * @param $percent
+ * @param $keys array()
+ * @return bool
+ */
+function validateRefund($percent,$keys)
+{
+    if($percent>100 || $percent<0)
+        return false;
+    foreach($keys as $key => $keyId)
+    {
+        $keyItem=getKeyByKeyId(getConnect(),$keyId);
+        if($keyItem===false)
+        {
+            unset($keys[$key]);
+            continue;
+        }
+        if($keyItem['status']==1||($keyItem['percent']+$percent)>100)
+        {
+            unset($keys[$key]);
+            continue;
+        }
+    }
+    return true;
 }
