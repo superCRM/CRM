@@ -1,79 +1,34 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: nmakarenko
- * Date: 11.06.15
- * Time: 19:54
+ * @param PDO $db
+ * @param String $email
+ * @param Array $keys
+ * @param Number $percent
+ * @return bool
  */
+function createRefund($db, $email, $keys, $percent){
 
+    $refundQuery = $db->prepare("INSERT INTO refund (email_us, percent, final_percent, "date", key_num)
+                            VALUES(:email, :percent, :final_percent, NOW(), :key_num)");
+    $refundQuery->bindParam(':email', $email, PDO::PARAM_STR);
+    $refundQuery->bindParam(':percent', $percent);
+    $refundQuery->bindParam(':final_percent', $percent);
+    $refundQuery->bindParam(':key_num', count($keys));
+    $refRes = $refundQuery->execute();
 
-function createRefund($db, $email, $product, $sum, $order_num, $agent_id){
+    $refKeyRes = true;
+    $id_refund = $db->lastInsertId();
 
+    foreach ($keys as $k=>$v) {
 
-    //checking data
-    $query = $db->prepare("SELECT * FROM users WHERE email = :email");
-    $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $refundKeyQuery = $db->prepare("INSERT INTO refund_key (id_refund, id_key)
+                                      VALUES(:id_refund, :id_key)");
+        $refundKeyQuery->bindParam(':id_refund', $id_refund, PDO::PARAM_INT);
+        $refundKeyQuery->bindParam(':id_key', $v, PDO::PARAM_INT);
+        $refKeyRes = $refKeyRes && $refundKeyQuery->execute();
 
-    $query->execute();
-
-    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-        $res2[] = $row;
-    }
-    if(empty($res2)) {  return false;} // no users with this email
-
-    $res2 = array();
-    if ($order_num == 0){
-        //find and set order_num
-        $query = $db->prepare("SELECT order_id FROM orders WHERE email_us = :email AND product = :product");
-        $query->bindParam(':product', $product, PDO::PARAM_STR);
-        $query->bindParam(':email', $email, PDO::PARAM_STR);
-
-        $query->execute();
-
-        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $res2[] = $row;
-        }
-        $order_num = $res2[0]['order_num'];
     }
 
-    $res1 = array();
-    $query = $db->prepare("SELECT sum, refunded_sum FROM orders WHERE email_us = :email AND order_id = :order_num AND product = :product");
-    $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
-    $query->bindParam(':product', $product, PDO::PARAM_STR);
-    $query->bindParam(':email', $email, PDO::PARAM_STR);
-
-    $query->execute();
-
-    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-        $res1[] = $row;
-    }
-
-    $diff = $res1[0]['sum'] - $res1[0]['refunded_sum'];
-    if (empty($res1) || $diff < $sum) return false; //no order or refund sum is too big
-
-
-    //addind
-
-
-        $query = $db->prepare("INSERT INTO refund (email_us, product, date, percent, status, order_id, agent_id, final_sum)
-			 VALUES (:email, :product, now(), :sum, 0, :order_num, :agent_id, :sum)");
-        $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
-        $query->bindParam(':sum', $sum);
-        $query->bindParam(':agent_id', $agent_id, PDO::PARAM_INT);
-        $query->bindParam(':product', $product, PDO::PARAM_STR);
-        $query->bindParam(':email', $email, PDO::PARAM_STR);
-
-        $query->execute();
-
-        $query = $db->prepare("UPDATE orders SET refunded_sum = refunded_sum + :sum
-                                WHERE email_us = :email AND product = :product AND order_id = :order_num");
-        $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
-        $query->bindParam(':product', $product, PDO::PARAM_STR);
-        $query->bindParam(':email', $email, PDO::PARAM_STR);
-        $query->bindParam(':sum', $sum);
-
-        $query->execute();
-
-    return true;
+    return $refRes && $refKeyRes;
 
 }
