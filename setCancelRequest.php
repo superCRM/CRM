@@ -60,7 +60,6 @@ if (isset($_POST['email']))
                 <td><?= $orderList[$i]['product'] ?></td>
                 <td><?= $orderList[$i]['sum'] ?></td>
                 <td><?= $orderList[$i]['refunded_sum'] ?></td>
-
             </tr>
             <?php } ?>
             <td><input type="text" class="form-control" name="sum" id="inputPassword3" placeholder="Sum"></td>
@@ -70,8 +69,6 @@ if (isset($_POST['email']))
                 </button>
             </td>
             </tbody>
-
-
         </table>
     </form>
 

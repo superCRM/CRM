@@ -14,10 +14,6 @@
  */
 function createAgent($db, $login, $password, $email){
 
-    var_dump(validateLogin($login));
-    var_dump(validateEmail($email));
-    var_dump(validatePassword($password));
-
     if(validateLogin($login)===false)
         return -1;
 

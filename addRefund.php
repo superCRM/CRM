@@ -10,23 +10,18 @@ include_once 'library/db.php';
 include_once 'library/createRefundItem.php';
 include_once 'library/validate.php';
 
-$json = json_decode($_POST['cancel'],true);
+/*$json2 = json_decode($_POST['cancel_info'],true);
+var_dump($json2);*/
 
-if(isset($_POST['cancel'])){
+if(isset($_POST['cancel_info'])){
 
-    $json = json_decode($_POST['cancel'],true);
-    $email = $json['email'];
-    $productId =$json['productId'];
-    $productName =$json['productName'];
-    $productCount =$json['productCount'];
-    $orderNumber = $json['orderNumber'];
+    $json = json_decode($_POST['cancel_info'],true);
+    $keys = $json['keys'];//array
+    $orderId =$json['orderId'];
+    $email =$json['email'];
+    $ammount =$json['ammount'];
 
-
-    if(/*validateRefund($productName,$productId,$productCount)&&*/validateEmail($email)){
-        echo $email;
-        echo $productId;
-        echo $productName;
-        echo $productCount;
+    if(validateRefund($productName,$productId,$productCount)&&validateEmail($email)){
 
         if(createRefundItem(getConnect(),$email, $productName, $productCount, $orderNumber, $productId)){
             echo 'fail';
@@ -34,7 +29,5 @@ if(isset($_POST['cancel'])){
         else{
             echo 'success';
         }
-
     }
-
 }

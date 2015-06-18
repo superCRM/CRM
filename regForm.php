@@ -1,4 +1,5 @@
 <?php include_once 'header.html'; ?>
+
     <div class="col-md-3"></div>
     <div class="border-form  col-md-6">
         <label class="col-sm-2"><h2><b>Registration</b></h2></label><br><br><br><br>
@@ -32,6 +33,7 @@
     <div class="col-md-3"></div>
 
 <?php
+
 include_once 'footer.html';
 include_once('library/db.php');
 include_once ('library/createAgent.php');

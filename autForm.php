@@ -32,6 +32,8 @@ include_once ('library/checkAgent.php');
 include_once ('library/userList.php');
 include_once ('library/validate.php');
 
+var_dump(validateLogin(''));
+
 if (isset($_POST['login']) && isset($_POST['password'])){
 
     $id = checkAgent(getConnect(), $_POST['login'] , $_POST['password']);

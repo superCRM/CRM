@@ -9,7 +9,7 @@
 
 function validateLogin($login)
 {
-    $loginPattern = '/^[\wа-яА-Я]{2,20}$/';
+    $loginPattern = '/^[\w]{2,20}$/';
     if(!preg_match($loginPattern, $login))
     {
         return false;
