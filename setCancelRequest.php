@@ -10,24 +10,26 @@ include_once "library/db.php";
 include_once "library/getOrder.php";
 include_once "library/getOrderList.php";
 include_once ('library/createRefundItem.php');
+
 $orderList = array();
 $ordr = array();
 $sum = 0;
 $numb = 0;
 
-
-
 session_start();
 
-
 ?>
-<div class="border-form">
-    <form class="form-horizontal" method = post>
-        <table>
-        <th><input type="text" class="form-control" name="email"  placeholder="Email"></th>
-       <th><button style="margin:5px;" type="submit" class="btn btn-primary" name="searchButton" value="search">Search</button></th>
-        </table>
-        <br>
+
+<div class="col-md-3"></div>
+<div class="col-md-6 border-form" style="height: 800px;">
+    <div class="center-block">
+        <form class="form-inline">
+            <input type="email" placeholder="Email">
+            <input type="number" class="input input-small" placeholder="order_id">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <br>
 
 <?php
         if(array_key_exists('searchButton',$_POST) || array_key_exists('addButton',$_POST)) {
@@ -94,3 +96,4 @@ var_dump($ordr);
 ?>
 
 </div>
+<div class="col-md-3"></div>

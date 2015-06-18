@@ -1,5 +1,6 @@
 <?php include_once 'header.html'; ?>
-	<div class="border-form">
+    <div class="col-md-4"></div>
+	<div class="border-form col-md-4">
 		<label class="col-sm-2"><h2><b>Authorization</b></h2></label><br><br><br><br>
 		<form class="form-horizontal" method="POST">
 			 <div class="form-group">
@@ -22,6 +23,7 @@
               </div>
 		</form>	
 	</div>
+    <div class="col-md-4"></div>
 <?php
 
 include_once 'footer.html';
@@ -29,8 +31,6 @@ include_once('library/db.php');
 include_once ('library/checkAgent.php');
 include_once ('library/userList.php');
 include_once ('library/validate.php');
-
-var_dump(validateLogin('тимь'));
 
 if (isset($_POST['login']) && isset($_POST['password'])){
 

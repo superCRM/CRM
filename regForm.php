@@ -1,5 +1,6 @@
 <?php include_once 'header.html'; ?>
-    <div class="border-form">
+    <div class="col-md-3"></div>
+    <div class="border-form  col-md-6">
         <label class="col-sm-2"><h2><b>Registration</b></h2></label><br><br><br><br>
         <form class="form-horizontal" method="POST">
             <div class="form-group">
@@ -28,24 +29,28 @@
             </div>
         </form>
     </div>
-<?php include_once 'footer.html';
+    <div class="col-md-3"></div>
 
+<?php
+include_once 'footer.html';
 include_once('library/db.php');
 include_once ('library/createAgent.php');
 include_once('library/validate.php');
+include_once 'library/showMessage.php';
+
 if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email'])){
     $status = createAgent(getConnect(), $_POST["login"], $_POST["password"], $_POST["email"]);
     if($status===true)
     {
-        echo "You are registered!";
+        successMessage("You are registered!");
     }
     elseif($status===-1)
     {
-        echo "Enter correct data!";
+        warningMessage("Enter correct data!");
     }
     else
     {
-        echo "User with login " . $_POST['login'] . " is already exist!";
+        warningMessage("User with login " . $_POST['login'] . " is already exist!");
     }
 }
 ?>

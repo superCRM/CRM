@@ -15,38 +15,29 @@ if (isset($_GET['id'])) $items = getRefundItem(getConnect(), $_GET['id']);
 
 </head>
     <body>
-
-
-
-	    <div class="container">
-            <div class="border-form">
-            <table class="table table-hover">
-                <thead>
-                    <th>Product name</th>
-                    <th>Refund sum</th>
-                </thead>
-                <tbody>
-
-                    <?php for($i = 0; $i < count($items); $i++) {?>
-
-                        <tr class="success">
-                        <th><?=$items[$i]['product_name']?></th>
-                        <th><?=$items[$i]['sum']?></th>
-                        </tr>
-                    <?php } ?>
-                <tbody>
-            </table>
-
+	    <div class="col-md-3"></div>
+            <div class="border-form col-md-6">
+                <table class="table table-hover">
+                    <thead>
+                        <th>Product name</th>
+                        <th>Refund sum</th>
+                    </thead>
+                    <tbody>
+                        <?php for($i = 0; $i < count($items); $i++) {?>
+                            <tr class="success">
+                            <th><?=$items[$i]['product_name']?></th>
+                            <th><?=$items[$i]['sum']?></th>
+                            </tr>
+                        <?php } ?>
+                    <tbody>
+                </table>
                 <div >
                     <button style="margin:5px;" type="submit" class="btn btn-success">Send</button>
                     <a href="cancelRequestList.php" style="margin:5px;" class="btn btn-default">Back</a>
 
                 </div>
-
-		</div>
-        </div>
-		<!--script src="js/bootstrap-dropdown.js"></script>
-		<script src="js/bootstrap.min.js"></script-->
+		    </div>
+        <div class="col-md-3"></div>
 		<script src="js/jquery-1.11.3.min.js"></script>
 		<script src="js/bootstrap.js"></script>
 		<script src="js/timer.js"></script>

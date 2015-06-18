@@ -11,7 +11,7 @@ body {
 }
 
 .border-form {
-	margin: 10px;
+	/*margin: 0 auto;*/
     display: inline-block;
 	padding: 10px;
 	border-radius: 10px;
@@ -19,6 +19,7 @@ body {
 }
 
 .center-block {
-	width: 60%;
+	width: 80%;
     margin: 0 auto;
 }
+

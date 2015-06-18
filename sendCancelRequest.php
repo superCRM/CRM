@@ -26,4 +26,3 @@ if(count($cancelRequest)>0)
     header("Location: cancelRequestList.php");
 }
 
-?>

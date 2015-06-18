@@ -11,7 +11,7 @@ if(isset($_POST['regInfo'])){
     $login =  $json->name;
     $email = $json->email;
 
-    if(validateEmail($email)){
+    if(validateEmail($email) && validateLogin($login)){
 
         echo $login;
         echo $email;

@@ -5,7 +5,18 @@
  * Date: 10.06.15
  * Time: 18:01
  */
+/**
+ * @param PDO $db
+ * @param string $login
+ * @param string $password
+ * @param string $email
+ * @return bool|int
+ */
 function createAgent($db, $login, $password, $email){
+
+    var_dump(validateLogin($login));
+    var_dump(validateEmail($email));
+    var_dump(validatePassword($password));
 
     if(validateLogin($login)===false)
         return -1;

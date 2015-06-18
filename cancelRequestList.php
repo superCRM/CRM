@@ -12,20 +12,9 @@ include_once ('library/createRefundItem.php');
 
 $cancelRequestList = getRefundList(getConnect(), 0);
 
-/*
-var_dump($_POST);
-
-
-if(array_key_exists('but',$_POST)) {
-    if (isset($_POST['email']) && isset($_POST['product']) && isset($_POST['quantity']) &&
-        createRefund(getConnect(), $_POST['email'], $_POST['product'], $_POST['quantity'], 0)) {
-        header("Location: cancelRequestList.php");
-        //   exit();
-    }
-}
-*/
 ?>
-    <div class="border-form">
+    <div class="col-md-3"></div>
+    <div class="border-form col-md-6">
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -43,21 +32,14 @@ if(array_key_exists('but',$_POST)) {
                         <td><?=$request['email_us']?></td>
                         <td><?=$request['product']?></td>
                         <td><?=$request['sum']?></td>
-                        <td><input class="col-sm-5 control-label" type="text" name="finalSum" value="<?=$request['sum']?>"></td>
+                        <td><input   type="text" name="finalSum" value="<?=$request['sum']?>"></td>
                         <td><?=$request['date']?></td>
                         <td><a href="sendCancelRequest.php?id=<?=$request['id']?>">Send</a> </td>
                     </tr>
                 </tbody>
-            <?php endforeach /*?>
-            <form class="form-horizontal" method = post>
-                <td><input type="text" class="form-control" name="email" id="inputPassword3" placeholder="Email"></td>
-                <td><input type="text" class="form-control" name="product" id="inputPassword3" placeholder="Product"></td>
-                <td><input type="text" class="form-control" name="quantity" id="inputPassword3" placeholder="Quantity"></td>
-                <td></td>
-                <td><button style="margin:5px;" type="submit" class="btn btn-primary" name="but" value="addButton">Add</button></td>
-            </form>
+            <?php endforeach ?>
         </table>
-
     </div>
-*/
-    ?>
+    <div class="col-md-3"></div>
+
+<?php include_once 'footer.html'; ?>
