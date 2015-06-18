@@ -23,7 +23,7 @@ function createOrder($db, $email, $product, $sum, $order_num){
 
     //addind
 
-    $query = $db->prepare("INSERT INTO orders (order_num, product, sum, refunded_sum, email_us)
+    $query = $db->prepare("INSERT INTO orders (order_id, product, sum, refunded_sum, email_us)
 			 VALUES (:order_num, :product, :sum, 0, :email)");
     $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
     $query->bindParam(':sum', $sum);

@@ -16,12 +16,13 @@ var_dump($json2);*/
 if(isset($_POST['cancel_info'])){
 
     $json = json_decode($_POST['cancel_info'],true);
-    $keys = $json['keys'];//array
-    $orderId =$json['orderId'];
+    $keys = $json['key_id'];//array
     $email =$json['email'];
-    $ammount =$json['ammount'];
-
-    if(validateRefund($productName,$productId,$productCount)&&validateEmail($email)){
+    $amount =$json['amount'];
+    echo $email,"\n";
+    echo $amount,"\n";
+    var_dump($keys);
+    /*if(validateRefund($productName,$productId,$productCount)&&validateEmail($email)){
 
         if(createRefundItem(getConnect(),$email, $productName, $productCount, $orderNumber, $productId)){
             echo 'fail';
@@ -29,5 +30,5 @@ if(isset($_POST['cancel_info'])){
         else{
             echo 'success';
         }
-    }
+    }*/
 }

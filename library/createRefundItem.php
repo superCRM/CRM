@@ -24,7 +24,7 @@ function createRefund($db, $email, $product, $sum, $order_num, $agent_id){
     $res2 = array();
     if ($order_num == 0){
         //find and set order_num
-        $query = $db->prepare("SELECT order_num FROM orders WHERE email_us = :email AND product = :product");
+        $query = $db->prepare("SELECT order_id FROM orders WHERE email_us = :email AND product = :product");
         $query->bindParam(':product', $product, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
 
@@ -37,7 +37,7 @@ function createRefund($db, $email, $product, $sum, $order_num, $agent_id){
     }
 
     $res1 = array();
-    $query = $db->prepare("SELECT sum, refunded_sum FROM orders WHERE email_us = :email AND order_num = :order_num AND product = :product");
+    $query = $db->prepare("SELECT sum, refunded_sum FROM orders WHERE email_us = :email AND order_id = :order_num AND product = :product");
     $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
     $query->bindParam(':product', $product, PDO::PARAM_STR);
     $query->bindParam(':email', $email, PDO::PARAM_STR);
@@ -55,7 +55,7 @@ function createRefund($db, $email, $product, $sum, $order_num, $agent_id){
     //addind
 
 
-        $query = $db->prepare("INSERT INTO refund (email_us, product, date, sum, status, order_num, agent_id, final_sum)
+        $query = $db->prepare("INSERT INTO refund (email_us, product, date, percent, status, order_id, agent_id, final_sum)
 			 VALUES (:email, :product, now(), :sum, 0, :order_num, :agent_id, :sum)");
         $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
         $query->bindParam(':sum', $sum);
@@ -66,7 +66,7 @@ function createRefund($db, $email, $product, $sum, $order_num, $agent_id){
         $query->execute();
 
         $query = $db->prepare("UPDATE orders SET refunded_sum = refunded_sum + :sum
-                                WHERE email_us = :email AND product = :product AND order_num = :order_num");
+                                WHERE email_us = :email AND product = :product AND order_id = :order_num");
         $query->bindParam(':order_num', $order_num, PDO::PARAM_INT);
         $query->bindParam(':product', $product, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
