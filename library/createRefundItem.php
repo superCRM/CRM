@@ -9,7 +9,6 @@
 
 function createRefund($db, $email, $product, $sum, $order_num, $agent_id){
 
-
     //checking data
     $query = $db->prepare("SELECT * FROM users WHERE email = :email");
     $query->bindParam(':email', $email, PDO::PARAM_STR);
