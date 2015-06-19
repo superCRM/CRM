@@ -20,7 +20,7 @@ function updateCancelRequest($db, $id_refund, $agent_id, $final_percent, $keysCa
     if ($final_percent >= $percent) $final_percent = $percent;
 
     $query = $db->prepare("INSERT INTO agent_refund (refund_id, agent_id) VALUES (:id_refund, :agent_id)");
-    $query->bindParam(':refund_id', $id_refund, PDO::PARAM_INT);
+    $query->bindParam(':id_refund', $id_refund, PDO::PARAM_INT);
     $query->bindParam(':agent_id', $agent_id, PDO::PARAM_INT);
     $query->execute();
 
@@ -31,15 +31,17 @@ function updateCancelRequest($db, $id_refund, $agent_id, $final_percent, $keysCa
 
     //without checking <=100% in keys.percent
     for ($i = 0; $i < count($keys); $i++) {
-        $query = $db->prepare("UPDATE keys SET status = 0, percent = percent + :final_percent WHERE key_id = :key_id");
+        $query = $db->prepare("UPDATE `keys` SET status = 0, percent = percent + :final_percent WHERE key_id = :key_id");
         $query->bindParam(':key_id', $keys[$i]['key_id'], PDO::PARAM_INT);
         $query->bindParam(':final_percent', $final_percent);
         $query->execute();
     }
+    var_dump($keysCancelled);
     for ($i = 0; $i < count($keysCancelled); $i++) {
-        $query = $db->prepare("UPDATE keys SET status = 1 WHERE key_id = :key_id");
-        $query->bindParam(':key_id', $keys[$i], PDO::PARAM_INT);
+        $query = $db->prepare("UPDATE `keys` SET status = 1 WHERE key_id = :key_id");
+        $query->bindParam(':key_id', $keysCancelled[$i], PDO::PARAM_INT);
         $query->execute();
+        echo "{$keys[$i]}";
     }
 }
 /**
