@@ -19,4 +19,3 @@ function getKeyList ($db, $refund_id) {
     return $res;
 }
 
-?>

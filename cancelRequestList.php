@@ -43,7 +43,7 @@ $keysList = array();
                         <td><?=$request['percent']?></td>
                         <td><input   type="text" name="finalPercent" value="<?=$request['final_percent']?>"></td>
                         <td><?=$request['data']?></td>
-                        <td><a href="sendCancelRequest.php?id=<?=$request['id']?>">Send</a> </td>
+                        <td><a href="sendCancelRequest.php?id=<?=$request['id']?>&final_percent=<?=$request['final_percent']?>">Send</a> </td>
                     </tr>
                 </tbody>
             <?php endforeach ?>
