@@ -8,10 +8,10 @@
 
 include_once 'db.php';
 
-function getRefundList($db,$status)
+function getRefundList($db, $status)
 {
     $res = array();
-    $query = $db->prepare("SELECT * FROM refund where status=:status  ORDER BY date ASC limit 15");
+    $query = $db->prepare("SELECT * FROM refund where status=:status  ORDER BY data ASC limit 15");
 	$query->bindParam(':status', $status, PDO::PARAM_INT);
 
     $query->execute();

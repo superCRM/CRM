@@ -20,8 +20,9 @@ if(count($cancelRequest)>0)
     $jsonCancelRequest = json_encode($cancelRequest);
     sendData("cancelRequest",$jsonCancelRequest,$address);
     session_start();
-    updateCancelRequest(getConnect(), $_GET['id'], $_SESSION['id'], $_GET['finalSum'],1);
+    updateCancelRequest(getConnect(), $_GET['id'], $_SESSION['id'], $_GET['finalPercent'],1);
 
     header("Location: cancelRequestList.php");
 }
-
+*/
+updateCancelRequest(getConnect(), $_GET['id'], $_SESSION['id'], $_GET['finalPercent'], $_GET['keyToCancel']);
