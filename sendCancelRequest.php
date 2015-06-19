@@ -10,11 +10,10 @@ include_once "library/updateCancelRequest.php";
 include_once "library/getRefundItem.php";
 include_once "library/sendJsonData.php";
 
-$address = "http://10.55.33.21/billing_v1/test_get_refunds.php";
+$address = "http://10.55.33.38/billing_v1/get_test/test_get_refunds.php";
 $cancelRequest = array();
 if(isset($_GET['id'])){
-    $cancelRequest = getRefundItem(getConnect(), $_GET['id']);
-
+    $cancelRequest = getRefundInfo(getConnect(), $_GET['id']);
 }
 if(count($cancelRequest)>0)
 {

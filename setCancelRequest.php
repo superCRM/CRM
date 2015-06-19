@@ -36,7 +36,7 @@ session_start();
 if (isset($_POST['email']))
     $orderList = getOrderList(getConnect(), $_POST['email']);
 ?>
-
+    <form>
         <table class="table table-hover">
             <thead>
             <tr>
