@@ -19,10 +19,9 @@ if(isset($_POST['cancel_info'])){
 
     echo $email,"\n";
     echo $amount,"\n";
-    var_dump($keys);
 
     $keys = validateRefund($amount,$keys);
-
+    var_dump($keys);
     if(count($keys) > 0 && validateEmail($email))
     {
         if(createRefund(getConnect(),$email, $amount, $keys)){
