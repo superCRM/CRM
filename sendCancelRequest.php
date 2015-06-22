@@ -14,31 +14,37 @@ include_once "library/getPercent.php";
 include_once "library/sendJsonData.php";
 
 session_start();
-/*updateCancelRequest(getConnect(), $_GET['id'], $_SESSION['id'], $_GET['finalPercent'], $_GET['keyToCancel']);
-*/
+
+$address = "http://10.55.33.38/billing_v1/get_test/test_get_refunds.php";
+/*$cancelRequest = array();
+if(isset($_GET['id'])){
+    $cancelRequest = getRefundItem(getConnect(), $_GET['id']);
+
 $address = "http://10.55.33.38/billing_v1/get_test/test_get_refunds.php";
 
 /*$cancelRequest = array();*/
+var_dump($_POST);
 var_dump($_GET);
 var_dump($_SESSION);
-var_dump($_POST);
 
-if(isset($_GET['id']) && isset($_SESSION['id']) && isset($_GET['finalPercent']) && isset($_GET['keyToCancel'])){
+if(isset($_POST['id_refund']) && isset($_SESSION['id']) && isset($_POST['finalPercent']) && isset($_POST['keyToCancel'])){
 
-    updateCancelRequest(getConnect(), $_GET['id'], $_SESSION['id'], $_GET['finalPercent'], $_GET['keyToCancel']);
+    $cancelKeys = $_POST['keyToCancel'][$_POST['id_refund']];
+    var_dump($cancelKeys);
+    updateCancelRequest(getConnect(), $_POST['id_refund'], $_SESSION['id'], $_POST['finalPercent'], $cancelKeys);
 
-    $cancelRequest = getRefundInfo(getConnect(), $_GET['id']);
-    $keys = getKeyStatus(getConnect(), getKeyList(getConnect(), 70)); //70 id_refund
-    $percent = getPercent(getConnect(), 70);
+    //$cancelRequest = getRefundInfo(getConnect(), $_POST['id_refund']);
+    $keys = getKeyStatus(getConnect(), getKeyList(getConnect(), $_POST['id_refund'])); //70 id_refund
+    $percent = getPercent(getConnect(), $_POST['id_refund']);
 
     $cancelRequest = array(
-        'refund_id'=>10,
+        'refund_id'=>$_POST['id_refund'],
         'keys'=>$keys,
         'percent'=>$percent
     );
 
     var_dump($jsonCancelRequest = json_encode($cancelRequest));
-    echo(sendData("refund",$jsonCancelRequest,$address));
+    sendData("refund",$jsonCancelRequest,$address);
 }
 /*if(count($cancelRequest)>0)
 {
@@ -48,4 +54,8 @@ if(isset($_GET['id']) && isset($_SESSION['id']) && isset($_GET['finalPercent']) 
     updateCancelRequest(getConnect(), $_GET['id'], $_SESSION['id'], $_GET['finalPercent'],1);
 
     header("Location: cancelRequestList.php");
+
 }*/
+
+
+

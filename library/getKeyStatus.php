@@ -13,7 +13,8 @@ function getKeyStatus ($db, $keys) {
         $query->bindParam(':key_id', $key_id, PDO::PARAM_INT);
         $query->execute();
         $row = $query->fetch(PDO::FETCH_ASSOC);
-        $res[$value['key_id']] = $row['status'];
+        if($row['status'] != null)
+            $res[$value['key_id']] = $row['status'];
     }
 
     return $res;

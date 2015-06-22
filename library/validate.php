@@ -6,8 +6,8 @@
  * Time: 6:58 PM
  */
 
-include_once "library/db.php";
-include_once "library/getKey.php";
+include_once "db.php";
+include_once "getKey.php";
 
 
 function validateLogin($login)

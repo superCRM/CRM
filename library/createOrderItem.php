@@ -1,10 +1,13 @@
 <?php
-function createOrder($db, $email, $order_id, $keys){
+function createOrder($db, $email, $order_id, $sum, $keys){
 
-    $queryToOrder = $db->prepare("INSERT INTO orders (email_us, key_num, order_id)
-                                    VALUES(:email, :key_num, :order_id)");
+    $num = count($keys);
+
+    $queryToOrder = $db->prepare("INSERT INTO orders (email_us, key_num, `sum`, order_id)
+                                    VALUES(:email, :key_num, :summ , :order_id)");
     $queryToOrder->bindParam(':email', $email, PDO::PARAM_STR);
-    $queryToOrder->bindParam(':key_num', count($keys), PDO::PARAM_INT);
+    $queryToOrder->bindParam(':key_num', $num, PDO::PARAM_INT);
+    $queryToOrder->bindParam(':summ', $sum);
     $queryToOrder->bindParam(':order_id', $order_id);
 
     $orderRes = $queryToOrder->execute();
@@ -19,7 +22,7 @@ function createOrder($db, $email, $order_id, $keys){
         $queryToKeyRefund->bindParam(':key_id', $value);
         $queryToKeyRefund->bindParam(':order_id', $order_id, PDO::PARAM_INT);
 
-        $keyRes = $keyRes && $orderRes->execute();
+        $keyRes = $keyRes && $queryToKeyRefund->execute();
     }
 
     return $keyRes && $orderRes;
