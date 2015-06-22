@@ -16,7 +16,7 @@ function createOrder($db, $email, $order_id, $sum, $keys){
     $order_id = $db->lastInsertId();
 
     foreach($keys as $key => $value){
-
+        var_dump($value);
         $queryToKeyRefund = $db->prepare("INSERT INTO keys (key_id, order_id)
                                     VALUES(:key_id, :order_id)");
         $queryToKeyRefund->bindParam(':key_id', $value);

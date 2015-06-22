@@ -22,7 +22,6 @@ if ($_POST) {
 }
 
 ?>
-
     <div class="col-md-2"></div>
     <div class="border-form col-md-8">
         <form action = "sendCancelRequest.php" method = "post">
@@ -48,7 +47,7 @@ if ($_POST) {
                                 <?php $i = 0;
                                 foreach($keysList as $key):
                                     $i++;?>
-                                    <input type="checkbox" name="keyToCancel[<?= $request['id'] ?>][<?= $i ?>]" value="<?=$key['key_id']?>" />  <?=$key['key_id']?>
+                                    <input type="checkbox" name="keyToCancel[<?= $request['id'] ?>][<?= $i ?>]" value="<?=$key['key_id']?>" />  <?=$key['key_id']?><br>
                                 <?php endforeach ?>
                             </td>
                             <td><?=$request['percent']?></td>
