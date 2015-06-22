@@ -22,8 +22,8 @@ if ($_POST) {
 }
 
 ?>
-    <div class="col-md-3"></div>
-    <div class="border-form col-md-6">
+    <div class="col-md-2"></div>
+    <div class="border-form col-md-8">
         <form action = "sendCancelRequest.php" method = "post">
             <table class="table table-hover">
                 <thead>
@@ -47,21 +47,21 @@ if ($_POST) {
                                 <?php $i = 0;
                                 foreach($keysList as $key):
                                     $i++;?>
-                                    <input type="checkbox" name="keyToCancel[<?= $request['id'] ?>][<?= $i ?>]" value="<?=$key['key_id']?>" />  <?=$key['key_id']?>
+                                    <input type="checkbox" name="keyToCancel[<?= $request['id'] ?>][<?= $i ?>]" value="<?=$key['key_id']?>" />  <?=$key['key_id']?><br>
                                 <?php endforeach ?>
                             </td>
                             <td><?=$request['percent']?></td>
                             <td><input   type="text" name="finalPercent" value="<?=$request['final_percent']?>"></td>
                             <td><?=$request['data']?></td>
-                            <td><a href="cancelRequestList.php" type = "submit">Send</a> </td>
-                            <td><input type="submit" name="id_refund" value="<?= $request['id'] ?>" /></td>
+                            <!--<td><a href="cancelRequestList.php" type = "submit">Send</a> </td>-->
+                            <td><button type="submit" name="id_refund" value="<?= $request['id'] ?>" >Send</button></td>
                         </tr>
                     </tbody>
                 <?php endforeach ?>
             </table>
         </form>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-2"></div>
 
 <?php
 include_once 'footer.html';?>
