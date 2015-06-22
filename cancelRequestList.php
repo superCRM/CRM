@@ -15,10 +15,16 @@ include_once ('library/createRefundItem.php');
 $cancelRequestList = getRefundList(getConnect(), 0);
 $keysList = array();
 
+if ($_POST) {
+    echo '<pre>';
+    echo htmlspecialchars(print_r($_POST, true));
+    echo '</pre>';
+}
+
 ?>
-    <div class="col-md-3"></div>
-    <div class="border-form col-md-6">
-        <form method = "post">
+    <div class="col-md-2"></div>
+    <div class="border-form col-md-8">
+        <form action = "sendCancelRequest.php" method = "post">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -33,32 +39,29 @@ $keysList = array();
                 </thead>
                 <?php foreach($cancelRequestList as $request):
                     $keysList = getKeyList(getConnect(), $request['id']); ?>
-                    <form method = "post">
                     <tbody>
                         <tr class="success">
                             <td><?=$request['email_us']?></td>
-                            <td><input type="checkbox" name="formDoor[]" value="A" />Acorn Building<br /></td>
                             <td><?=$request['key_num']?></td>
                             <td>
                                 <?php $i = 0;
                                 foreach($keysList as $key):
                                     $i++;?>
-                                    <input type="checkbox" name="keyToCancel[<?= $i ?>]" value="<?=$key['key_id']?>" />  <?=$key['key_id']?>
+                                    <input type="checkbox" name="keyToCancel[<?= $request['id'] ?>][<?= $i ?>]" value="<?=$key['key_id']?>" />  <?=$key['key_id']?><br>
                                 <?php endforeach ?>
                             </td>
                             <td><?=$request['percent']?></td>
                             <td><input   type="text" name="finalPercent" value="<?=$request['final_percent']?>"></td>
                             <td><?=$request['data']?></td>
-                            <td><a href="sendCancelRequest.php?id=<?=$request['id']?>&finalPercent=<?=$request['final_percent']?>">Send</a> </td>
+                            <!--<td><a href="cancelRequestList.php" type = "submit">Send</a> </td>-->
+                            <td><button type="submit" name="id_refund" value="<?= $request['id'] ?>" >Send</button></td>
                         </tr>
                     </tbody>
-                    </form>
                 <?php endforeach ?>
             </table>
         </form>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-2"></div>
 
 <?php
-var_dump($_POST);
-include_once 'footer.html'; ?>
+include_once 'footer.html';?>

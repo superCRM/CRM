@@ -21,35 +21,35 @@ $keys = array();
 
 session_start();
 
+if (!isset($_POST['email'])) {
 ?>
 
 <div class="col-md-3"></div>
 <div class="col-md-6 border-form" style="height: 800px;">
     <div class="center-block">
-        <form class="form-inline" method = "post">
-            <input type="email" name="email"  placeholder="Email">
-            <button style="margin:5px;" type="submit" class="btn btn-primary" name="searchButton" value="searchButton">
-                Search
+        <form class="form-inline" method="post">
+            <input type="email" name="email" placeholder="Email">
+            <!--<button style="margin:5px;" type="submit" class="btn btn-primary" name="searchButton" value="searchButton">Search</button>-->
+            <button style="margin:5px;" type="submit" class="btn btn-primary" name="submitEmail" value="submitButton">
+                Submit
             </button>
         </form>
     </div>
     <br>
 
-<?php
+    <?php
+    }
 
 if (isset($_POST['email'])) {
-    $orderList = getOrderList(getConnect(), $_POST['email']);
-<<<<<<< HEAD
-?>
-    <form>
-=======
+    echo "Adding cancel request to user {$_POST['email']}.";
+ //   $orderList = getOrderList(getConnect(), $_POST['email']);
+
 
 }
         if(array_key_exists('searchButton',$_GET) || array_key_exists('addButton',$_POST)) {
 
             ?>
-
->>>>>>> 74f16e4e31ba2250559b0c16a27ea27c5ecfc941
+    <form>
         <table class="table table-hover">
             <thead>
             <tr>
