@@ -9,7 +9,7 @@
 
 function getKeyById($db,$id)
 {
-    $query = $db->prepare("SELECT * FROM keys where key_id=:id");
+    $query = $db->prepare("SELECT * FROM `keys` where key_id=:id");
     $query->bindParam(':id', $id, PDO::PARAM_INT);
 
     $query->execute();

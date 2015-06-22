@@ -13,8 +13,6 @@ if(isset($_POST['orders'])){
     $id_order =$json['order_id'];
     $email = getEmailById(getConnect(), $id_user)['email'];
     $keys =  validateOrder($id_order,$sum,$json['keys']);
-    /*var_dump($keys);
-    var_dump($email);*/
 
     if(count($keys) > 0 && validateEmail($email)){
 
