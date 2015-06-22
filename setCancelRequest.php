@@ -40,6 +40,7 @@ session_start();
 if (isset($_POST['email'])) {
     $orderList = getOrderList(getConnect(), $_POST['email']);
 
+
 }
         if(array_key_exists('searchButton',$_GET) || array_key_exists('addButton',$_POST)) {
 

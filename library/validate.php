@@ -7,6 +7,7 @@
  */
 
 include_once "library/db.php";
+include_once "library/getKey.php";
 
 
 function validateLogin($login)
@@ -47,7 +48,7 @@ function validateRefund($percent,$keys)
         return false;
     foreach($keys as $key => $keyId)
     {
-        $keyItem=getKeyByKeyId(getConnect(),$keyId);
+        $keyItem=getKeyById(getConnect(),$keyId);
         if($keyItem===false)
         {
             unset($keys[$key]);
@@ -59,5 +60,5 @@ function validateRefund($percent,$keys)
             continue;
         }
     }
-    return true;
+    return $keys;
 }
