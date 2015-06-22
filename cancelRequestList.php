@@ -16,8 +16,8 @@ $cancelRequestList = getRefundList(getConnect(), 0);
 $keysList = array();
 
 ?>
-    <div class="col-md-3"></div>
-    <div class="border-form col-md-6">
+    <div class="col-md-2"></div>
+    <div class="border-form col-md-8">
         <form method = "post">
             <table class="table table-hover">
                 <thead>
@@ -37,13 +37,13 @@ $keysList = array();
                     <tbody>
                         <tr class="success">
                             <td><?=$request['email_us']?></td>
-                            <td><input type="checkbox" name="formDoor[]" value="A" />Acorn Building<br /></td>
+                            <!--<td><input type="checkbox" name="formDoor[]" value="off" />Acorn Building<br /></td>-->
                             <td><?=$request['key_num']?></td>
                             <td>
                                 <?php $i = 0;
                                 foreach($keysList as $key):
                                     $i++;?>
-                                    <input type="checkbox" name="keyToCancel[<?= $i ?>]" value="<?=$key['key_id']?>" />  <?=$key['key_id']?>
+                                    <input type="checkbox" name="keyToCancel[<?= $i ?>]" value="off" /><?=$key['key_id']?>  <?=$key['key_id']?>
                                 <?php endforeach ?>
                             </td>
                             <td><?=$request['percent']?></td>
@@ -57,7 +57,7 @@ $keysList = array();
             </table>
         </form>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-2"></div>
 
 <?php
 var_dump($_POST);

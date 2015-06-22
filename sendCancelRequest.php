@@ -18,10 +18,11 @@ session_start();
 */
 $address = "http://10.55.33.38/billing_v1/get_test/test_get_refunds.php";
 
-
 /*$cancelRequest = array();*/
 var_dump($_GET);
 var_dump($_SESSION);
+var_dump($_POST);
+
 if(isset($_GET['id']) && isset($_SESSION['id']) && isset($_GET['finalPercent']) && isset($_GET['keyToCancel'])){
 
     updateCancelRequest(getConnect(), $_GET['id'], $_SESSION['id'], $_GET['finalPercent'], $_GET['keyToCancel']);

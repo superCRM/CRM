@@ -39,17 +39,12 @@ session_start();
 
 if (isset($_POST['email'])) {
     $orderList = getOrderList(getConnect(), $_POST['email']);
-<<<<<<< HEAD
-?>
-    <form>
-=======
 
 }
         if(array_key_exists('searchButton',$_GET) || array_key_exists('addButton',$_POST)) {
 
             ?>
-
->>>>>>> 74f16e4e31ba2250559b0c16a27ea27c5ecfc941
+        <form>
         <table class="table table-hover">
             <thead>
             <tr>
