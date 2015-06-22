@@ -16,6 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `agent_refund`
+--
+
+DROP TABLE IF EXISTS `agent_refund`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `agent_refund` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `refund_id` int(11) NOT NULL,
+  `agent_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `agent_refund`
+--
+
+LOCK TABLES `agent_refund` WRITE;
+/*!40000 ALTER TABLE `agent_refund` DISABLE KEYS */;
+/*!40000 ALTER TABLE `agent_refund` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `agents`
 --
 
@@ -29,7 +53,7 @@ CREATE TABLE `agents` (
   `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`,`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,8 +62,58 @@ CREATE TABLE `agents` (
 
 LOCK TABLES `agents` WRITE;
 /*!40000 ALTER TABLE `agents` DISABLE KEYS */;
-INSERT INTO `agents` VALUES (2,'admin','CRMbBVAC64Dd6','fg@mail.ru');
+INSERT INTO `agents` VALUES (2,'admin','CRMbBVAC64Dd6','fg@mail.ru'),(3,'name','CRZwWDET7s0Z2','name@gmail.com');
 /*!40000 ALTER TABLE `agents` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `key_refund`
+--
+
+DROP TABLE IF EXISTS `key_refund`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `key_refund` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `key_id` int(11) NOT NULL,
+  `refund_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `key_refund`
+--
+
+LOCK TABLES `key_refund` WRITE;
+/*!40000 ALTER TABLE `key_refund` DISABLE KEYS */;
+/*!40000 ALTER TABLE `key_refund` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `keys`
+--
+
+DROP TABLE IF EXISTS `keys`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `keys` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `key_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `percent` decimal(3,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `keys`
+--
+
+LOCK TABLES `keys` WRITE;
+/*!40000 ALTER TABLE `keys` DISABLE KEYS */;
+/*!40000 ALTER TABLE `keys` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -51,15 +125,13 @@ DROP TABLE IF EXISTS `orders`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_num` smallint(6) NOT NULL,
+  `order_id` smallint(6) DEFAULT NULL,
   `email_us` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `product` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `prod_num` smallint(6) DEFAULT NULL,
-  `prod_num_refunded` smallint(6) DEFAULT NULL,
+  `key_num` smallint(6) DEFAULT NULL,
   `sum` decimal(10,2) NOT NULL,
   `refunded_sum` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `order_UNIQUE` (`order_num`)
+  UNIQUE KEY `order_UNIQUE` (`order_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -69,7 +141,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,3,'d@s.ua','Phone',6,6,10000.00,0.00),(2,2,'s@w.yu','Ref',4,4,2000.60,0.00),(3,4,'s@w.yu','Cat',7,7,1000.00,0.00),(4,5,'d@s.ua','Log',120,98,5000.00,25.00);
+INSERT INTO `orders` VALUES (1,3,'d@s.ua',6,10000.00,0.00),(2,2,'s@w.yu',4,2000.60,0.00),(3,4,'s@w.yu',7,1000.00,0.00),(4,5,'d@s.ua',120,5000.00,257.00);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,13 +184,9 @@ CREATE TABLE `refund` (
   `status` tinyint(4) NOT NULL,
   `email_us` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `date` datetime DEFAULT NULL,
-  `product` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `product_num` smallint(6) DEFAULT NULL,
-  `order_num` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `sum` decimal(10,2) NOT NULL,
-  `agent_id` int(11) NOT NULL,
-  `final_sum` decimal(10,2) NOT NULL,
+  `key_num` smallint(6) DEFAULT NULL,
+  `percent` decimal(3,2) DEFAULT NULL,
+  `final_percent` decimal(3,2) DEFAULT '0.00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -129,7 +197,7 @@ CREATE TABLE `refund` (
 
 LOCK TABLES `refund` WRITE;
 /*!40000 ALTER TABLE `refund` DISABLE KEYS */;
-INSERT INTO `refund` VALUES (68,0,'d@s.ua','2015-06-16 19:11:13','Log',NULL,5,0,5.00,0,0.00),(69,0,'d@s.ua','2015-06-16 19:31:51','Log',NULL,5,0,6.00,0,0.00),(70,0,'d@s.ua','2015-06-16 19:31:57','Log',NULL,5,0,8.00,0,0.00);
+INSERT INTO `refund` VALUES (68,1,'d@s.ua','2015-06-16 19:11:13',NULL,5.00,0.00),(69,0,'d@s.ua','2015-06-16 19:31:51',NULL,6.00,0.00),(70,0,'d@s.ua','2015-06-16 19:31:57',NULL,8.00,0.00);
 /*!40000 ALTER TABLE `refund` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,4 +262,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-16 20:37:41
+-- Dump completed on 2015-06-18 20:41:28
