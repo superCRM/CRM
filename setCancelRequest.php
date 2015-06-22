@@ -44,7 +44,7 @@ if (isset($_POST['email'])) {
         if(array_key_exists('searchButton',$_GET) || array_key_exists('addButton',$_POST)) {
 
             ?>
-
+    <form>
         <table class="table table-hover">
             <thead>
             <tr>

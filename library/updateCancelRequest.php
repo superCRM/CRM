@@ -36,12 +36,10 @@ function updateCancelRequest($db, $id_refund, $agent_id, $final_percent, $keysCa
         $query->bindParam(':final_percent', $final_percent);
         $query->execute();
     }
-    var_dump($keysCancelled);
-    for ($i = 0; $i < count($keysCancelled); $i++) {
+    foreach ($keysCancelled as $key=>$value) {
         $query = $db->prepare("UPDATE `keys` SET status = 1 WHERE key_id = :key_id");
-        $query->bindParam(':key_id', $keysCancelled[$i], PDO::PARAM_INT);
+        $query->bindParam(':key_id', $value, PDO::PARAM_INT);
         $query->execute();
-        echo "{$keys[$i]}";
     }
 }
 /**

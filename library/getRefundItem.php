@@ -5,6 +5,8 @@
  * Date: 11.06.15
  * Time: 18:07
  */
+
+
 function getRefundItem($db, $id_refund) {
     $res = array();
     $query = $db->prepare("SELECT * FROM refund where id = :id_refund");
