@@ -22,13 +22,16 @@ if(isset($_POST['cancel_info'])){
     echo $email,"\n";
     echo $amount,"\n";
     var_dump($keys);
-    /*if(validateRefund($productName,$productId,$productCount)&&validateEmail($email)){
-
-        if(createRefundItem(getConnect(),$email, $productName, $productCount, $orderNumber, $productId)){
-            echo 'fail';
-        }
-        else{
+    $keys = validateRefund($amount,$keys);
+    if(count($keys)>0&&validateEmail($email))
+    {
+        if(createRefundItem(getConnect(),$email, $amount, $keys)){
             echo 'success';
         }
-    }*/
+        else{
+            echo 'fail';
+        }
+    }
+
 }
+

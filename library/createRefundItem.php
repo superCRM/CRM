@@ -2,7 +2,7 @@
 
 function createRefund($db, $email, $percent, $keys){
 
-    $queryToRefund = $db->prepare("INSERT INTO refund (email_us, key_num, percent, final_percent, data)
+    $queryToRefund = $db->prepare("INSERT INTO refund (email_us, key_num, percent, final_percent, date)
                                     VALUES(:email, :key_num, :percent, :percent, NOW())");
     $queryToRefund->bindParam(':email', $email, PDO::PARAM_STR);
     $queryToRefund->bindParam(':key_num', count($keys), PDO::PARAM_INT);
