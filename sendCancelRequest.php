@@ -57,5 +57,15 @@ if(isset($_POST['id_refund']) && isset($_SESSION['id']) && isset($_POST['finalPe
 
 }*/
 
+/*$keys = array(13,15,7,20);
+
+$cancel = array(
+    'email'=>'ty@gmail.com',
+    'amount'=>30,
+    'key_id'=>$keys
+);
+$address = "http://10.55.33.27/dev/addRefund.php";
+$jsonOrder = json_encode($cancel);
+echo sendData("cancel_info",$jsonOrder,$address);*/
 
 
