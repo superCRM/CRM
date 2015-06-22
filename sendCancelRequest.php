@@ -28,7 +28,7 @@ if(isset($_GET['id']) && isset($_SESSION['id']) && isset($_GET['finalPercent']) 
     updateCancelRequest(getConnect(), $_GET['id'], $_SESSION['id'], $_GET['finalPercent'], $_GET['keyToCancel']);
 
     $cancelRequest = getRefundInfo(getConnect(), $_GET['id']);
-    $keys = getKeyStatus(getConnect(), getKeyList(getConnect(), 70));
+    $keys = getKeyStatus(getConnect(), getKeyList(getConnect(), 70)); //70 id_refund
     $percent = getPercent(getConnect(), 70);
 
     $cancelRequest = array(
