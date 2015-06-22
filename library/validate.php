@@ -62,3 +62,25 @@ function validateRefund($percent,$keys)
     }
     return $keys;
 }
+
+function validateOrder($order_id,$sum,$keys)
+{
+    if($sum<0)
+    {
+        return false;
+    }
+    if(getOrder(getConnect(), $order_id)!=false)
+    {
+        return false;
+    }
+    foreach($keys as $key => $keyId)
+    {
+        if(getKeyById(getConnect(),$keyId)!=false)
+        {
+            unset($keys[$key]);
+        }
+    }
+
+    return $keys;
+
+}
