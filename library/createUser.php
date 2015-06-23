@@ -1,6 +1,6 @@
 <?php
 
-function createUser($db, $login, $email){
+function createUser($db, $login, $email, $id){
 
     $res = array();
 
@@ -14,10 +14,11 @@ function createUser($db, $login, $email){
 
     if (empty($res)) {
 
-        $query = $db->prepare("INSERT INTO users (login, email)
-			 VALUES (:login, :email)");
+        $query = $db->prepare("INSERT INTO users (login, email, id_user)
+			 VALUES (:login, :email, :id)");
         $query->bindParam(':login', $login, PDO::PARAM_STR);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
 
         $query->execute();
 

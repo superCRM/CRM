@@ -33,9 +33,6 @@ include_once ('library/userList.php');
 include_once ('library/validate.php');
 include_once ('library/createRefundItem.php');
 
-
-var_dump(createRefund(getConnect(),'test@test.com', 20 ,array(123,2,1,5)));
-
 if (isset($_POST['login']) && isset($_POST['password'])){
 
     $id = checkAgent(getConnect(), $_POST['login'] , $_POST['password']);

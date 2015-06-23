@@ -38,7 +38,7 @@ if ($_POST) {
                     </tr>
                 </thead>
                 <?php foreach($cancelRequestList as $request):
-                    $keysList = getKeyList(getConnect(), $request['id']); ?>
+                    $keysList = getAliveKeyList(getConnect(), $request['id']); ?>
                     <tbody>
                         <tr class="success">
                             <td><?=$request['email_us']?></td>
@@ -54,7 +54,7 @@ if ($_POST) {
                             <td><input   type="text" name="finalPercent" value="<?=$request['final_percent']?>"></td>
                             <td><?=$request['data']?></td>
                             <!--<td><a href="cancelRequestList.php" type = "submit">Send</a> </td>-->
-                            <td><button type="submit" name="id_refund" value="<?= $request['id'] ?>" >Send</button></td>
+                            <td><button type="submit" name="id_refund" value="<?= $request['id'] ?>">Send</button></td>
                         </tr>
                     </tbody>
                 <?php endforeach ?>

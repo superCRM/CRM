@@ -6,8 +6,10 @@
  * Time: 6:58 PM
  */
 
-include_once "library/db.php";
-include_once "library/getKey.php";
+include_once "db.php";
+include_once "getKey.php";
+include_once "getOrder.php";
+
 
 
 function validateLogin($login)
@@ -61,4 +63,26 @@ function validateRefund($percent,$keys)
         }
     }
     return $keys;
+}
+
+function validateOrder($order_id,$sum,$keys)
+{
+    if($sum<0)
+    {
+        return false;
+    }
+    if(getOrder(getConnect(), $order_id)!=false)
+    {
+        return false;
+    }
+    foreach($keys as $key => $keyId)
+    {
+        if(getKeyById(getConnect(),$keyId)!=false)
+        {
+            unset($keys[$key]);
+        }
+    }
+
+    return $keys;
+
 }

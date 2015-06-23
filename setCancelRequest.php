@@ -46,6 +46,12 @@ if (!isset($_POST['email']) &&  !isset($_POST['addButton'])) {
     if (isset($_POST['email'])) $_SESSION['user_email'] = $_POST['email'];
     }
 
+    if (isset($_POST['addButton'])) {
+
+        $refundList = $_SESSION['refundList'];
+    }
+    else $refundList = array();
+
 if (isset($_POST['email']) || isset($_POST['addButton'])) {
 
     echo "Adding cancel request to user {$_SESSION['user_email']}.";
@@ -53,6 +59,8 @@ if (isset($_POST['email']) || isset($_POST['addButton'])) {
 ?>
 
     <form action = "" method = "post">
+
+
         <table class="table table-hover">
             <thead>
             <tr>
@@ -69,8 +77,8 @@ if (isset($_POST['email']) || isset($_POST['addButton'])) {
 
                 <tr class="success">
                     <td><?= $refundList[$i]['key_id'] ?></td>
-                    <td><?= $refundList[$i]['percent'] ?></td>
-                    <!--<td><input type="radio" name="deactiv" value="<?= $refundList[$i]['deactivate'] ?>"></td>-->
+                    <td><?= $refundList[$i]['percent'] ?>%</td>
+                    <td><input type="radio" name="deactiv" value="<?= $refundList[$i]['deactivate'] ?>"></td>
 
                     <td>
                         <button style="margin:5px;" type="submit" class="btn btn-primary" name="deleteButton" value="deleteButton">
@@ -82,7 +90,7 @@ if (isset($_POST['email']) || isset($_POST['addButton'])) {
             <?php } ?>
             <tr>
                 <td><input type="text" name="key_id" placeholder="Key_id"></td>
-                <td><input type="text" name="percent" placeholder="Percent"></td>
+                <td><input type="text" name="percent" placeholder="Percent">%</td>
                 <td></td>
                 <td>
                     <button style="margin:5px;" type="submit" class="btn btn-primary" name="addButton" value="addButton">
@@ -103,14 +111,17 @@ if (isset($_POST['email']) || isset($_POST['addButton'])) {
 }
     var_dump($_POST);
 
-    $refundList = $_SESSION['refundList'];
-   // array_push($refundList, array('key_id' => $_POST['key_id'], 'percent' => $_POST['percent']));
+if (isset($_POST['key_id']) && isset($_POST['percent'])) {
+    // array_push($refundList, array('key_id' => $_POST['key_id'], 'percent' => $_POST['percent']));
     $number = count($refundList);
     echo "$number";
     $refundList[$number]['key_id'] = $_POST['key_id'];
     $refundList[$number]['percent'] = $_POST['percent'];
+    $refundList[$number]['deactivate'] = $number;
     var_dump($refundList);
     $_SESSION['refundList'] = $refundList;
+}
+
 ?>
 
 </div>
