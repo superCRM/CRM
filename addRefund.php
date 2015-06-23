@@ -31,6 +31,5 @@ if(isset($_POST['cancel_info'])){
             echo 'fail';
         }
     }
-
 }
 
