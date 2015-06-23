@@ -10,7 +10,7 @@ include_once "library/db.php";
 include_once "library/getOrder.php";
 include_once "library/getKeysOrder.php";
 include_once "library/getOrderList.php";
-include_once ('library/createRefundItem.php');
+include_once 'library/createRefundItem.php';
 
 if (!isset($_SESSION['refundList'])) {
     $refundList = array();
@@ -52,7 +52,7 @@ if (!isset($_POST['email']) &&  !isset($_POST['addButton'])) {
     }
     else $refundList = array();
 
-if (isset($_POST['email']) || isset($_POST['addButton'])) {
+    if (isset($_POST['email']) || isset($_POST['addButton'])) {
 
     echo "Adding cancel request to user {$_SESSION['user_email']}.";
  //   $orderList = getOrderList(getConnect(), $_POST['email']);
