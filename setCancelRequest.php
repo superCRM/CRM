@@ -120,6 +120,8 @@ if (isset($_POST['key_id']) && isset($_POST['percent'])) {
     $refundList[$number]['deactivate'] = $number;
     var_dump($refundList);
     $_SESSION['refundList'] = $refundList;
+    $_POST['key_id'] = null;
+    $_POST['percent'] = null;
 }
 
 ?>
