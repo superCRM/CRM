@@ -1,34 +1,36 @@
 <?php
 /**
  * @param PDO $db
- * @param String $email
- * @param Array $keys
- * @param Number $percent
+ * @param string $email
+ * @param double $percent
+ * @param array $keys
  * @return bool
  */
-function createRefund($db, $email, $keys, $percent){
 
-    $refundQuery = $db->prepare("INSERT INTO refund (email_us, percent, final_percent, "date", key_num)
-                            VALUES(:email, :percent, :final_percent, NOW(), :key_num)");
-    $refundQuery->bindParam(':email', $email, PDO::PARAM_STR);
-    $refundQuery->bindParam(':percent', $percent);
-    $refundQuery->bindParam(':final_percent', $percent);
-    $refundQuery->bindParam(':key_num', count($keys));
-    $refRes = $refundQuery->execute();
+function createRefund($db, $email, $percent, $keys){
 
-    $refKeyRes = true;
-    $id_refund = $db->lastInsertId();
+    $count = count($keys);
+    $queryToRefund = $db->prepare("INSERT INTO refund (email_us, key_num, percent, final_percent, `data`)
+                                    VALUES(:email, :key_num, :percent, :percent, NOW())");
+    $queryToRefund->bindParam(':email', $email, PDO::PARAM_STR);
+    $queryToRefund->bindParam(':key_num', $count, PDO::PARAM_INT);
+    $queryToRefund->bindParam(':percent', $percent);
 
-    foreach ($keys as $k=>$v) {
+    var_dump($refRes = $queryToRefund->execute());
 
-        $refundKeyQuery = $db->prepare("INSERT INTO refund_key (id_refund, id_key)
-                                      VALUES(:id_refund, :id_key)");
-        $refundKeyQuery->bindParam(':id_refund', $id_refund, PDO::PARAM_INT);
-        $refundKeyQuery->bindParam(':id_key', $v, PDO::PARAM_INT);
-        $refKeyRes = $refKeyRes && $refundKeyQuery->execute();
+    $keyRefRes = true;
+    $refund_id = $db->lastInsertId();
 
+    foreach($keys as $key => $value){
+
+        $queryToKeyRefund = $db->prepare("INSERT INTO key_refund (key_id, refund_id)
+                                    VALUES(:key_id, :refund_id)");
+        $queryToKeyRefund->bindParam(':key_id', $value);
+        $queryToKeyRefund->bindParam(':refund_id', $refund_id, PDO::PARAM_INT);
+
+        $keyRefRes = $keyRefRes && $queryToKeyRefund->execute();
     }
 
-    return $refRes && $refKeyRes;
+    return $keyRefRes && $refRes;
 
 }

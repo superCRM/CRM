@@ -1,3 +1,4 @@
 .idea/
 *.gitignore
-.config/
+/config/*
+/library/db.php

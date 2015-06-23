@@ -31,8 +31,7 @@ include_once('library/db.php');
 include_once ('library/checkAgent.php');
 include_once ('library/userList.php');
 include_once ('library/validate.php');
-
-var_dump(validateLogin(''));
+include_once ('library/createRefundItem.php');
 
 if (isset($_POST['login']) && isset($_POST['password'])){
 
@@ -42,7 +41,7 @@ if (isset($_POST['login']) && isset($_POST['password'])){
         session_start();
         $_SESSION['login'] = $_POST['login'];
         $_SESSION['id'] = $id;
-        header("Location: account.php");
+        header("Location: cancelRequestList.php");
     }
 
 }

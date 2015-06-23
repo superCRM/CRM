@@ -2,7 +2,7 @@
 include_once('library/db.php');
 include_once ('library/getRefundItem.php');
 $items = array();
-if (isset($_GET['id'])) $items = getRefundItem(getConnect(), $_GET['id']);
+if (isset($_GET['id'])) $items = getRefundInfo(getConnect(), $_GET['id']);
 //        var_dump($items);
 ?>
 <!DOCTYPE html>

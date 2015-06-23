@@ -7,39 +7,62 @@
  */
 include_once 'header.html';
 include_once 'library/db.php';
+include_once 'library/getKeyList.php';
 include_once 'library/getRefundList.php';
 include_once ('library/createRefundItem.php');
 
+
 $cancelRequestList = getRefundList(getConnect(), 0);
+$keysList = array();
+
+if ($_POST) {
+    echo '<pre>';
+    echo htmlspecialchars(print_r($_POST, true));
+    echo '</pre>';
+}
 
 ?>
-    <div class="col-md-3"></div>
-    <div class="border-form col-md-6">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>User email</th>
-                    <th>Product</th>
-                    <th>Sum</th>
-                    <th>Final sum</th>
-                    <th>Date</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <?php foreach($cancelRequestList as $request):?>
-                <tbody>
-                    <tr class="success">
-                        <td><?=$request['email_us']?></td>
-                        <td><?=$request['product']?></td>
-                        <td><?=$request['sum']?></td>
-                        <td><input   type="text" name="finalSum" value="<?=$request['sum']?>"></td>
-                        <td><?=$request['date']?></td>
-                        <td><a href="sendCancelRequest.php?id=<?=$request['id']?>">Send</a> </td>
+    <header>jkjkjkj</header>
+    <div class="col-md-2"></div>
+    <div class="border-form col-md-8">
+        <form action = "sendCancelRequest.php" method = "post">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>User email</th>
+                        <th>Num of keys</th>
+                        <th>Keys id</th>
+                        <th>Percent</th>
+                        <th>Final percent</th>
+                        <th>Date</th>
+                        <th></th>
                     </tr>
-                </tbody>
-            <?php endforeach ?>
-        </table>
+                </thead>
+                <?php foreach($cancelRequestList as $request):
+                    $keysList = getAliveKeyList(getConnect(), $request['id']); ?>
+                    <tbody>
+                        <tr class="success">
+                            <td><?=$request['email_us']?></td>
+                            <td><?=$request['key_num']?></td>
+                            <td>
+                                <?php $i = 0;
+                                foreach($keysList as $key):
+                                    $i++;?>
+                                    <input type="checkbox" name="keyToCancel[<?= $request['id'] ?>][<?= $i ?>]" value="<?=$key['key_id']?>" />  <?=$key['key_id']?><br>
+                                <?php endforeach ?>
+                            </td>
+                            <td><?=$request['percent']?></td>
+                            <td><input   type="text" name="finalPercent" value="<?=$request['final_percent']?>"></td>
+                            <td><?=$request['data']?></td>
+                            <!--<td><a href="cancelRequestList.php" type = "submit">Send</a> </td>-->
+                            <td><button type="submit" name="id_refund" value="<?= $request['id'] ?>">Send</button></td>
+                        </tr>
+                    </tbody>
+                <?php endforeach ?>
+            </table>
+        </form>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-2"></div>
 
-<?php include_once 'footer.html'; ?>
+<?php
+include_once 'footer.html';?>

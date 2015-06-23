@@ -31,4 +31,3 @@ function sendData($key_info,$info, $address){
     curl_close($ch);
     return $response;
 }
-?>
