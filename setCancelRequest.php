@@ -12,6 +12,8 @@ include_once "library/getKeysOrder.php";
 include_once "library/getOrderList.php";
 include_once 'library/createRefundItem.php';
 
+session_start();
+
 if (!isset($_SESSION['refundList'])) {
     $refundList = array();
     $_SESSION['refundList'] = $refundList;
@@ -24,9 +26,7 @@ $numb = 0;
 
 $keys = array();
 
-session_start();
-
-if (!isset($_POST['email']) &&  !isset($_POST['addButton'])) {
+if (!isset($_POST['email']) && !isset($_POST['addButton'])) {
 ?>
 
 <div class="col-md-3"></div>
@@ -43,8 +43,9 @@ if (!isset($_POST['email']) &&  !isset($_POST['addButton'])) {
     <br>
 
     <?php
-    if (isset($_POST['email'])) $_SESSION['user_email'] = $_POST['email'];
+
     }
+    if (isset($_POST['email'])) $_SESSION['user_email'] = $_POST['email'];
 
     if (isset($_POST['addButton'])) {
 
@@ -59,14 +60,11 @@ if (!isset($_POST['email']) &&  !isset($_POST['addButton'])) {
 ?>
 
     <form action = "" method = "post">
-
-
         <table class="table table-hover">
             <thead>
             <tr>
-
                 <th>Key id</th>
-                <th>Percent</th>
+                <!--<th>Percent</th>-->
                 <th>Deactivate?</th>
                 <th></th>
                 <th></th>
@@ -74,12 +72,10 @@ if (!isset($_POST['email']) &&  !isset($_POST['addButton'])) {
             </thead>
             <tbody>
             <?php for ($i = 0; $i < count($refundList); $i++) { ?>
-
                 <tr class="success">
                     <td><?= $refundList[$i]['key_id'] ?></td>
-                    <td><?= $refundList[$i]['percent'] ?>%</td>
-                    <td><input type="radio" name="deactiv" value="<?= $refundList[$i]['deactivate'] ?>"></td>
-
+                    <!--<td><?= //$refundList[$i]['percent']; ?>%</td>-->
+                    <td><input type="checkbox" name="deactiv" value="<?= $refundList[$i]['deactivate'] ?>"></td>
                     <td>
                         <button style="margin:5px;" type="submit" class="btn btn-primary" name="deleteButton" value="deleteButton">
                             Del
@@ -90,7 +86,7 @@ if (!isset($_POST['email']) &&  !isset($_POST['addButton'])) {
             <?php } ?>
             <tr>
                 <td><input type="text" name="key_id" placeholder="Key_id"></td>
-                <td><input type="text" name="percent" placeholder="Percent">%</td>
+                <td></td>
                 <td></td>
                 <td>
                     <button style="margin:5px;" type="submit" class="btn btn-primary" name="addButton" value="addButton">
@@ -101,6 +97,7 @@ if (!isset($_POST['email']) &&  !isset($_POST['addButton'])) {
 
             </tbody>
         </table>
+        <input type="text" name="percent" placeholder="Percent">%
         <button style="margin:5px;" type="submit" class="btn btn-primary" name="submitButton" value="submitButton">
             Submit
         </button>
@@ -110,6 +107,7 @@ if (!isset($_POST['email']) &&  !isset($_POST['addButton'])) {
 
 }
     var_dump($_POST);
+    var_dump($_SESSION);
 
 if (isset($_POST['key_id']) && isset($_POST['percent'])) {
     // array_push($refundList, array('key_id' => $_POST['key_id'], 'percent' => $_POST['percent']));
