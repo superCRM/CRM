@@ -17,7 +17,7 @@ function createRefund($db, $email, $percent, $keys, $cancelKeys = array(), $stat
     $queryToRefund->bindParam(':key_num', $count, PDO::PARAM_INT);
     $queryToRefund->bindParam(':percent', $percent);
 
-    var_dump($refRes = $queryToRefund->execute());
+    $refRes = $queryToRefund->execute();
 
     $keyRefRes = true;
     $update = true;

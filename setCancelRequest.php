@@ -62,7 +62,7 @@ if(isset($_POST['send']) && isset($_POST['percent'])) {
                 'keys' => $keys,
                 'percent' => $percent
             );
-            $jsonCancelRequest = json_decode($cancelRequest);
+            $jsonCancelRequest = json_encode($cancelRequest);
             sendData("refund", $jsonCancelRequest, $address);
         }
     } else {
