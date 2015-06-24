@@ -12,6 +12,7 @@ include_once 'library/validate.php';
 
 if(isset($_POST['cancel_info'])){
 
+    var_dump($_POST);
     $json = json_decode($_POST['cancel_info'],true);
     $keys = $json['key_id'];//array
     $email =$json['email'];
@@ -19,12 +20,13 @@ if(isset($_POST['cancel_info'])){
 
     echo $email,"\n";
     echo $amount,"\n";
+    var_dump($keys);
 
     $keys = validateRefund($amount,$keys);
-    var_dump($keys);
+
     if(count($keys) > 0 && validateEmail($email))
     {
-        if(createRefund(getConnect(),$email, $amount, $keys)){
+        if(createRefund(getConnect(),$email, $amount, $keys) != true){
             echo 'success';
         }
         else{
