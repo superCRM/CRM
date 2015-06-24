@@ -22,7 +22,6 @@ if ($_POST) {
 }
 
 ?>
-    <header>jkjkjkj</header>
     <div class="col-md-2"></div>
     <div class="border-form col-md-8">
         <form action = "sendCancelRequest.php" method = "post">
@@ -54,7 +53,6 @@ if ($_POST) {
                             <td><?=$request['percent']?></td>
                             <td><input   type="text" name="finalPercent" value="<?=$request['final_percent']?>"></td>
                             <td><?=$request['data']?></td>
-                            <!--<td><a href="cancelRequestList.php" type = "submit">Send</a> </td>-->
                             <td><button type="submit" name="id_refund" value="<?= $request['id'] ?>">Send</button></td>
                         </tr>
                     </tbody>
