@@ -37,6 +37,7 @@ function createRefund($db, $email, $percent, $keys, $cancelKeys = array(), $stat
         $queryUpdate = $db->prepare("UPDATE `keys` SET status = 1
                                     WHERE key_id = :key_id");
         $queryUpdate->bindParam(':key_id', $value);
+        $queryUpdate->bindParam(':percent', $percent);
 
         $update = $queryUpdate->execute();
     }

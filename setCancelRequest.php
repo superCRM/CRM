@@ -40,6 +40,8 @@ if(isset($_POST['cancelKeys'])){
     }
 }
 
+$_SESSION['keys'] = $keys;
+
 if(isset($_POST['send']) && isset($_POST['percent'])) {
     $allKeys = array();
     $cancelKeys = array();
@@ -72,7 +74,6 @@ if(isset($_POST['send']) && isset($_POST['percent'])) {
     unset($_SESSION['keys']);
 }
 
-$_SESSION['keys'] = $keys;
 ?>
 <div class="col-md-3 col col-sm-3"></div>
 <div  style=" "class="col-md-6 col-sm-6">
@@ -138,8 +139,8 @@ $_SESSION['keys'] = $keys;
                         <?php foreach($keys as $key=>$value) : ?>
                         <div class="row">
                             <div class="col-md-6 col-sm-6 checkbox">
-                                <input class="col-md-5 col-sm-5" id="<?= $key ?>" value="<?= $key ?>" name="cancelKeys[]"  type="checkbox"/>
-                                <label class="col-md-2 col-md-offset-6 col-sm-2 col-sm-offset-6" for="<?= $key ?>"><?= $key ?></label>
+                                <input class="col-md-2 col-sm-5" id="<?= $key ?>" value="<?= $key ?>" name="cancelKeys[]"  type="checkbox"/>
+                                <label class="col-md-6 col-md-offset-6 col-sm-2 col-sm-offset-6" for="<?= $key ?>"><?= $key ?></label>
                             </div>
                             <div class="col-md-offset-2 col-md-2 col-sm-offset-2 col-sm-2">
                                 <button type="submit" class="btn btn-primary" name="delete" value="<?= $key ?>">
