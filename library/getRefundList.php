@@ -11,8 +11,15 @@ include_once 'db.php';
 function getRefundList($db, $status)
 {
     $res = array();
-    $query = $db->prepare("SELECT * FROM refund where status=:status  ORDER BY data ASC limit 15");
-	$query->bindParam(':status', $status, PDO::PARAM_INT);
+    $string_query = "SELECT * FROM refund where ";
+    foreach($status as $value)
+    {
+        $string_query .= ' status = ' . $value . ' or';
+    }
+
+    $string_query = trim($string_query, 'or');
+    $string_query .=  " ORDER BY data ASC limit 15";
+    $query = $db->prepare($string_query);
 
     $query->execute();
 
