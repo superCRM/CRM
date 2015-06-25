@@ -23,7 +23,8 @@ if ($_POST) {
 
 ?>
     <div class="col-md-2"></div>
-    <div class="border-form col-md-8">
+    <div class="col-md-8">
+        <?php include_once 'navBar.html';?>
         <form action = "sendCancelRequest.php" method = "post">
             <table class="table table-hover">
                 <thead>
@@ -61,6 +62,8 @@ if ($_POST) {
         </form>
     </div>
     <div class="col-md-2"></div>
-
+<script>
+    document.getElementById("main").classList.add("active");
+</script>
 <?php
 include_once 'footer.html';?>

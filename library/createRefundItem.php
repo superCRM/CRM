@@ -7,18 +7,20 @@
  * @return bool
  */
 
-function createRefund($db, $email, $percent, $keys){
+function createRefund($db, $email, $percent, $keys, $cancelKeys = array(), $status = 0){
 
     $count = count($keys);
-    $queryToRefund = $db->prepare("INSERT INTO refund (email_us, key_num, percent, final_percent, `data`)
-                                    VALUES(:email, :key_num, :percent, :percent, NOW())");
+    $queryToRefund = $db->prepare("INSERT INTO refund (email_us, status, key_num, percent, final_percent, `data`)
+                                    VALUES(:email, :status, :key_num, :percent, :percent, NOW())");
+    $queryToRefund->bindParam(':status', $status, PDO::PARAM_STR);
     $queryToRefund->bindParam(':email', $email, PDO::PARAM_STR);
     $queryToRefund->bindParam(':key_num', $count, PDO::PARAM_INT);
     $queryToRefund->bindParam(':percent', $percent);
 
-    var_dump($refRes = $queryToRefund->execute());
+    $refRes = $queryToRefund->execute();
 
     $keyRefRes = true;
+    $update = true;
     $refund_id = $db->lastInsertId();
 
     foreach($keys as $key => $value){
@@ -31,6 +33,17 @@ function createRefund($db, $email, $percent, $keys){
         $keyRefRes = $keyRefRes && $queryToKeyRefund->execute();
     }
 
-    return $keyRefRes && $refRes;
+    foreach($cancelKeys as $key=>$value){
+        $queryUpdate = $db->prepare("UPDATE `keys` SET status = 1
+                                    WHERE key_id = :key_id");
+        $queryUpdate->bindParam(':key_id', $value);
+
+        $update = $queryUpdate->execute();
+    }
+
+    if($keyRefRes && $refRes)
+        return $refund_id;
+    else
+        return false;
 
 }
