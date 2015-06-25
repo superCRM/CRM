@@ -8,7 +8,8 @@
 
 include_once 'library/changeRefundStatus.php';
 include_once 'library/db.php';
-include_once 'library/cancelKey.php';
+include_once 'library/changeKeyStatus.php';
+include_once 'library/getPercent.php';
 
 if(isset($_POST['refunds']))
 {
@@ -16,43 +17,51 @@ if(isset($_POST['refunds']))
     $response = json_decode($jsonResponse,true);
     if(isset($response['id_refund'])){
         $id_refund = $response['id_refund'];
+
         if(isset($response['success']))
         {
+
             if($response['success']===true)
             {
-                changeRefundStatus(getConnect(),$id_refund);
+                changeRefundStatus(getConnect(),$id_refund,2);
                 if(isset($response['id_keys']))
                 {
-                    foreach($response['id_keys'] as $key)
-                    {
-                        cancelKey(getConnect(),$key);
-                    }
+                    $keys = $response['id_keys'];
+                    decrementKeysPercent($id_refund,$keys);
                 }
+
             }
             else
-                if(isset($response['status']))
-                {
-                    $id_key = null;
-                    if(isset($response['id_key']))
-                    {
-                        $id_key = $response['id_key'];
-                    }
-                    switch($response['status'])
-                    {
-                        case 'exists':
-                            cancelKey(getConnect(),$id_key);
-                            break;
-                        case 'canceled':
-                            cancelKey(getConnect(),$id_key);
-                            break;
-                    }
+            {
+                changeRefundStatus(getConnect(),$id_refund,3);
+                $keys = getKeyList(getConnect(),$id_refund);
 
-                    changeRefundStatus(getConnect(),$id_refund,0);
-                }
-                else
+                decrementKeysPercent($id_refund,$keys);
+                /*if(isset($response['id_keys']))
                 {
-                    changeRefundStatus(getConnect(),$id_refund);
-                }
+                    foreach($response['id_keys'] as $key=>$value)
+                    {
+                        switch($value)
+                        {
+                            case 'notexists':
+                                changeKeyStatus(getConnect(),$id_key,2);
+                                break;
+                            case 'canceled':
+                                changeKeyStatus(getConnect(),$id_key,1);
+                                break;
+                        }
+                    }
+                }*/
+            }
         }
+    }
+}
+
+function decrementKeysPercent($refund_id, $keys)
+{
+    $percent = getPercent(getConnect(),$refund_id);
+    foreach($keys as $key)
+    {
+        decrementKeyPercent(getConnect(),$key,$percent);
     }
 }

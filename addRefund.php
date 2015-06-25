@@ -26,7 +26,7 @@ if(isset($_POST['cancel_info'])){
 
     if(count($keys) > 0 && validateEmail($email))
     {
-        if(createRefund(getConnect(),$email, $amount, $keys) != true){
+        if(createRefund(getConnect(),$email, $amount, $keys) != false){
             echo 'success';
         }
         else{
