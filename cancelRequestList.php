@@ -12,7 +12,7 @@ include_once 'library/getRefundList.php';
 include_once ('library/createRefundItem.php');
 
 
-$cancelRequestList = getRefundList(getConnect(), 0);
+$cancelRequestList = getRefundList(getConnect(), array(0));
 $keysList = array();
 
 if ($_POST) {
