@@ -6,7 +6,8 @@
  * Time: 18:35
  */
 namespace CRM;
-    class User {
+    class User extends DbTable{
+        const TABLE_NAME='users';
         public $login;
         public $email;
         public $idUser;
@@ -19,5 +20,15 @@ namespace CRM;
         }
         public function getUserList($id){
 
+        }
+
+        public function pack()
+        {
+            // TODO: Implement pack() method.
+        }
+
+        public function unpack($pack_object)
+        {
+            // TODO: Implement unpack() method.
         }
     }

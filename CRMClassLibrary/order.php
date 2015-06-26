@@ -6,7 +6,7 @@
  * Time: 18:46
  */
 namespace CRM;
-class Order {
+class Order extends DbTable{
     public $orderId;
     public $emailUser;
     public $keyNum;
@@ -30,5 +30,15 @@ class Order {
 
     public function getUser(){
 
+    }
+
+    public function pack()
+    {
+        // TODO: Implement pack() method.
+    }
+
+    public function unpack($pack_object)
+    {
+        // TODO: Implement unpack() method.
     }
 }

@@ -11,6 +11,7 @@ namespace CRM;
 
 abstract class DbTable {
 
+    const TABLE_NAME='undefined';
     public $id;
     public $table;
     public $pack_object;
@@ -22,7 +23,8 @@ abstract class DbTable {
     public function insert()
     {
         $this->pack();
-        $string_query = 'insert into ' . $this->table . ' set ';
+        $class = get_called_class();
+        $string_query = 'insert into ' . $class::TABLE_NAME . ' set ';
         foreach($this->pack_object as $key=>$value)
         {
             $string_query.="`$key`=$value,";
@@ -36,7 +38,8 @@ abstract class DbTable {
     public function update()
     {
         $this->pack();
-        $string_query = 'update ' . $this->table . ' set ';
+        $class = get_called_class();
+        $string_query = 'update ' . $class::TABLE_NAME . ' set ';
         foreach($this->pack_object as $key=>$value)
         {
             $string_query.="`$key`=$value,";
