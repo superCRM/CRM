@@ -33,7 +33,8 @@
     <div class="col-md-3"></div>
 
 <?php
-
+$autoload = require_once "./vendor/autoload.php";
+use \CRM\agent;
 include_once 'footer.html';
 include_once('library/db.php');
 include_once ('library/createAgent.php');
@@ -41,7 +42,23 @@ include_once('library/validate.php');
 include_once 'library/showMessage.php';
 
 if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email'])){
-    $status = createAgent(getConnect(), $_POST["login"], $_POST["password"], $_POST["email"]);
+	$result = Agent::validateAgent($_POST['login'], $_POST['password'], $_POST['email']);
+	if($result['status'])
+	{
+		$agent = Agent::createAgent($_POST["login"], $_POST["password"], $_POST["email"]);
+		if($agent->insert())
+			successMessage("You are registered!");
+	}
+	else
+	{
+		foreach($result['messages'] as $message)
+		{
+			warningMessage($message);
+		}
+	}
+
+	
+    /*$status = createAgent(getConnect(), $_POST["login"], $_POST["password"], $_POST["email"]);
     if($status===true)
     {
         successMessage("You are registered!");
@@ -53,6 +70,7 @@ if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email']
     else
     {
         warningMessage("User with login " . $_POST['login'] . " is already exist!");
-    }
+    }*/
+	
 }
 ?>

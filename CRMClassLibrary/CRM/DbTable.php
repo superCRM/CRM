@@ -27,12 +27,12 @@ abstract class DbTable {
         $stringQuery = 'insert into ' . $class::TABLE_NAME . ' set ';
         foreach($this->packObject as $key=>$value)
         {
-            $stringQuery.="`$key`=$value,";
+            $stringQuery.="`$key`='$value',";
         }
         $stringQuery = trim($stringQuery, ',');
-        /*$db = DB::getConnect();
+        $db = DB::getConnect();
         $query = $db->prepare($stringQuery);
-        return $query->execute();*/
+        return $query->execute();
     }
 
     public function update()
@@ -46,9 +46,9 @@ abstract class DbTable {
         }
         $stringQuery = trim($stringQuery, ',');
         $stringQuery .= "where id = " . $this->id;
-        /*$db = DB::getConnect();
+        $db = DB::getConnect();
         $query = $db->prepare($stringQuery);
-        return $query->execute();*/
+        return $query->execute();
     }
 
     public static function select($table, $conditional)
@@ -62,13 +62,13 @@ abstract class DbTable {
             $stringQuery .= " `$key` = '$value' and";
         }
         $stringQuery = trim($stringQuery, 'and');
-        /*$db->DB::getConnect();
+        $db=DB::getConnect();
         $query = $db->prepare($stringQuery);
         $query->execute();
-        while($row=$query->fetch(PDO::FETCH_ASSOC))
+        while($row=$query->fetch(\PDO::FETCH_ASSOC))
         {
             $result[] = $row;
         }
-        return $result;*/
+        return $result;
     }
 } 

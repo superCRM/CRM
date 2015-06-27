@@ -6,6 +6,7 @@
  * Time: 18:54
  */
 class Refund extends DbTable{
+	const TABLE_NAME='refunds';
     public $keyNum;
     public $percent;
     public $finalPercent;
