@@ -7,6 +7,7 @@
  */
 namespace CRM;
 class Order extends DbTable{
+	const TABLE_NAME='orders';
     public $orderId;
     public $emailUser;
     public $keyNum;
@@ -37,7 +38,7 @@ class Order extends DbTable{
         // TODO: Implement pack() method.
     }
 
-    public function unpack($pack_object)
+    public function unpack($packObject)
     {
         // TODO: Implement unpack() method.
     }

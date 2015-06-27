@@ -27,7 +27,7 @@ namespace CRM;
             // TODO: Implement pack() method.
         }
 
-        public function unpack($pack_object)
+        public function unpack($packObject)
         {
             // TODO: Implement unpack() method.
         }

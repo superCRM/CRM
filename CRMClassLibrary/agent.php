@@ -24,9 +24,9 @@ class Agent extends DbTable{
     public static function getAgent($id)
     {
         $items=Agent::select(Agent::TABLE_NAME,array("id"=>$id));
-        $pack_object = $items[0];
+        $packObject = $items[0];
         $agent = new Agent();
-        $agent->unpack($pack_object);
+        $agent->unpack($packObject);
         return $agent;
     }
 
@@ -51,7 +51,7 @@ class Agent extends DbTable{
         // TODO: Implement pack() method.
     }
 
-    public function unpack($pack_object)
+    public function unpack($packObject)
     {
         // TODO: Implement unpack() method.
     }

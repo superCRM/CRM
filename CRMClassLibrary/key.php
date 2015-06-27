@@ -7,7 +7,8 @@
  */
 namespace CRM;
 
-class Key {
+class Key extends DbTable{
+	const TABLE_NAME='keys';
     public $keyId;
     public $orderId;
     public $status;
@@ -40,5 +41,15 @@ class Key {
     public function decrementKeyPercent($id, $percent){
 
     }
+	
+	public function pack()
+	{
+		// TODO: Implement pack() method.
+	}
+
+	public function unpack($packObject)
+	{
+		// TODO: Implement unpack() method.
+	}
 }
 

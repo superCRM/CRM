@@ -8,7 +8,9 @@
 namespace CRM;
 class DB {
     private $db;
-    private function __construct(){}
+    
+	private function __construct(){}
+	
     public function getConnect(){
         if (!$this->db) {
             $config = parse_ini_file('/var/www/dev.school-server/www/CRM/config/db.ini');

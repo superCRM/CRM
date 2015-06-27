@@ -14,24 +14,24 @@ abstract class DbTable {
     const TABLE_NAME='undefined';
     public $id;
     public $table;
-    public $pack_object;
+    public $packObject;
 
     public abstract function pack();
 
-    public abstract function unpack($pack_object);
+    public abstract function unpack($packObject);
 
     public function insert()
     {
         $this->pack();
         $class = get_called_class();
-        $string_query = 'insert into ' . $class::TABLE_NAME . ' set ';
-        foreach($this->pack_object as $key=>$value)
+        $stringQuery = 'insert into ' . $class::TABLE_NAME . ' set ';
+        foreach($this->packObject as $key=>$value)
         {
-            $string_query.="`$key`=$value,";
+            $stringQuery.="`$key`=$value,";
         }
-        $string_query = trim($string_query, ',');
+        $stringQuery = trim($stringQuery, ',');
         /*$db = DB::getConnect();
-        $query = $db->prepare($string_query);
+        $query = $db->prepare($stringQuery);
         return $query->execute();*/
     }
 
@@ -39,31 +39,31 @@ abstract class DbTable {
     {
         $this->pack();
         $class = get_called_class();
-        $string_query = 'update ' . $class::TABLE_NAME . ' set ';
-        foreach($this->pack_object as $key=>$value)
+        $stringQuery = 'update ' . $class::TABLE_NAME . ' set ';
+        foreach($this->packObject as $key=>$value)
         {
-            $string_query.="`$key`=$value,";
+            $stringQuery.="`$key`=$value,";
         }
-        $string_query = trim($string_query, ',');
-        $string_query .= "where id = " . $this->id;
+        $stringQuery = trim($stringQuery, ',');
+        $stringQuery .= "where id = " . $this->id;
         /*$db = DB::getConnect();
-        $query = $db->prepare($string_query);
+        $query = $db->prepare($stringQuery);
         return $query->execute();*/
     }
 
     public static function select($table, $conditional)
     {
         $result = array();
-        $string_query = 'select * from ' . $table;
+        $stringQuery = 'select * from ' . $table;
         if(count($conditional)>0)
-            $string_query .= ' where';
+            $stringQuery .= ' where';
         foreach($conditional as $key=>$value)
         {
-            $string_query .= " `$key` = '$value' and";
+            $stringQuery .= " `$key` = '$value' and";
         }
-        $string_query = trim($string_query, 'and');
+        $stringQuery = trim($stringQuery, 'and');
         /*$db->DB::getConnect();
-        $query = $db->prepare($string_query);
+        $query = $db->prepare($stringQuery);
         $query->execute();
         while($row=$query->fetch(PDO::FETCH_ASSOC))
         {
