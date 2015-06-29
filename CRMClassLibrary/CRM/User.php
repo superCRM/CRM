@@ -11,32 +11,33 @@ class User extends DbTable{
     public $login;
     public $email;
     public $idUser;
+
     public function createUser(){
     }
+
     public function getUser($id){
         $items=self::select(self::TABLE_NAME,array("id"=>$id));
-        $packObject = $items[0];
-        $user = new User();
-        $user->unpack($packObject);
+        $user = $items[0];
         return $user;
     }
+
     public function getUserList(){
         $users = array();
         $items=self::select(self::TABLE_NAME, array());
         for ($i = 0; $i < count($items); $i++) {
-            $packObject = $items[$i];
-            $user = new User();
-            $user->unpack($packObject);
+            $user = $items[$i];
             $users[$i] = $user;
         }
         return $users;
     }
+
     public function pack()
     {
         $this->packObject['login']=$this->login;
         $this->packObject['email']=$this->email;
         $this->packObject['id_user']=$this->idUser;
     }
+
     public function unpack($packObject)
     {
         $this->id = $packObject['id'];

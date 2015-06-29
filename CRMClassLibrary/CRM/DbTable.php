@@ -51,10 +51,16 @@ abstract class DbTable {
         return $query->execute();
     }
 
-    public static function select($table, $conditional)
+
+    /**
+     * @param $conditional
+     * @return array
+     */
+    public static function select($conditional)
     {
+        $class = get_called_class();
         $result = array();
-        $stringQuery = 'select * from ' . $table;
+        $stringQuery = 'select * from ' . $class::TABLE_NAME;
         if(count($conditional)>0)
             $stringQuery .= ' where';
         foreach($conditional as $key=>$value)
@@ -67,7 +73,8 @@ abstract class DbTable {
         $query->execute();
         while($row=$query->fetch(\PDO::FETCH_ASSOC))
         {
-            $result[] = $row;
+            $item = new $class();
+            $result[] = $item.unpack($row);
         }
         return $result;
     }

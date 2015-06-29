@@ -12,30 +12,34 @@ class Order extends DbTable{
     public $emailUser;
     public $keyNum;
     public $sum;
+
     public function createOrder(){
     }
+
     public function getOrder($orderId){
         $items=self::select(self::TABLE_NAME,array("order_id"=>$orderId));
-        $packObject = $items[0];
-        $order = new Order();
-        $order->unpack($packObject);
+        $order = $items[0];
         return $order;
     }
+
     public function getOrderList($email){
         $orders = array();
-        $items=self::select(self::TABLE_NAME,$email);
+        $items=self::select(self::TABLE_NAME,array("email_us"=>$email));
         for ($i = 0; $i < count($items); $i++) {
-            $packObject = $items[$i];
-            $order = new Order();
-            $order->unpack($packObject);
+            $order =  $items[$i];
             $orders[$i] = $order;
         }
         return $orders;
     }
+
     public function getKeys($id){
+        return Key::select('keys',array("order_id"=>$this->orderId));
     }
+
     public function getUser(){
+        return User::select('users',array("email"=>$this->emailUser));
     }
+
     public function pack()
     {
         $this->packObject['order_id']=$this->orderId;
@@ -43,6 +47,7 @@ class Order extends DbTable{
         $this->packObject['key_num']=$this->keyNum;
         $this->packObject['sum']=$this->sum;
     }
+
     public function unpack($packObject)
     {
         $this->id = $packObject['id'];

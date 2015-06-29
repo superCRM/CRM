@@ -6,7 +6,9 @@
  * Time: 18:54
  */
 
+
 // check in dbtable spaces
+
 namespace CRM;
 class Refund extends DbTable{
     const TABLE_NAME='refund';
@@ -16,32 +18,34 @@ class Refund extends DbTable{
     public $status;
     public $email;
     public $data;
+
     public function createRefund(){
     }
+
     public function getRefund($id){
         $items=self::select(self::TABLE_NAME,array("id"=>$id));
-        $packObject = $items[0];
-        $refund = new Refund();
-        $refund->unpack($packObject);
+        $refund = $items[0];
         return $refund;
     }
+
     public function getRefundList($status){
         //$status - array
         //to create (change) function select: and => or
         $refunds = array();
-        $items=self::select(self::TABLE_NAME,$status);
+        $items=self::select(self::TABLE_NAME,array("status"=>$status));
         for ($i = 0; $i < count($items); $i++) {
-            $packObject = $items[$i];
-            $refund = new Refund();
-            $refund->unpack($packObject);
+            $refund = $items[$i];
             $refunds[$i] = $refund;
         }
         return $refunds;
     }
+
     public function updateRefund($id, $status=2){
         //change function update  - add arrays in arguments
     }
+
     public function getAgent($id){
+        return Agent::select('agents',array("email"=>$this->email));
     }
 
     public function pack()
@@ -53,6 +57,7 @@ class Refund extends DbTable{
         $this->packObject['email_us']=$this->email;
         $this->packObject['data']=$this->data;
     }
+
     public function unpack($packObject)
     {
         $this->id = $packObject['id'];

@@ -19,19 +19,39 @@ class Key extends DbTable{
     }
 
     public function getKey($id){
-
+        $items=self::select(self::TABLE_NAME,array("key_id"=>$id));
+        $key = $items[0];
+        return $key;
     }
 
     public function getKeyStatus($id){
-
+        $orders = array();
+        $items=self::select('key_refund',array("refund_id"=>$refundId));
+        for ($i = 0; $i < count($items); $i++) {
+            $order =  $items[$i];
+            $orders[$i] = $order;
+        }
+        return $orders;
     }
 
-    public function getKeysByRefund($id){
-
+    public function getKeysByRefund($refundId){
+        $orders = array();
+        $items=self::select('key_refund',array("refund_id"=>$refundId));
+        for ($i = 0; $i < count($items); $i++) {
+            $order =  $items[$i];
+            $orders[$i] = $order;
+        }
+        return $orders;
     }
 
-    public function getKeysByOrder($id){
-
+    public function getKeysByOrder($orderId){
+        $orders = array();
+        $items=self::select('keys',array("order_id"=>$orderId));
+        for ($i = 0; $i < count($items); $i++) {
+            $order =  $items[$i];
+            $orders[$i] = $order;
+        }
+        return $orders;
     }
 
     public function changeKeyStatus($id, $status){
