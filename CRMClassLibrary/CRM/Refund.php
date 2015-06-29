@@ -5,6 +5,7 @@
  * Date: 26.06.15
  * Time: 18:54
  */
+namespace CRM;
 class Refund extends DbTable{
 	const TABLE_NAME='refunds';
     public $keyNum;

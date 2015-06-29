@@ -23,10 +23,8 @@ class Agent extends DbTable{
 
     public static function getAgentById($id)
     {
-        $items=self::select(self::TABLE_NAME,array("id"=>$id));
-        $packObject = $items[0];
-        $agent = new Agent();
-        $agent->unpack($packObject);
+        $agents=self::select(self::TABLE_NAME,array("id"=>$id));
+        $agent = $agents[0];
         return $agent;
     }
 	
@@ -70,15 +68,13 @@ class Agent extends DbTable{
 		/*TODO  create Sql builder
 		if($email!=null)
 			$conditional['email'] = $email;*/
-        $items=self::select(self::TABLE_NAME,$conditional);
-		if(count($items)==0){
+        $agents=self::select(self::TABLE_NAME,$conditional);
+		if(count($agents)==0){
 			return false;
 		}
 		else
 		{
-			$packObject = $items[0];
-			$agent = new Agent();
-			$agent->unpack($packObject);
+			$agent = $agents[0];
 			return $agent;
 		}
     }
@@ -89,15 +85,13 @@ class Agent extends DbTable{
 
 	public static function checkAgent($login,$password)
 	{
-		//TODO Create validation class
 		$conditional = array("login"=>$login,"password"=>crypt($password,'CRYPT_SHA256'));
-		$result = self::select(self::TABLE_NAME,$conditional);
-		if(count($result)==0)
+		$agents = self::select($conditional);
+		if(count($agents)==0)
 			return false;
 		else
 		{
-			$agent = new Agent();
-			$agent->unpack($result[0]);
+			$agent = $agents[0];
 			return $agent;
 		}
 	}
