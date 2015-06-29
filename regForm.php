@@ -34,12 +34,17 @@
 
 <?php
 $autoload = require_once "./vendor/autoload.php";
-use \CRM\agent;
+use \CRM\Agent;
 include_once 'footer.html';
 include_once('library/db.php');
 include_once ('library/createAgent.php');
 include_once('library/validate.php');
 include_once 'library/showMessage.php';
+
+//$agent = Agent::getAgentById(2);
+$agent = Agent::getAgent(array("email"=>"fg@mail.ru"));
+var_dump($agent);
+var_dump($agent->getRefunds());
 
 if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email'])){
 	$result = Agent::validateAgent($_POST['login'], $_POST['password'], $_POST['email']);

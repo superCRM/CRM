@@ -7,7 +7,7 @@
  */
 namespace CRM;
 class Refund extends DbTable{
-	const TABLE_NAME='refunds';
+	const TABLE_NAME='refund';
     public $keyNum;
     public $percent;
     public $finalPercent;

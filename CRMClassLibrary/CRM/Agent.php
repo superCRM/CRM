@@ -21,11 +21,21 @@ class Agent extends DbTable{
         return $agent;
     }
 
+    public static function getAgent($conditional)
+    {
+        $agents=self::select($conditional);
+        if(count($agents)==0)
+            return false;
+        else
+        {
+            $agent = $agents[0];
+            return $agent;
+        }
+    }
+
     public static function getAgentById($id)
     {
-        $agents=self::select(self::TABLE_NAME,array("id"=>$id));
-        $agent = $agents[0];
-        return $agent;
+        return self::getAgent(array("id"=>$id));
     }
 	
 	public static function validateAgent($login, $password, $email)
@@ -38,7 +48,13 @@ class Agent extends DbTable{
 			$message = "Enter correct login!";
 			$messages[]=$message;
 		}
-		elseif(self::getAgentByLogin($login)!=false)
+        elseif(!Validation::validateEmail($email))
+        {
+            $status = false;
+            $message = "Enter correct email!";
+            $messages[]=$message;
+        }
+		elseif(self::getAgentByLogin($login,$email)!=false)
 		{
 			$status = false;
 			$message = "Agent with login " . $login . " is already exists!";
@@ -51,50 +67,30 @@ class Agent extends DbTable{
 			$message = "Enter correct password!";
 			$messages[]=$message;
 		}
-		
-		if(!Validation::validateEmail($email))
-		{
-			$status = false;
-			$message = "Enter correct email!";
-			$messages[]=$message;
-		}
-		
+
 		return array('messages'=>$messages,'status'=>$status);
 	}
 	
 	public static function getAgentByLogin($login,$email=null)
     {
 		$conditional = array("login"=>$login);
-		/*TODO  create Sql builder
 		if($email!=null)
-			$conditional['email'] = $email;*/
-        $agents=self::select(self::TABLE_NAME,$conditional);
-		if(count($agents)==0){
-			return false;
-		}
-		else
-		{
-			$agent = $agents[0];
-			return $agent;
-		}
+			$conditional['email'] = $email;
+        return self::getAgent($conditional,'or');
+
+    }
+
+    public static function checkAgent($login,$password)
+    {
+        $conditional = array("login"=>$login,"password"=>crypt($password,'CRYPT_SHA256'));
+        return self::getAgent($conditional);
     }
 
     public function __construct()
     {
     }
 
-	public static function checkAgent($login,$password)
-	{
-		$conditional = array("login"=>$login,"password"=>crypt($password,'CRYPT_SHA256'));
-		$agents = self::select($conditional);
-		if(count($agents)==0)
-			return false;
-		else
-		{
-			$agent = $agents[0];
-			return $agent;
-		}
-	}
+
 
     public function changePassword($password)
     {
@@ -103,6 +99,7 @@ class Agent extends DbTable{
 
     public function getRefunds()
     {
+        return Refund::select(array("agent_refund.agent_id"=>$this->id,'refund.id=agent_refund.refund_id'=> null),'and','agent_refund');
 
     }
 
