@@ -15,6 +15,7 @@ class User extends DbTable{
     public function createUser(){
     }
 
+
     public function getUser($id){
         $items=self::select(array("id"=>$id));
         $user = $items[0];

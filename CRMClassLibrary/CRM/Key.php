@@ -18,7 +18,7 @@ class Key extends DbTable{
 
     }
 
-    public function getKey($id){
+    public static function getKey($id){
         $items=self::select(array("key_id"=>$id));
         $key = $items[0];
         return $key;
@@ -49,11 +49,15 @@ class Key extends DbTable{
         return $orders;
     }
 
-    public function changeKeyStatus($id, $status){
+
+    public function changeKeyStatus($status){
+        $this->status = $status;
+        $this->update(array("key_id"=>$this->keyId));
     }
 
-    public function decrementKeyPercent($id, $percent){
-
+    public function decrementKeyPercent($percent){
+        $this->percent -= $percent;
+        $this->update(array("key_id"=>$this->keyId));
     }
 	
 	public function pack()

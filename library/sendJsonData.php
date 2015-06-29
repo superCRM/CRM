@@ -15,7 +15,6 @@
 function sendData($key_info,$info, $address){
     $url = $address;
     $fields = array(
-
         $key_info => $info
     );
     $fields_str = '';
