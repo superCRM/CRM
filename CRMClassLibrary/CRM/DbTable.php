@@ -27,7 +27,7 @@ abstract class DbTable {
         $stringQuery = 'insert into ' . $class::TABLE_NAME . ' set ';
         foreach($this->packObject as $key=>$value)
         {
-            $stringQuery.="`$key`='$value',";
+            $stringQuery.="`$key`='$value', ";
         }
         $stringQuery = trim($stringQuery, ',');
         $db = DB::getConnect();
@@ -42,10 +42,10 @@ abstract class DbTable {
         $stringQuery = 'update ' . $class::TABLE_NAME . ' set ';
         foreach($this->packObject as $key=>$value)
         {
-            $stringQuery.="`$key`=$value,";
+            $stringQuery.="`$key`=$value, ";
         }
         $stringQuery = trim($stringQuery, ',');
-        $stringQuery .= "where id = " . $this->id;
+        $stringQuery .= " where id = " . $this->id;
         $db = DB::getConnect();
         $query = $db->prepare($stringQuery);
         return $query->execute();

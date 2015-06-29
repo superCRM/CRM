@@ -44,12 +44,19 @@ class Key extends DbTable{
 	
 	public function pack()
 	{
-		// TODO: Implement pack() method.
+        $this->packObject['order_id']=$this->orderId;
+        $this->packObject['key_id']=$this->keyId;
+        $this->packObject['status']=$this->status;
+        $this->packObject['percent']=$this->percent;
 	}
 
 	public function unpack($packObject)
 	{
-		// TODO: Implement unpack() method.
+        $this->id = $packObject['id'];
+        $this->orderId = $packObject['order_id'];
+        $this->keyId = $packObject['key_id'];
+        $this->status = $packObject['status'];
+        $this->percent = $packObject['percent'];
 	}
 }
 
