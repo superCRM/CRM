@@ -22,13 +22,13 @@ class Refund extends DbTable{
     public function createRefund(){
     }
 
-    public function getRefund($id){
+    public static  function getRefund($id){
         $items=self::select(self::TABLE_NAME,array("id"=>$id));
         $refund = $items[0];
         return $refund;
     }
 
-    public function getRefundList($status){
+    public static function getRefundList($status){
         //$status - array
         //to create (change) function select: and => or
         $refunds = array();

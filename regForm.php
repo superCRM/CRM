@@ -35,6 +35,7 @@
 <?php
 $autoload = require_once "./vendor/autoload.php";
 use \CRM\Agent;
+use \CRM\Key;
 include_once 'footer.html';
 include_once('library/db.php');
 include_once ('library/createAgent.php');
@@ -43,6 +44,8 @@ include_once 'library/showMessage.php';
 
 //$agent = Agent::getAgentById(2);
 $agent = Agent::getAgent(array("email"=>"fg@mail.ru"));
+$key = new Key();
+$key->changeKeyStatus(2);
 var_dump($agent);
 var_dump($agent->getRefunds());
 

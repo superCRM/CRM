@@ -13,16 +13,32 @@ class Order extends DbTable{
     public $keyNum;
     public $sum;
 
-    public function createOrder(){
+    public static  function createOrder($orderId,$sum,$emailUser,$keys){
+        $order = new Order();
+        $order->orderId = $orderId;
+        $order->sum = $sum;
+        $order->emailUser = $emailUser;
+        $order->keyNum = count($keys);
+
+        foreach($keys as $keyId)
+        {
+            //TODO create function Key
+            Key::createKey($orderId,$keyId);
+        }
+        $order->insert();
     }
 
-    public function getOrder($orderId){
+    public static  function getOrder($orderId){
         $items=self::select(self::TABLE_NAME,array("order_id"=>$orderId));
-        $order = $items[0];
-        return $order;
+        if(count($items)==0)
+            return false;
+        else{
+            $order = $items[0];
+            return $order;
+        }
     }
 
-    public function getOrderList($email){
+    public static function getOrderList($email){
         $orders = array();
         $items=self::select(self::TABLE_NAME,array("email_us"=>$email));
         for ($i = 0; $i < count($items); $i++) {
@@ -32,8 +48,31 @@ class Order extends DbTable{
         return $orders;
     }
 
-    public function getKeys($id){
-        return Key::select('keys',array("order_id"=>$this->orderId));
+    public static function validateOrder($orderId,$sum,$keys)
+    {
+        if($sum<0)
+        {
+            return false;
+        }
+        if(self::getOrder($orderId)!=false)
+        {
+            return false;
+        }
+        foreach($keys as $key => $keyId)
+        {
+            if(Key::getKey($keyId)!=false)
+            {
+                unset($keys[$key]);
+            }
+        }
+        if(count($keys)==0)
+            return false;
+        else
+            return $keys;
+    }
+
+    public function getKeys(){
+        return Key::select(array("order_id"=>$this->orderId));
     }
 
     public function getUser(){

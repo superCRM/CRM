@@ -54,12 +54,14 @@ class Key extends DbTable{
         return $orders;
     }
 
-    public function changeKeyStatus($id, $status){
-
+    public function changeKeyStatus($status){
+        $this->status = $status;
+        $this->update(array("key_id"=>$this->keyId));
     }
 
-    public function decrementKeyPercent($id, $percent){
-
+    public function decrementKeyPercent($percent){
+        $this->percent -= $percent;
+        $this->update(array("key_id"=>$this->keyId));
     }
 	
 	public function pack()

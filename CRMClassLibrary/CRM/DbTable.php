@@ -13,7 +13,6 @@ abstract class DbTable {
 
     const TABLE_NAME='undefined';
     public $id;
-    public $table;
     public $packObject;
 
     public abstract function pack();
