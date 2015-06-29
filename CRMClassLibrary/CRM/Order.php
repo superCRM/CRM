@@ -37,7 +37,7 @@ class Order extends DbTable{
     }
 
     public function getUser(){
-        return User::select('users',array("email"=>$this->emailUser));
+        return User::select(array("email"=>$this->emailUser));
     }
 
     public function pack()
