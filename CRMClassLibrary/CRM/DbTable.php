@@ -27,7 +27,7 @@ abstract class DbTable {
         $stringQuery = 'insert into ' . $class::TABLE_NAME . ' set ';
         foreach($this->packObject as $key=>$value)
         {
-            $stringQuery.="`$key`='$value', ";
+            $stringQuery.="$key='$value', ";
         }
         $stringQuery = trim($stringQuery, ',');
         $db = DB::getConnect();

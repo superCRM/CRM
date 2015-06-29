@@ -16,14 +16,14 @@ class User extends DbTable{
     }
 
     public function getUser($id){
-        $items=self::select(self::TABLE_NAME,array("id"=>$id));
+        $items=self::select(array("id"=>$id));
         $user = $items[0];
         return $user;
     }
 
     public function getUserList(){
         $users = array();
-        $items=self::select(self::TABLE_NAME, array());
+        $items=self::select(array());
         for ($i = 0; $i < count($items); $i++) {
             $user = $items[$i];
             $users[$i] = $user;

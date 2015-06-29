@@ -7,7 +7,6 @@
  */
 
 
-// check in dbtable spaces
 
 namespace CRM;
 class Refund extends DbTable{
@@ -23,7 +22,7 @@ class Refund extends DbTable{
     }
 
     public function getRefund($id){
-        $items=self::select(self::TABLE_NAME,array("id"=>$id));
+        $items=self::select(array("id"=>$id));
         $refund = $items[0];
         return $refund;
     }
@@ -32,7 +31,7 @@ class Refund extends DbTable{
         //$status - array
         //to create (change) function select: and => or
         $refunds = array();
-        $items=self::select(self::TABLE_NAME,array("status"=>$status));
+        $items=self::select(array("status"=>$status));
         for ($i = 0; $i < count($items); $i++) {
             $refund = $items[$i];
             $refunds[$i] = $refund;
@@ -45,7 +44,7 @@ class Refund extends DbTable{
     }
 
     public function getAgent($id){
-        return Agent::select('agents',array("email"=>$this->email));
+        return Agent::select(array("email"=>$this->email));
     }
 
     public function pack()

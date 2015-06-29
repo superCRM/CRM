@@ -17,14 +17,14 @@ class Order extends DbTable{
     }
 
     public function getOrder($orderId){
-        $items=self::select(self::TABLE_NAME,array("order_id"=>$orderId));
+        $items=self::select(array("order_id"=>$orderId));
         $order = $items[0];
         return $order;
     }
 
     public function getOrderList($email){
         $orders = array();
-        $items=self::select(self::TABLE_NAME,array("email_us"=>$email));
+        $items=self::select(array("email_us"=>$email));
         for ($i = 0; $i < count($items); $i++) {
             $order =  $items[$i];
             $orders[$i] = $order;
@@ -33,7 +33,7 @@ class Order extends DbTable{
     }
 
     public function getKeys($id){
-        return Key::select('keys',array("order_id"=>$this->orderId));
+        return Key::select(array("order_id"=>$this->orderId));
     }
 
     public function getUser(){

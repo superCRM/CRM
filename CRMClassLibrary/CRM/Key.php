@@ -19,24 +19,19 @@ class Key extends DbTable{
     }
 
     public function getKey($id){
-        $items=self::select(self::TABLE_NAME,array("key_id"=>$id));
+        $items=self::select(array("key_id"=>$id));
         $key = $items[0];
         return $key;
     }
 
     public function getKeyStatus($id){
-        $orders = array();
-        $items=self::select('key_refund',array("refund_id"=>$refundId));
-        for ($i = 0; $i < count($items); $i++) {
-            $order =  $items[$i];
-            $orders[$i] = $order;
-        }
-        return $orders;
+        $key = $this->getKey($id);
+        return array('status'=>$key::status);
     }
 
     public function getKeysByRefund($refundId){
         $orders = array();
-        $items=self::select('key_refund',array("refund_id"=>$refundId));
+        $items=self::select(array("refund_id"=>$refundId, "key_refund.key_id = keys.key_id"=>null), 'and', 'key_refund');
         for ($i = 0; $i < count($items); $i++) {
             $order =  $items[$i];
             $orders[$i] = $order;
@@ -46,7 +41,7 @@ class Key extends DbTable{
 
     public function getKeysByOrder($orderId){
         $orders = array();
-        $items=self::select('keys',array("order_id"=>$orderId));
+        $items=self::select(array("order_id"=>$orderId));
         for ($i = 0; $i < count($items); $i++) {
             $order =  $items[$i];
             $orders[$i] = $order;
@@ -55,7 +50,6 @@ class Key extends DbTable{
     }
 
     public function changeKeyStatus($id, $status){
-
     }
 
     public function decrementKeyPercent($id, $percent){
