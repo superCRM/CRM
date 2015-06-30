@@ -22,7 +22,6 @@ class Order extends DbTable{
 
         foreach($keys as $keyId)
         {
-            //TODO create function Key
             Key::createKey($orderId,$keyId);
         }
         $order->insert();
@@ -49,8 +48,11 @@ class Order extends DbTable{
         return $orders;
     }
 
-    public static function validateOrder($orderId,$sum,$keys)
+    public static function validateOrder($orderId,$sum,$keysId)
     {
+        $keys = array();
+        if(count($keysId)==0)
+            return false;
         if($sum<0)
         {
             return false;
@@ -59,17 +61,13 @@ class Order extends DbTable{
         {
             return false;
         }
-        foreach($keys as $key => $keyId)
+        foreach($keysId as $keyId)
         {
-            if(Key::getKey($keyId)!=false)
-            {
-                unset($keys[$key]);
-            }
+            $key = Key::getKey($keyId);
+            if($key!=false)
+                $keys[] = $key;
         }
-        if(count($keys)==0)
-            return false;
-        else
-            return $keys;
+        return $keys;
     }
 
     public function getKeys(){

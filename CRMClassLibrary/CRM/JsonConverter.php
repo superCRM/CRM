@@ -20,7 +20,7 @@ class JsonConverter {
 
     public static function convertToArray($jsonData)
     {
-        return json_decode($jsonData);
+        return json_decode($jsonData,true);
     }
 
     public function sendData($key_info=self::KEY_INFO,$info, $address=self::BILLING){

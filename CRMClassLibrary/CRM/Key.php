@@ -14,15 +14,26 @@ class Key extends DbTable{
     public $status;
     public $percent;
 
-    public function createKey(){
-
+    public static  function createKey($orderId,$keyId,$status=0,$percent=0){
+        $key = new Key();
+        $key->orderId = $orderId;
+        $key->keyId = $keyId;
+        $key->status = $status;
+        $key->percent = $percent;
+        return $key;
     }
 
     public static function getKey($id){
         $items=self::select(array("key_id"=>$id));
-        $key = $items[0];
-        return $key;
+        if(count($items)>0){
+            $key = $items[0];
+            return $key;
+        }
+        else
+            return false;
     }
+
+
 
     public function getKeyStatus($id){
         $key = $this->getKey($id);
