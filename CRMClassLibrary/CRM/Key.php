@@ -14,12 +14,14 @@ class Key extends DbTable{
     public $status;
     public $percent;
 
+
     public static  function createKey($orderId,$keyId,$status=0,$percent=0){
         $key = new Key();
         $key->orderId = $orderId;
         $key->keyId = $keyId;
         $key->status = $status;
         $key->percent = $percent;
+        $key->insert(self::TABLE_NAME);
         return $key;
     }
 

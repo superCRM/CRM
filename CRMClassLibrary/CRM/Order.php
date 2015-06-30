@@ -24,7 +24,7 @@ class Order extends DbTable{
         {
             Key::createKey($orderId,$keyId);
         }
-        $order->insert();
+        $order->insert('orders');
     }
 
 
