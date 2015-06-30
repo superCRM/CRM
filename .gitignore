@@ -2,4 +2,3 @@
 *.gitignore
 /config/*
 /library/db.php
-*.phar

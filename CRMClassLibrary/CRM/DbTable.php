@@ -12,8 +12,8 @@ namespace CRM;
 abstract class DbTable {
 
     const TABLE_NAME='undefined';
-    public $id;
-    public $packObject;
+    protected $id;
+    protected $packObject;
 
     public abstract function pack();
 

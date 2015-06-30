@@ -23,10 +23,14 @@ class User extends DbTable{
     }
 
 
-    public function getUser($id){
-        $items=self::select(array("id"=>$id));
-        $user = $items[0];
-        return $user;
+    public static function getUser($idUser){
+        $items=self::select(array("id_user"=>$idUser));
+		if(count($items)>0){
+			$user = $items[0];
+			return $user;
+		}
+		else
+			return false;
     }
 
     public function getUserList(){
@@ -38,7 +42,18 @@ class User extends DbTable{
         }
         return $users;
     }
-
+	
+	public static function validateUser($idUser,$email,$login)
+	{
+		if(Validation::validateEmail($email)===false)
+			return false;
+		if(Validation::validateUsername($login)===false)
+			return false;
+		if(self::getUser($idUser)===false)
+			return false;
+		return true;
+	}
+	
     public function pack()
     {
         $this->packObject['login']=$this->login;
