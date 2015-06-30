@@ -18,6 +18,8 @@ class Agent extends DbTable{
         $agent->login = $login;
         $agent->password = $password;
         $agent->email = $email;
+        $agent->insert(self::TABLE_NAME);
+
         return $agent;
     }
 

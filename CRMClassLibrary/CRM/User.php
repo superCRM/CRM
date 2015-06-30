@@ -12,7 +12,14 @@ class User extends DbTable{
     public $email;
     public $idUser;
 
-    public function createUser(){
+    public function createUser($login, $email, $idUser){
+        $user = new User();
+        $this->login = $login;
+        $this->email = $email;
+        $this->idUser = $idUser;
+
+        $user->insert(self::TABLE_NAME);
+        return $user;
     }
 
 

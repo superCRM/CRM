@@ -4,7 +4,6 @@ include_once 'library/db.php';
 include_once 'library/createUser.php';
 include_once 'library/validate.php';
 
-
 if(isset($_POST['regInfo'])){
 
     $json = json_decode($_POST['regInfo']);

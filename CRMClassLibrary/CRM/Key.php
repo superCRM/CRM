@@ -72,6 +72,20 @@ class Key extends DbTable{
         $this->percent -= $percent;
         $this->update(array("key_id"=>$this->keyId));
     }
+
+    public function validate()
+    {
+        $keyItem = Key::getKey(getConnect(),$this->keyId);
+        if($keyItem===false)
+        {
+            return false;
+        }
+        if($keyItem->status==1||(($keyItem->percent + $this->percent)>100))
+        {
+            return false;
+        }
+        return true;
+    }
 	
 	public function pack()
 	{

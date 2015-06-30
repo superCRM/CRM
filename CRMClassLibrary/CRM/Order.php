@@ -13,7 +13,7 @@ class Order extends DbTable{
     public $keyNum;
     public $sum;
 
-    public static  function createOrder($orderId,$sum,$emailUser,$keys){
+    public static function createOrder($orderId,$sum,$emailUser,$keys){
         $order = new Order();
         $order->orderId = $orderId;
         $order->sum = $sum;
@@ -24,7 +24,8 @@ class Order extends DbTable{
         {
             Key::createKey($orderId,$keyId);
         }
-        $order->insert('orders');
+        $order->insert(TABLE_NAME);
+        return $order;
     }
 
 
