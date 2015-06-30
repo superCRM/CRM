@@ -18,7 +18,32 @@ class Refund extends DbTable{
     public $email;
     public $data;
 
-    public function createRefund(){
+    /**
+     * @param $email
+     * @param $percent
+     * @param array<Key> $keys
+     * @param $cancelKeys array<Key>
+     * @param int $status
+     */
+    public function createRefund($email, $percent, $keys, $cancelKeys = array(), $status = 0){
+        $refund = new Refund();
+        $refund->keyNum = count($keys);
+        $refund->percent = $percent;
+        $refund->finalPercent = $percent;
+        $refund->status = $status;
+        $refund->email = $email;
+        $refund->data = 'now()';
+        $id = $refund->insert('refund');
+
+        foreach($keys as $key => $value){
+
+            $refund->insert('key_refund', array('key_id'=>$value->keyId, 'refund_id'=>$id));
+        }
+
+        foreach($cancelKeys as $key=>$value)
+        {
+            $value->changeKeyStatus(1);
+        }
     }
 
 

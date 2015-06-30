@@ -19,19 +19,26 @@ abstract class DbTable {
 
     public abstract function unpack($packObject);
 
-    public function insert()
+    public function insert($table, $conditional=null)
     {
         $this->pack();
-        $class = get_called_class();
-        $stringQuery = 'insert into ' . $class::TABLE_NAME . ' set ';
-        foreach($this->packObject as $key=>$value)
-        {
-            $stringQuery.="$key='$value', ";
-        }
+       // $class = get_called_class();
+        $stringQuery = 'insert into ' . $table . ' set ';
+
+        if($conditional == null)
+            foreach($this->packObject as $key=>$value)
+            {
+                $stringQuery.="$key='$value', ";
+            }
+        else
+            foreach($conditional as $key=>$value)
+            {
+                $stringQuery.="$key='$value', ";
+            }
         $stringQuery = trim($stringQuery, ',');
         $db = DB::getConnect();
         $query = $db->prepare($stringQuery);
-        return $query->execute();
+        return $db->lastInsertId();
     }
 
     public function update($conditional,$connector='and')

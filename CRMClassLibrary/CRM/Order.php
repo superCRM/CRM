@@ -22,10 +22,9 @@ class Order extends DbTable{
 
         foreach($keys as $keyId)
         {
-            //TODO create function Key
             Key::createKey($orderId,$keyId);
         }
-        $order->insert();
+        $order->insert('orders');
     }
 
 
