@@ -18,7 +18,7 @@ class User extends DbTable{
         $this->email = $email;
         $this->idUser = $idUser;
 
-        $user->insert();
+        $user->insert(self::TABLE_NAME);
         return $user;
     }
 
