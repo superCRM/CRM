@@ -65,8 +65,26 @@ class Refund extends DbTable{
         return $refunds;
     }
 
-    public function updateRefund($id, $status=2){
-        //change function update  - add arrays in arguments
+    public function updateRefund($id, $status=2, $keysCancelled=array()){
+        $this->status = $status;
+        $this->insert('agent_refund',array('refund_id'=>$this->id,'agent_id'=>$id));
+        if($this->finalPercent > $this->percent)
+            $this->finalPercent = $this->percent;
+        $this->update(array('id'=>$this->id));
+        $keys = Key::getKeysByRefund($this->id);
+
+        foreach($keys as $key){
+            $key->percent = $key->percent + $this->finalPercent;
+            $key->update(array('key_id'=>$key->keyId));
+        }
+
+        if(!empty($keysCancelled)){
+            foreach($keysCancelled as $key){
+                $key->status = 1;
+                $key->update(array('key_id'=>$key->keyId));
+
+            }
+        }
     }
 
     public function getAgent($id){

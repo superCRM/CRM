@@ -42,7 +42,7 @@ class Key extends DbTable{
         return array('status'=>$key::status);
     }
 
-    public function getKeysByRefund($refundId){
+    public static function getKeysByRefund($refundId){
         $orders = array();
         $items=self::select(array("refund_id"=>$refundId, "key_refund.key_id = keys.key_id"=>null), 'and', 'key_refund');
         for ($i = 0; $i < count($items); $i++) {
