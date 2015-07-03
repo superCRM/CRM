@@ -9,7 +9,7 @@ include_once 'header.html';
 include_once 'library/db.php';
 include_once 'library/getKeyList.php';
 include_once 'library/getRefundList.php';
-include_once ('library/createRefundItem.php');
+include_once('library/createRefundItem.php');
 
 
 $cancelRequestList = getRefundList(getConnect(), array(0));

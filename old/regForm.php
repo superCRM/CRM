@@ -38,7 +38,7 @@ use \CRM\Agent;
 use \CRM\Key;
 include_once 'footer.html';
 include_once('library/db.php');
-include_once ('library/createAgent.php');
+include_once('library/createAgent.php');
 include_once('library/validate.php');
 include_once 'library/showMessage.php';
 

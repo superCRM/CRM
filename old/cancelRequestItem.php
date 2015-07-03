@@ -1,6 +1,6 @@
 <?php
 include_once('library/db.php');
-include_once ('library/getRefundItem.php');
+include_once('library/getRefundItem.php');
 $items = array();
 if (isset($_GET['id'])) $items = getRefundInfo(getConnect(), $_GET['id']);
 //        var_dump($items);
@@ -9,9 +9,9 @@ if (isset($_GET['id'])) $items = getRefundInfo(getConnect(), $_GET['id']);
 <html>
 <head>
 	<title>Item Refund</title>
-	<link rel='stylesheet' href='css/style.css'>
-	<link rel='stylesheet' href='css/bootstrap.min.css' type='text/css'>
-	<script src="js/addEvent.js"></script>
+	<link rel='stylesheet' href='../public/css/style.css'>
+	<link rel='stylesheet' href='../public/css/bootstrap.min.css' type='text/css'>
+	<script src="../public/js/addEvent.js"></script>
 
 </head>
     <body>
@@ -38,9 +38,9 @@ if (isset($_GET['id'])) $items = getRefundInfo(getConnect(), $_GET['id']);
                 </div>
 		    </div>
         <div class="col-md-3"></div>
-		<script src="js/jquery-1.11.3.min.js"></script>
-		<script src="js/bootstrap.js"></script>
-		<script src="js/timer.js"></script>
-		<script src="js/addEvent.js"></script>
+		<script src="../public/js/jquery-1.11.3.min.js"></script>
+		<script src="../public/js/bootstrap.js"></script>
+		<script src="../public/js/timer.js"></script>
+		<script src="../public/js/addEvent.js"></script>
 	</body>
 </html>
