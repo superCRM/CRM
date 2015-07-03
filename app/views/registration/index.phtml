@@ -1,0 +1,66 @@
+<?php
+$this->assets->outputCss();
+//include_once '../layouts/header.phtml'; ?>
+
+<div class="col-md-3"></div>
+<div class="border-form  col-md-6">
+    <label class="col-sm-2"><h2><b>Registration</b></h2></label><br><br><br><br>
+    <form class="form-horizontal" method="POST">
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-5 control-label">Login</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="login" id="inputEmail3" placeholder="Login">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-5 control-label">Password</label>
+            <div class="col-sm-5">
+                <input type="password" class="form-control" name="password" id="inputPassword3" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-5 control-label">Email</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="email" id="inputPassword3" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="center-block">
+                <a href="/" style="margin:5px;" class="btn btn-default">Back</a>
+                <a href="/registration/register" style="margin:5px;" class="btn btn-success">Sign up</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="col-md-3"></div>
+
+<?php
+//include_once '../layouts/footer.phtml';
+/*include_once('library/db.php');
+include_once('library/createAgent.php');
+include_once('library/validate.php');
+include_once 'library/showMessage.php';
+
+//$agent = Agent::getAgentById(2);
+$agent = Agent::getAgent(array("email"=>"fg@mail.ru"));
+$key = new Key();
+$key->changeKeyStatus(2);
+var_dump($agent);
+var_dump($agent->getRefunds());
+
+if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email'])){
+    $result = Agent::validateAgent($_POST['login'], $_POST['password'], $_POST['email']);
+    if($result['status'])
+    {
+        $agent = Agent::createAgent($_POST["login"], $_POST["password"], $_POST["email"]);
+        if($agent->insert())
+            successMessage("You are registered!");
+    }
+    else
+    {
+        foreach($result['messages'] as $message)
+        {
+            warningMessage($message);
+        }
+    }*/
+?>
