@@ -91,7 +91,6 @@ abstract class DbTable {
 
         foreach($conditional as $key=>$value)
         {
-            var_dump($key);
             if($value!=null)
                 $stringQuery .= " $key = '$value' $connector";
             else
@@ -104,7 +103,6 @@ abstract class DbTable {
         $stringQuery = trim($stringQuery, $connector);
         $db=DB::getConnect();
         $query = $db->prepare($stringQuery);
-        echo($stringQuery);
         $query->execute();
         while($row=$query->fetch(\PDO::FETCH_ASSOC))
         {
