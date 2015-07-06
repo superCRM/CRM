@@ -126,4 +126,8 @@ class Refund extends DbTable{
         $this->email = $packObject['email_us'];
         $this->data = $packObject['data'];
     }
+
+    public function getId(){
+        return $this->id;
+    }
 }

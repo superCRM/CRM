@@ -120,4 +120,8 @@ class Agent extends DbTable{
 		$this->password = $packObject['password'];
 		$this->email = $packObject['email'];
     }
+
+    public function getPassword(){
+        return $this->password;
+    }
 }
