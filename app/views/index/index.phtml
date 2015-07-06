@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 <div class="col-md-4"></div>
 <div class="border-form col-md-4">
     <label class="col-sm-2"><h2><b>Authorization</b></h2></label><br><br><br><br>
     <form class="form-horizontal" method="POST" action="/aut/aut">
+=======
+
+
+<div class="col-md-4"></div>
+<div class="border-form col-md-4">
+    <label class="col-sm-2"><h2><b>Authorization</b></h2></label><br><br><br><br>
+    <form class="form-horizontal" method="POST" action="authentication/authenticate">
+>>>>>>> c3a9d38e696bf6c474848ded5acee56022ec182c
         <div class="form-group">
             <label for="inputEmail3" class="col-sm-5 control-label">Login</label>
             <div class="col-sm-5">
@@ -21,7 +30,6 @@
             </div>
         </div>
     </form>
+    <?php  $this->flashSession->output() ?>
 </div>
 <div class="col-md-4"></div>
-
-</form>

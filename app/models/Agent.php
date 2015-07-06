@@ -5,6 +5,7 @@
  * Date: 6/26/15
  * Time: 6:33 PM
  */
+//use \CRM\DbTable;
 namespace CRM;
 class Agent extends DbTable{
     const TABLE_NAME='agents';
@@ -14,11 +15,11 @@ class Agent extends DbTable{
 
     public static function  createAgent($login,$password,$email)
     {
-        $agent = new agent();
+        $agent = new Agent();
         $agent->login = $login;
         $agent->password = $password;
         $agent->email = $email;
-        $agent->insert(self::TABLE_NAME);
+        $agent->id = $agent->insert(self::TABLE_NAME);
 
         return $agent;
     }

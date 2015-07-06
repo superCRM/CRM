@@ -33,11 +33,11 @@ class Refund extends DbTable{
         $refund->status = $status;
         $refund->email = $email;
         $refund->data = 'now()';
-        $id = $refund->insert(self::TABLE_NAME);
+        $refund->$id = $refund->insert(self::TABLE_NAME);
 
         foreach($keys as $key => $value){
 
-            $refund->insert('key_refund', array('key_id'=>$value->keyId, 'refund_id'=>$id));
+            $refund->insert('key_refund', array('key_id'=>$value->keyId, 'refund_id'=>$refund->$id));
         }
 
         foreach($cancelKeys as $key=>$value)

@@ -9,13 +9,13 @@ class BaseController extends Controller
 		$this->assets->addCss('css/bootstrap.min.css')
 					->addCss('css/style.css');
 		
-		/*$this->flashSession->setCssClasses(
+		$this->flashSession->setCssClasses(
 			array(
 				 'error' => 'alert alert-danger' ,
 				 'success' => 'alert alert-success' ,
 				 'notice' => 'alert alert-info' ,
 			)
-		);*/
+		);
 		
 	}
    
