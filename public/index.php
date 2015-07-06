@@ -25,7 +25,7 @@ try {
     //Setting up the view component
 	
 	 $di->set('router', function() {
-        $router = new \Phalcon\Mvc\Router\Annotations(false);
+        $router = new \Phalcon\Mvc\Router\Annotations(true);
         $router->removeExtraSlashes(true);
         $router->setUriSource(\Phalcon\Mvc\Router::URI_SOURCE_SERVER_REQUEST_URI);
         $router->addResource('Index', "/");
@@ -54,6 +54,12 @@ try {
 		));
 		return $flash;
 	});
+
+    $di->setShared('session', function() {
+        $session = new Phalcon\Session\Adapter\Files();
+        $session->start();
+        return $session;
+    });
     //Handle the request
     $application = new \Phalcon\Mvc\Application($di);
 	

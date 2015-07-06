@@ -5,7 +5,6 @@
  * Date: 6/26/15
  * Time: 6:33 PM
  */
-use \CRM\DbTable;
 namespace CRM;
 class Agent extends DbTable{
     const TABLE_NAME='agents';

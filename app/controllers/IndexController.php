@@ -5,8 +5,7 @@ use Phalcon\Mvc\Controller;
 /**
  * @RoutePrefix("/")
  **/
-
-class IndexController extends Controller
+class IndexController extends BaseController
 {
 	/**
 	* @Get("/")
