@@ -46,6 +46,21 @@ class Refund extends DbTable{
         }
     }
 
+    public static function  validateRefund($percent, $keysId)
+    {
+        $keys = array();
+        if($percent>100 || $percent<0)
+            return false;
+        foreach($keysId as $keyId)
+        {
+            $keyItem=Key::validateKey($keyId,$percent);
+            if($keyItem!=false)
+            {
+                $keys[] = $keyItem;
+            }
+        }
+        return $keys;
+    }
 
     public static  function getRefund($id){
         $items=self::select(array("id"=>$id));

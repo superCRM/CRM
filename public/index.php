@@ -1,4 +1,6 @@
 <?php
+use CRM\Key;
+use CRM\Refund;
 
 try {
 
@@ -65,7 +67,9 @@ try {
 	
 	/*$example = new Example\Example();
 	var_dump($example);*/
-    echo $application->handle()->getContent();
+    var_dump(Refund::getRefundList(0));
+    //echo $application->handle()->getContent();
+
 	
 } catch(\Phalcon\Exception $e) {
     echo "PhalconException: ", $e->getMessage();

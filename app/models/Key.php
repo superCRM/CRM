@@ -73,18 +73,18 @@ class Key extends DbTable{
         $this->update(array("key_id"=>$this->keyId));
     }
 
-    public function validate()
+    public static function validateKey($keyId,$percent)
     {
-        $keyItem = Key::getKey(getConnect(),$this->keyId);
-        if($keyItem===false)
+        $key = Key::getKey(getConnect(),$keyId);
+        if($key===false)
         {
             return false;
         }
-        if($keyItem->status==1||(($keyItem->percent + $this->percent)>100))
+        if($key->status==1||(($key->percent + $percent)>100))
         {
             return false;
         }
-        return true;
+        return $key;
     }
 	
 	public function pack()
