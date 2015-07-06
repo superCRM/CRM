@@ -24,7 +24,7 @@ try {
 
     //Setting up the view component
 	
-	 $di->set('router', function() {
+	 /*$di->set('router', function() {
         $router = new \Phalcon\Mvc\Router\Annotations(true);
         $router->removeExtraSlashes(true);
         $router->setUriSource(\Phalcon\Mvc\Router::URI_SOURCE_SERVER_REQUEST_URI);
@@ -35,7 +35,7 @@ try {
                            "action"  => "page404"
         ]);
         return $router;
-    });
+    });*/
 	
 	
 	
