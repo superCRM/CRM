@@ -25,7 +25,7 @@ try {
     //Setting up the view component
 	
 	 $di->set('router', function() {
-        $router = new \Phalcon\Mvc\Router\Annotations(false);
+        $router = new \Phalcon\Mvc\Router\Annotations(true);
         $router->removeExtraSlashes(true);
         $router->setUriSource(\Phalcon\Mvc\Router::URI_SOURCE_SERVER_REQUEST_URI);
         $router->addResource('Index', "/");
