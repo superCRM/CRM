@@ -1,7 +1,7 @@
 <?php
 namespace Example;
 
-public class Example
+class Example
 {
 	public $field;
 }

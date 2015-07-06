@@ -1,25 +1,9 @@
-<h2>Sign up using this form</h2>
 
-<?php echo $this->tag->form("signup/register"); ?>
-
- <p>
-    <label for="name">Name</label>
-    <?php echo $this->tag->textField("name") ?>
- </p>
-
- <p>
-    <label for="email">E-Mail</label>
-    <?php echo $this->tag->textField("email") ?>
- </p>
-
- <p>
-    <?php echo $this->tag->submitButton("Register") ?>
- </p>
 
 <div class="col-md-4"></div>
 <div class="border-form col-md-4">
     <label class="col-sm-2"><h2><b>Authorization</b></h2></label><br><br><br><br>
-    <form class="form-horizontal" method="POST" action="/authentication/authenticate">
+    <form class="form-horizontal" method="POST" action="authentication/authenticate">
         <div class="form-group">
             <label for="inputEmail3" class="col-sm-5 control-label">Login</label>
             <div class="col-sm-5">

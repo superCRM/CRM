@@ -41,7 +41,6 @@ class RegistrationController extends  BaseController{
                 return $this->response->redirect("/registration/");
             }
 
-
         }
     }
 }
