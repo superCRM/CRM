@@ -35,9 +35,10 @@ abstract class DbTable {
             {
                 $stringQuery.="$key='$value', ";
             }
-        $stringQuery = trim($stringQuery, ',');
+        $stringQuery = trim($stringQuery, ', ');
         $db = DB::getConnect();
         $query = $db->prepare($stringQuery);
+        $query->execute();
         return $db->lastInsertId();
     }
 

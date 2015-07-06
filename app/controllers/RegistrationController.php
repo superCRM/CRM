@@ -24,10 +24,19 @@ class RegistrationController extends  BaseController{
             $email = $this->request->getPost("email","email");
             $password =  $this->request->getPost("password");
 			$result = Agent::validateAgent($login,$password,$email);
-			if($result['status'])
-				$this->flash->success("Success");
-			else
+			if($result['status']) {
+                $res = Agent::createAgent($login, $password, $email);
+  //              $this->view->setVar("res", $res);
+                if($res != false) {
+                    $this->view->setVar("registered", true);
+                    $this->flash->success("Success");
+                }
+                $this->view->setVar("registered", false);
+
+            }
+            else
 			{
+                $this->view->setVar("registered", false);
 				foreach($result['messages'] as $message)
 				{
 					$this->flash->error($message);

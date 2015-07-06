@@ -15,11 +15,11 @@ class Agent extends DbTable{
 
     public static function  createAgent($login,$password,$email)
     {
-        $agent = new agent();
+        $agent = new Agent();
         $agent->login = $login;
         $agent->password = $password;
         $agent->email = $email;
-        $agent->insert(self::TABLE_NAME);
+        $agent->id = $agent->insert(self::TABLE_NAME);
 
         return $agent;
     }
