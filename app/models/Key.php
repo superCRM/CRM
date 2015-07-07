@@ -75,7 +75,7 @@ class Key extends DbTable{
 
     public static function validateKey($keyId,$percent)
     {
-        $key = Key::getKey(getConnect(),$keyId);
+        $key = Key::getKey($keyId);
         if($key===false)
         {
             return false;

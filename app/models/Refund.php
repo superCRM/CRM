@@ -18,6 +18,12 @@ class Refund extends DbTable{
     public $email;
     public $data;
 
+    public $keys = array();
+
+    public function addKey($key_id){
+        $this->keys[$key_id] = 0;
+    }
+
     /**
      * @param $email
      * @param $percent
@@ -40,7 +46,7 @@ class Refund extends DbTable{
             $refund->insert('key_refund', array('key_id'=>$value->keyId, 'refund_id'=>$refund->id));
         }
 
-        foreach($cancelKeys as $key=>$value)
+        foreach($cancelKeys as $value)
         {
             $value->changeKeyStatus(1);
         }
