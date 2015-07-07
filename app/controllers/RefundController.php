@@ -40,6 +40,25 @@ class RefundController extends BaseController
         $this->view->setVar("keys", $refund ->keys);
     }
 
+    public function delAction()
+    {
+        $refund = $this->session->get("refund");
+        $this->view->setVar("email", $refund->email);
+
+        if($this->request->isPost() === true) {
+
+            $key_id = $this->request->getPost("delete");
+
+            if($key_id != '') $refund->delKey($key_id);
+            $this->session->set("refund",$refund);
+
+        }
+
+        $this->view->setVar("keys", $refund ->keys);
+
+        return $this->response->redirect("refund/set/");
+    }
+
     public function enterAction()
     {
         if($this->request->isPost() === true) {
@@ -84,6 +103,7 @@ class RefundController extends BaseController
             $this->view->setVar("keyIds", $keyIds);
             $this->view->setVar("keys", $keys);
         }
+
     }
 
 }
