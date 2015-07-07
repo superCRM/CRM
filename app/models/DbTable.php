@@ -28,7 +28,9 @@ abstract class DbTable {
         if($conditional == null)
             foreach($this->packObject as $key=>$value)
             {
-                $stringQuery.="$key='$value', ";
+                if($key == "data") $stringQuery.="$key=now(), ";
+                else $stringQuery.="$key='$value', ";
+
             }
         else
             foreach($conditional as $key=>$value)
@@ -58,8 +60,9 @@ abstract class DbTable {
         foreach($conditional as $key=>$value)
         {
             var_dump($key);
-            if($value!=null)
+            if($value!=null){
                 $stringQuery .= " $key = '$value' $connector";
+            }
             else
             {
                 $stringQuery .= " $key $connector";
@@ -82,9 +85,9 @@ abstract class DbTable {
     {
         $class = get_called_class();
         $result = array();
-        $stringQuery = "select " . $class::TABLE_NAME . ".* from " . $class::TABLE_NAME;
+        $stringQuery = "select `" . $class::TABLE_NAME . "`.* from `" . $class::TABLE_NAME . '`';
         if($additionalTable!=null)
-            $stringQuery .=', ' . $additionalTable;
+            $stringQuery .=', `' . $additionalTable . '`';
         if(count($conditional)>0)
             $stringQuery .= ' where';
 
@@ -92,11 +95,13 @@ abstract class DbTable {
 
         foreach($conditional as $key=>$value)
         {
-            if($value!=null)
-                $stringQuery .= " $key = '$value' $connector";
+            if($value===null)
+                $stringQuery .= " $key $connector";
             else
             {
-                $stringQuery .= " $key $connector";
+                $stringQuery .= " $key =
+                '$value' " . "
+                 $connector";
             }
 
         }

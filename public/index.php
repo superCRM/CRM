@@ -1,4 +1,6 @@
 <?php
+use CRM\Key;
+use CRM\Refund;
 
 try {
 
@@ -24,7 +26,7 @@ try {
 
     //Setting up the view component
 	
-	 $di->set('router', function() {
+	 /*$di->set('router', function() {
         $router = new \Phalcon\Mvc\Router\Annotations(true);
         $router->removeExtraSlashes(true);
         $router->setUriSource(\Phalcon\Mvc\Router::URI_SOURCE_SERVER_REQUEST_URI);
@@ -35,7 +37,7 @@ try {
                            "action"  => "page404"
         ]);
         return $router;
-    });
+    });*/
 	
 	
 	
@@ -65,7 +67,9 @@ try {
 	
 	/*$example = new Example\Example();
 	var_dump($example);*/
+    //var_dump(Refund::getRefundList(0));
     echo $application->handle()->getContent();
+
 	
 } catch(\Phalcon\Exception $e) {
     echo "PhalconException: ", $e->getMessage();

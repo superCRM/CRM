@@ -18,6 +18,12 @@ class Refund extends DbTable{
     public $email;
     public $data;
 
+    public $keys = array();
+
+    public function addKey($key_id){
+        $this->keys[$key_id] = 0;
+    }
+
     /**
      * @param $email
      * @param $percent
@@ -40,12 +46,27 @@ class Refund extends DbTable{
             $refund->insert('key_refund', array('key_id'=>$value->keyId, 'refund_id'=>$refund->$id));
         }
 
-        foreach($cancelKeys as $key=>$value)
+        foreach($cancelKeys as $value)
         {
             $value->changeKeyStatus(1);
         }
     }
 
+    public static function  validateRefund($percent, $keysId)
+    {
+        $keys = array();
+        if($percent>100 || $percent<0)
+            return false;
+        foreach($keysId as $keyId)
+        {
+            $keyItem=Key::validateKey($keyId,$percent);
+            if($keyItem!=false)
+            {
+                $keys[] = $keyItem;
+            }
+        }
+        return $keys;
+    }
 
     public static  function getRefund($id){
         $items=self::select(array("id"=>$id));
@@ -110,5 +131,9 @@ class Refund extends DbTable{
         $this->status = $packObject['status'];
         $this->email = $packObject['email_us'];
         $this->data = $packObject['data'];
+    }
+
+    public function getId(){
+        return $this->id;
     }
 }
