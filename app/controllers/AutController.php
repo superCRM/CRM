@@ -15,21 +15,19 @@ class AutController extends  BaseController{
             $login = $this->request->getPost("login","string");
             $password =  $this->request->getPost("password");
             $agent = Agent::getAgentByLogin($login);
-            $response = new \Phalcon\Http\Response();
-            if(Validation::validatePassword($password)) {
-                if ($agent->getPassword() == crypt($password,'CRYPT_SHA256')) {
+            if($agent) {
+                if (Validation::validatePassword($password)&&$agent->getPassword() == crypt($password,'CRYPT_SHA256')) {
                     $this->session->set("login", $login);
-                    $response->redirect("/refund/index");
-                    $response->send();
+                    return $this->response->redirect("/refund");
                 }
                 else{
-                    $response = new \Phalcon\Http\Response();
-                    $response->redirect("/");
-                    $response->send();
+                    $this->flashSession->error('Enter correct password...');
+                    return $this->response->redirect("/");
                 }
             }
             else{
-                echo 'Enter correct password...';
+                $this->flashSession->error("Agent with login '" . $login . "' not found");
+                return $this->response->redirect("/");
             }
         }
     }

@@ -12,7 +12,7 @@ namespace CRM;
 abstract class DbTable {
 
     const TABLE_NAME='undefined';
-    protected $id;
+    public $id;
     protected $packObject;
 
     public abstract function pack();
@@ -82,13 +82,25 @@ abstract class DbTable {
     {
         $class = get_called_class();
         $result = array();
-        $stringQuery = "select `" . $class::TABLE_NAME . "`.* from `" . $class::TABLE_NAME . '`';
+
+        $rows = self::selectRows($class::TABLE_NAME,$conditional,$connector,$additionalTable);
+        foreach($rows as $row)
+        {
+            $item = new $class();
+            $item->unpack($row);
+            $result[] = $item;
+        }
+        return $result;
+    }
+
+    public static function selectRows($table,$conditional,$connector, $additionalTable)
+    {
+
+        $stringQuery = "select `" . $table . "`.* from `" . $table. '`';
         if($additionalTable!=null)
             $stringQuery .=', `' . $additionalTable . '`';
         if(count($conditional)>0)
             $stringQuery .= ' where';
-
-
 
         foreach($conditional as $key=>$value)
         {
@@ -105,11 +117,10 @@ abstract class DbTable {
         $db=DB::getConnect();
         $query = $db->prepare($stringQuery);
         $query->execute();
+        $result = array();
         while($row=$query->fetch(\PDO::FETCH_ASSOC))
         {
-            $item = new $class();
-            $item->unpack($row);
-            $result[] = $item;
+            $result[] = $row;
         }
         return $result;
     }

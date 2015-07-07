@@ -64,11 +64,8 @@ try {
     });
     //Handle the request
     $application = new \Phalcon\Mvc\Application($di);
-	
-	/*$example = new Example\Example();
-	var_dump($example);*/
-    var_dump(Refund::getRefundList(0));
-    //echo $application->handle()->getContent();
+
+    echo $application->handle()->getContent();
 
 	
 } catch(\Phalcon\Exception $e) {

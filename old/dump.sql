@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.43, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: crman
+-- Host: 10.55.33.27    Database: crman
 -- ------------------------------------------------------
 -- Server version	5.5.43-0ubuntu0.14.04.1
 
@@ -27,7 +27,7 @@ CREATE TABLE `agent_refund` (
   `refund_id` int(11) NOT NULL,
   `agent_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `agent_refund` (
 
 LOCK TABLES `agent_refund` WRITE;
 /*!40000 ALTER TABLE `agent_refund` DISABLE KEYS */;
-INSERT INTO `agent_refund` VALUES (1,70,7),(2,70,7),(3,74,2),(4,75,2),(5,76,2),(6,77,2),(7,78,2);
+INSERT INTO `agent_refund` VALUES (1,70,7),(2,70,7),(3,74,2),(4,75,2),(5,76,2),(6,77,2),(7,78,2),(8,79,4),(9,80,2),(10,80,2);
 /*!40000 ALTER TABLE `agent_refund` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +54,7 @@ CREATE TABLE `agents` (
   `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`,`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `agents` (
 
 LOCK TABLES `agents` WRITE;
 /*!40000 ALTER TABLE `agents` DISABLE KEYS */;
-INSERT INTO `agents` VALUES (2,'admin','CRMbBVAC64Dd6','fg@mail.ru'),(3,'name','CRZwWDET7s0Z2','name@gmail.com');
+INSERT INTO `agents` VALUES (2,'admin','CRMbBVAC64Dd6','fg@mail.ru'),(3,'name','CRZwWDET7s0Z2','name@gmail.com'),(4,'george','CRohED6geMtHw','george1280@gmail.com'),(5,'gfd','nhjfd','nfdsji@bjfk'),(6,'agent3','CRq24CTxmInwM','agent@gmail.com'),(7,'agent4','CR7l6Su66o//c','agent3@gmail.com'),(8,'agent45','CR/MHzE.D7k.E','agent6@gmail.com'),(9,'agent456','CRdcMkHpq8buc','agent66@gmail.com'),(10,'agent4566','CRqsUGDX1i7nY','agent666@gmail.com'),(11,'agent45667','CR82CVRCdQpY.','agent6656@gmail.com'),(12,'agent37','CRP8ZqG491gTQ','agent6632656@gmail.com'),(13,'agent5673','CRKVid2pya.NE','agent890895@gmail.com'),(14,'agent56773','CRKOnDamHqTXs','agent8908695@gmail.com'),(15,'agent','CR8IWi5ppqOec','agent@gmail.com'),(16,'agent5634','CR3Rwd1r/r/2w','agentt@gmail.com'),(17,'ynevmerzhitsky','CRscuecRSpoVg','ynev@gmail.com');
 /*!40000 ALTER TABLE `agents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +79,7 @@ CREATE TABLE `key_refund` (
   `key_id` int(11) NOT NULL,
   `refund_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,7 +88,7 @@ CREATE TABLE `key_refund` (
 
 LOCK TABLES `key_refund` WRITE;
 /*!40000 ALTER TABLE `key_refund` DISABLE KEYS */;
-INSERT INTO `key_refund` VALUES (1,3,70),(2,4,70),(3,5,70),(4,123,71),(5,2,71),(6,1,71),(7,5,71),(8,123,0),(9,2,0),(10,1,0),(11,5,0),(12,123,72),(13,2,72),(14,1,72),(15,5,72),(16,123,73),(17,2,73),(18,1,73),(19,5,73),(20,123,74),(21,2,74),(22,1,74),(23,5,74),(24,123,75),(25,2,75),(26,1,75),(27,5,75),(28,123,76),(29,2,76),(30,1,76),(31,5,76),(32,123,77),(33,2,77),(34,1,77),(35,5,77),(36,123,78),(37,2,78),(38,1,78),(39,5,78),(40,123,79),(41,2,79),(42,1,79),(43,5,79),(44,123,80),(45,2,80),(46,1,80),(47,5,80),(48,123,0),(49,2,0),(50,1,0),(51,5,0),(52,13,0),(53,15,0),(54,7,0),(55,20,0),(56,13,0),(57,15,0),(58,7,0),(59,20,0),(60,13,0),(61,15,0),(62,7,0),(63,20,0),(64,13,0),(65,15,0),(66,7,0),(67,20,0),(68,13,0),(69,15,0),(70,7,0),(71,20,0),(72,13,0),(73,15,0),(74,7,0),(75,20,0),(76,13,81),(77,15,81),(78,7,81),(79,20,81);
+INSERT INTO `key_refund` VALUES (1,3,70),(2,4,70),(3,5,70),(4,123,71),(5,2,71),(6,1,71),(7,5,71),(8,123,0),(9,2,0),(10,1,0),(11,5,0),(12,123,72),(13,2,72),(14,1,72),(15,5,72),(16,123,73),(17,2,73),(18,1,73),(19,5,73),(20,123,74),(21,2,74),(22,1,74),(23,5,74),(24,123,75),(25,2,75),(26,1,75),(27,5,75),(28,123,76),(29,2,76),(30,1,76),(31,5,76),(32,123,77),(33,2,77),(34,1,77),(35,5,77),(36,123,78),(37,2,78),(38,1,78),(39,5,78),(40,123,79),(41,2,79),(42,1,79),(43,5,79),(44,123,80),(45,2,80),(46,1,80),(47,5,80),(48,123,0),(49,2,0),(50,1,0),(51,5,0),(52,13,0),(53,15,0),(54,7,0),(55,20,0),(56,13,0),(57,15,0),(58,7,0),(59,20,0),(60,13,0),(61,15,0),(62,7,0),(63,20,0),(64,13,0),(65,15,0),(66,7,0),(67,20,0),(68,13,0),(69,15,0),(70,7,0),(71,20,0),(72,13,0),(73,15,0),(74,7,0),(75,20,0),(76,13,81),(77,15,81),(78,7,81),(79,20,81),(80,1,82),(81,1,83),(82,1,84),(83,1,85),(84,2,86),(85,1,86),(86,3,86),(87,32,87),(88,23,87),(89,32,88),(90,23,88),(91,32,89),(92,23,89),(93,32,90),(94,23,90),(95,32,91),(96,23,91),(97,3,92),(98,4,92),(99,3,93),(100,4,93),(101,3,0),(102,4,0),(103,5,94),(104,9,94),(105,5,95),(106,3,95),(107,4,95),(108,262,96),(109,262,97),(110,262,98),(111,262,99),(112,262,100),(113,262,101);
 /*!40000 ALTER TABLE `key_refund` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +106,7 @@ CREATE TABLE `keys` (
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `percent` decimal(6,2) DEFAULT '0.00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +115,7 @@ CREATE TABLE `keys` (
 
 LOCK TABLES `keys` WRITE;
 /*!40000 ALTER TABLE `keys` DISABLE KEYS */;
-INSERT INTO `keys` VALUES (1,50,3,0,84.00),(2,50,4,0,84.00),(3,50,5,1,NULL),(4,3,9,0,0.00),(5,5,10,0,0.00),(6,79,123,0,50.00),(7,79,123,0,50.00),(8,79,1,0,50.00),(9,79,2,0,50.00),(10,32,13,0,0.00),(11,32,15,0,0.00),(12,32,7,0,0.00),(13,32,20,0,0.00);
+INSERT INTO `keys` VALUES (1,50,3,0,74.00),(2,50,4,0,74.00),(3,50,5,1,114.00),(4,3,9,0,0.00),(5,5,10,0,0.00),(6,79,123,1,110.00),(7,79,123,1,110.00),(8,79,1,1,110.00),(9,79,2,1,110.00),(10,32,13,0,0.00),(11,32,15,0,0.00),(12,32,7,0,0.00),(13,32,20,0,0.00),(14,9,32,1,0.00),(15,9,23,1,0.00),(16,640,470936,0,0.00),(17,640,560493,0,0.00),(18,640,693103,0,0.00),(19,640,656180,0,0.00),(20,50,262,0,0.00),(21,138,928269,0,0.00),(22,138,133571,0,0.00),(23,138,30178,0,0.00),(24,138,832908,0,0.00),(25,273,152533,0,0.00),(26,273,30255,0,0.00),(27,273,964420,0,0.00),(28,273,963143,0,0.00),(29,700,25480,0,0.00),(30,700,394258,0,0.00),(31,700,423590,0,0.00),(32,700,517696,0,0.00);
 /*!40000 ALTER TABLE `keys` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,7 +135,7 @@ CREATE TABLE `orders` (
   `refunded_sum` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `order_UNIQUE` (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +144,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,3,'d@s.ua',6,10000.00,0.00),(2,2,'s@w.yu',4,2000.60,0.00),(3,4,'s@w.yu',7,1000.00,0.00),(4,5,'d@s.ua',120,5000.00,257.00),(5,50,'d@s.ua',3,1000.00,0.00),(6,211,'alex@gmail.com',4,0.00,0.00),(7,81,'alex@gmail.com',4,0.00,0.00),(8,126,'alex@gmail.com',4,0.00,0.00),(9,175,'alex@gmail.com',4,0.00,0.00),(10,828,'alex@gmail.com',4,0.00,0.00),(11,756,'alex@gmail.com',4,0.00,0.00),(12,555,'alex@gmail.com',4,0.00,0.00),(13,844,'alex@gmail.com',4,0.00,0.00),(14,813,'alex@gmail.com',4,0.00,0.00),(15,62,'alex@gmail.com',4,0.00,0.00),(16,947,'alex@gmail.com',4,0.00,0.00),(17,845,'alex@gmail.com',4,0.00,0.00),(18,340,'alex@gmail.com',4,0.00,0.00),(19,744,'alex@gmail.com',4,0.00,0.00),(20,609,'alex@gmail.com',4,0.00,0.00),(21,912,'alex@gmail.com',4,0.00,0.00),(22,399,'alex@gmail.com',4,0.00,0.00),(23,136,'alex@gmail.com',4,0.00,0.00),(24,189,'alex@gmail.com',1,0.00,0.00),(25,636,'alex@gmail.com',4,100.00,0.00),(26,123,'alex@gmail.com',4,100.00,0.00),(27,425,'alex@gmail.com',4,100.00,0.00),(28,987,'alex@gmail.com',4,100.00,0.00),(32,800,'alex@gmail.com',4,30.00,0.00);
+INSERT INTO `orders` VALUES (1,3,'d@s.ua',6,10000.00,0.00),(2,2,'s@w.yu',4,2000.60,0.00),(3,4,'s@w.yu',7,1000.00,0.00),(4,5,'d@s.ua',120,5000.00,257.00),(5,50,'d@s.ua',3,1000.00,0.00),(6,211,'alex@gmail.com',4,0.00,0.00),(7,81,'alex@gmail.com',4,0.00,0.00),(8,126,'alex@gmail.com',4,0.00,0.00),(9,175,'alex@gmail.com',4,0.00,0.00),(10,828,'alex@gmail.com',4,0.00,0.00),(11,756,'alex@gmail.com',4,0.00,0.00),(12,555,'alex@gmail.com',4,0.00,0.00),(13,844,'alex@gmail.com',4,0.00,0.00),(14,813,'alex@gmail.com',4,0.00,0.00),(15,62,'alex@gmail.com',4,0.00,0.00),(16,947,'alex@gmail.com',4,0.00,0.00),(17,845,'alex@gmail.com',4,0.00,0.00),(18,340,'alex@gmail.com',4,0.00,0.00),(19,744,'alex@gmail.com',4,0.00,0.00),(20,609,'alex@gmail.com',4,0.00,0.00),(21,912,'alex@gmail.com',4,0.00,0.00),(22,399,'alex@gmail.com',4,0.00,0.00),(23,136,'alex@gmail.com',4,0.00,0.00),(24,189,'alex@gmail.com',1,0.00,0.00),(25,636,'alex@gmail.com',4,100.00,0.00),(26,123,'alex@gmail.com',4,100.00,0.00),(27,425,'alex@gmail.com',4,100.00,0.00),(28,987,'alex@gmail.com',4,100.00,0.00),(32,800,'alex@gmail.com',4,30.00,0.00),(33,9,'test@gmail.com',2,50.00,0.00),(34,640,'sadasd@gmail.com',4,100.00,0.00),(35,138,'asdasd@asd.asd',4,100.00,0.00),(36,273,'s@w.yu',4,100.00,0.00),(37,700,'asdaasdasdsd@asd.asd',4,100.00,0.00);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,7 +191,7 @@ CREATE TABLE `refund` (
   `percent` decimal(6,2) DEFAULT NULL,
   `final_percent` decimal(6,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -200,7 +200,7 @@ CREATE TABLE `refund` (
 
 LOCK TABLES `refund` WRITE;
 /*!40000 ALTER TABLE `refund` DISABLE KEYS */;
-INSERT INTO `refund` VALUES (70,1,'d@s.ua','2015-06-16 19:31:57',3,8.00,7.00),(71,1,'test@test.com','2015-06-19 17:09:21',4,9.99,9.99),(72,1,'test@test.com','2015-06-19 17:15:04',4,9.99,9.99),(73,1,'test@test.com','2015-06-19 17:16:45',4,3.00,3.00),(74,1,'test@test.com','2015-06-19 17:17:45',4,9.99,9.99),(75,1,'test@test.com','2015-06-19 17:18:01',4,9.99,9.99),(76,1,'test@test.com','2015-06-19 17:19:38',4,20.00,20.00),(77,1,'test@test.com','2015-06-19 19:37:50',4,20.00,20.00),(78,1,'test@test.com','2015-06-19 19:38:34',4,20.00,20.00),(79,0,'test@test.com','2015-06-19 19:39:50',4,20.00,20.00),(80,0,'test@test.com','2015-06-19 19:40:20',4,20.00,20.00),(81,0,'ty@gmail.com','2015-06-22 20:55:24',4,30.00,30.00);
+INSERT INTO `refund` VALUES (70,0,'d@s.ua','2015-06-16 19:31:57',3,8.00,7.00),(71,0,'test@test.com','2015-06-19 17:09:21',4,9.99,9.99),(72,0,'test@test.com','2015-06-19 17:15:04',4,9.99,9.99),(73,1,'test@test.com','2015-06-19 17:16:45',4,3.00,3.00),(74,0,'test@test.com','2015-06-19 17:17:45',4,9.99,9.99),(75,0,'test@test.com','2015-06-19 17:18:01',4,9.99,9.99),(76,0,'test@test.com','2015-06-19 17:19:38',4,20.00,20.00),(77,0,'test@test.com','2015-06-19 19:37:50',4,20.00,20.00),(78,0,'test@test.com','2015-06-19 19:38:34',4,20.00,20.00),(79,0,'test@test.com','2015-06-19 19:39:50',4,20.00,20.00),(80,0,'test@test.com','2015-06-19 19:40:20',4,20.00,20.00),(81,0,'ty@gmail.com','2015-06-22 20:55:24',4,30.00,30.00),(86,0,'ads@dsfg.com','2015-06-24 18:05:44',3,21.00,21.00),(87,0,'ads@dsfg.com','2015-06-24 18:07:16',2,23.00,23.00),(88,0,'ads@dsfg.com','2015-06-24 18:07:48',2,23.00,23.00),(89,0,'ads@dsfg.com','2015-06-24 18:07:55',2,21.00,21.00),(90,0,'ads@dsfg.com','2015-06-24 18:11:54',2,21.00,21.00),(91,0,'ads@dsfg.com','2015-06-24 18:12:45',2,21.00,21.00),(92,0,'ads@dsfg.com','2015-06-24 19:49:28',2,2.00,2.00),(93,0,'ads@dsfg.com','2015-06-24 19:58:02',2,10.00,10.00),(94,0,'test@gmail.com','2015-06-24 20:02:35',2,2.00,2.00),(95,0,'test@gmail.com','2015-06-24 20:08:26',3,2.00,2.00),(96,0,'fantom79022@gmail.com','2015-06-25 19:21:51',1,100.00,100.00),(97,0,'fantom79022@gmail.com','2015-07-02 17:48:03',1,100.00,100.00),(98,0,'fantom79022@gmail.com','2015-07-02 17:52:40',1,100.00,100.00),(99,0,'fantom79022@gmail.com','2015-07-02 18:05:15',1,100.00,100.00),(100,0,'fantom79022@gmail.com','2015-07-02 18:05:49',1,100.00,100.00),(101,0,'fantom79022@gmail.com','2015-07-02 18:06:08',1,100.00,100.00);
 /*!40000 ALTER TABLE `refund` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -231,6 +231,31 @@ INSERT INTO `refund_product` VALUES (1,'Phone',1.00,3),(2,'Dr Web',3.00,4),(3,'i
 UNLOCK TABLES;
 
 --
+-- Table structure for table `secret_keys`
+--
+
+DROP TABLE IF EXISTS `secret_keys`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `secret_keys` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `service` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `partner` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `secret_key` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `secret_keys`
+--
+
+LOCK TABLES `secret_keys` WRITE;
+/*!40000 ALTER TABLE `secret_keys` DISABLE KEYS */;
+/*!40000 ALTER TABLE `secret_keys` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -244,7 +269,7 @@ CREATE TABLE `users` (
   `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +278,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1','2',1),(2,'Dasha','d@s.ua',2),(3,'Fred','s@w.yu',3),(4,'asdasd','asdasd@asd.asd',4),(5,'asdasasdasdd','asdaasdasdsd@asd.asd',5),(6,'js','sadasd@gmail.com',6),(7,'alex','alex@gmail.com',0),(8,'afsdasf','george12@net.com',8);
+INSERT INTO `users` VALUES (1,'1','2',1),(2,'Dasha','d@s.ua',2),(3,'Fred','s@w.yu',3),(4,'asdasd','asdasd@asd.asd',4),(5,'asdasasdasdd','asdaasdasdsd@asd.asd',5),(6,'js','sadasd@gmail.com',6),(7,'alex','alex@gmail.com',0),(8,'afsdasf','george12@net.com',8),(9,'zzz','zzzzz@zzzzzzzz.zzz',25),(10,'qwerty','qwerty@sadfasdfgv.com',30),(11,'zxcv','zxcvbbbbb@zxcv.com',31),(12,'tvoya_mamasha','sof@t.com',38);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -266,4 +291,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-22 20:58:58
+-- Dump completed on 2015-07-07 19:24:20

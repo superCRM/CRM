@@ -14,24 +14,23 @@
             </tr>
             </thead>
             <?php
-            var_dump($cancelRequestList);
-            var_dump($keysList);
-            foreach($cancelRequestList as $refund): ?>
+
+            foreach($refunds as $refund): ?>
                 <tbody>
                 <tr class="success">
                     <td><?=$refund->email?></td>
                     <td><?=$refund->keyNum?></td>
                     <td>
                         <?php $i = 0;
-                        foreach($keysList as $key->$value):
+                        foreach($refund->keys as $key):
                             $i++;?>
-                            <input type="checkbox" name="keyToCancel[<?= $refund->id ?>][<?= $i ?>]" value="<?=$key['key_id']?>" />  <?=$key['key_id']?><br>
-                        <?php endforeach ?>
+                            <input type="checkbox" name="keyToCancel[<?= $refund->id ?>][<?= $i ?>]" value="<?=$key->keyId?>" />  <?=$key->keyId?><br>
+                        <?php endforeach; ?>
                     </td>
-                    <td><?=$refund['percent']?></td>
-                    <td><input   type="text" name="finalPercent" value="<?=$refund['final_percent']?>"></td>
-                    <td><?=$refund['data']?></td>
-                    <td><button type="submit" name="id_refund" value="<?= $refund['id'] ?>">Send</button></td>
+                    <td><?=$refund->percent?></td>
+                    <td><input   type="text" name="finalPercent" value="<?=$refund->finalPercent?>"></td>
+                    <td><?=$refund->data?></td>
+                    <td><button type="submit" name="id_refund" value="<?= $refund->id ?>">Send</button></td>
                 </tr>
                 </tbody>
             <?php endforeach ?>

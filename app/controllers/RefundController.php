@@ -2,20 +2,21 @@
 
 use Phalcon\Mvc\Controller;
 use CRM\Refund;
+use CRM\Key;
 
 class RefundController extends BaseController
 {
     public function indexAction()
     {
         $refunds = Refund::getRefundList(0);
-        $keysList = array();
+        //$keysList = array();
 
         foreach($refunds as $refund){
             $id = $refund->getId();
-            $keysList[$id] = \CRM\Key::getKeysByRefund($id);
+            $refund->keys = Key::getKeysByRefund($id);
         }
-        $this->view->setVar("cancelRequestList", $refunds);
-        $this->view->setVar("keysList", $keysList);
+        $this->view->setVar("refunds", $refunds);
+        //$this->view->setVar("keysList", $keysList);
     }
 
 }
