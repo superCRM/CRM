@@ -22,8 +22,8 @@ class Security extends Plugin
     public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
     {
 
-        // Проверяем, установлена ли в сессии переменная "auth" для определения активной роли.
-        $auth = $this->session->get('agent_id');
+        // Проверяем, установлена ли в сессии переменная "agentId" для определения активной роли.
+        $auth = $this->session->get('agentId');
         if (!$auth) {
             $role = 'Guests';
         } else {
@@ -37,10 +37,11 @@ class Security extends Plugin
         // Получаем список ACL
         $acl = $this->acl;
 
+        $allowed = $acl->isAllowed($role, $controller, $action);
         // Проверяем, имеет ли данная роль доступ к контроллеру (ресурсу)
         if($role=='Guests'){
-            $allowed = $acl->isAllowed($role, $controller, $action);
-            if ($allowed != \Phalcon\Acl::ALLOW) {
+
+            if ($allowed == \Phalcon\Acl::DENY) {
 
                 // Если доступа нет, перенаправляем его на контроллер "index".
                 $this->flashSession->error("You don't have access to this module");
@@ -51,6 +52,23 @@ class Security extends Plugin
                     )
                 );
 
+                // Возвращая "false" мы приказываем диспетчеру прекратить текущую операцию
+                return false;
+            }
+        }
+
+        if($role=='Users'){
+            if ($allowed == \Phalcon\Acl::DENY) {
+
+                // Если доступа нет, перенаправляем его на контроллер "refund".
+
+                $dispatcher->forward(
+                    array(
+                        'controller' => 'refund',
+                        'action' => 'index'
+                    )
+                );
+                //return $this->response->redirect("/refund");
                 // Возвращая "false" мы приказываем диспетчеру прекратить текущую операцию
                 return false;
             }

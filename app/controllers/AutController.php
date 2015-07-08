@@ -22,7 +22,8 @@ class AutController extends  BaseController{
             $agent = Agent::getAgentByLogin($login);
             if($agent) {
                 if (Validation::validatePassword($password)&&$agent->getPassword() == crypt($password,'CRYPT_SHA256')) {
-                    $this->session->set("agent_id",$agent->id);
+                    $this->session->set("agentId",$agent->id);
+                    $this->session->set("agentId",$agent->id);
                     $this->session->set("login", $login);
                     return $this->response->redirect("/refund");
                 }

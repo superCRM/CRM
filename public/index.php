@@ -4,6 +4,7 @@ use CRM\Refund;
 use CRM\SecretParams;
 use CRM\JsonSender;
 use Plagins\Security;
+use Phalcon\Dispatcher;
 
 try {
 
@@ -79,13 +80,29 @@ try {
         // Плагин безопасности слушает события, инициированные диспетчером
         $eventsManager->attach('dispatch', $security);
 
+        $eventsManager->attach(
+            "dispatch:beforeException",
+            function($event, $dispatcher, $exception) {
+
+            switch ($exception->getCode()) {
+                case Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
+                case Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
+                    $dispatcher->forward(array(
+                        'controller' => 'index',
+                        'action' => 'page404'
+                    ));
+                    return false;
+            }
+        });
+
         $dispatcher = new Phalcon\Mvc\Dispatcher();
 
         // Связываем менеджер событий с диспетчером
         $dispatcher->setEventsManager($eventsManager);
 
         return $dispatcher;
-    });
+    }, true
+    );
 
     $di->set('acl', function() use ($di) {
         $acl = new Phalcon\Acl\Adapter\Memory();
@@ -107,15 +124,27 @@ try {
             'aut' => array('index','aut'),
             'registration' => array('index', 'register')
         );
+
+        $privateResources = array(
+            'refund' => array('*'),
+            'aut' => array('logout','page404')
+        );
         foreach ($publicResources as $resource => $actions) {
             $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
         }
 
-        foreach ($roles as $role) {
-            foreach ($publicResources as $resource => $actions) {
-                $acl->allow($role->getName(), $resource, $actions);
-            }
+        foreach ($privateResources as $resource => $actions) {
+            $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
         }
+
+        foreach ($publicResources as $resource => $actions) {
+            $acl->allow($roles['guests']->getName(), $resource, $actions);
+        }
+
+        foreach ($privateResources as $resource => $actions) {
+            $acl->allow($roles['users']->getName(), $resource, $actions);
+        }
+
         return $acl;
     });
 
