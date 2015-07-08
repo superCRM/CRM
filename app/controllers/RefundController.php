@@ -99,7 +99,7 @@ class RefundController extends BaseController
             $keys = Refund::validateRefund($percent, $keyIds, $refund->email);
 
             if(!$keys) return; //validation failed
-            
+
             foreach($cancelKeysId as $key=>$value) : $cancelKeys[] = Key::getKey($key); endforeach;
 
             $refund->id = Refund::createRefund($refund->email, $percent, $keys);
@@ -114,9 +114,47 @@ class RefundController extends BaseController
 
     }
 
+    public function indexSendAction(){
+        $this->view->disable();
+        var_dump($_POST);
+        var_dump($_SESSION);
+        var_dump($_GET);
+        if($this->session->has('agentId')){
+            $agentId = $this->session->get('agentId');
+        }
+        else{
+            return $this->response->redirect("/index/index");
+        }
+        if($this->request->isPost()===true){
+            $keyToCancel = $this->request->getPost('keyToCancel');
+            $finalPercent = $this->request->getPost('finalPercent');
+            $refund = null;
+            $keyToCancelObj = array();
+
+            foreach($keyToCancel as $key=>$value){
+                $refund = Refund::getRefund($key);
+
+                foreach($value as $key=>$value){
+                    $keyToCancelObj[] = Key::getKey($value);
+                }
+            }
+
+            $refund->finalPercent = $finalPercent;
+            $refund->updateRefund($agentId, $keyToCancelObj, 1);
+
+            return $this->response->redirect("/refund");
+        }
+        else{
+            return $this->response->setContent("<html><body>Refund not found.</body></html>");
+        }
+    }
+
 	public function addAction()
 	{
-		if($this->request->isPost()===true)
+        $this->view->disable();
+        echo 'asdasf';
+        var_dump($_POST);
+        if($this->request->isPost()===true)
 		{
 			$secretParams = SecretParams::getSecretParams('account');
             $response = new \Phalcon\Http\Response();
