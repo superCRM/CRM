@@ -12,6 +12,7 @@ class AutController extends  BaseController{
 
     public  function  autAction(){
         //TODO change validation
+		$this->view->disable();
         if($this->request->isPost() === true){
             $login = $this->request->getPost("login","string");
             $password =  $this->request->getPost("password");
@@ -26,6 +27,9 @@ class AutController extends  BaseController{
                     $this->session->set("agentId",$agent->id);
                     $this->session->set("login", $login);
                     $this->session->set("agentId", $agent->id);
+					if($this->session->has("uri")) {
+						return $this->response->redirect($this->session->get('uri'));
+					}
                     return $this->response->redirect("/refund");
                 }
                 else{
@@ -42,13 +46,8 @@ class AutController extends  BaseController{
 
     public function logoutAction()
     {
-        $this->session->remove("agent_id");
+        $this->session->remove("agentId");
         $this->session->remove("login");
-        return $this->dispatcher->forward(
-            array(
-                'controller' => 'index',
-                'action' => 'index'
-            )
-        );
+        return $this->response->redirect("/");
     }
 }

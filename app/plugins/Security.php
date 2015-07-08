@@ -32,12 +32,18 @@ class Security extends Plugin
         // Получаем активные контроллер и действие от диспетчера
         $controller = $dispatcher->getControllerName();
         $action = $dispatcher->getActionName();
-
+		
         // Получаем список ACL
         $acl = $this->acl;
 
         $allowed = $acl->isAllowed($role, $controller, $action);
         // Проверяем, имеет ли данная роль доступ к контроллеру (ресурсу)
+		
+		var_dump($role);
+		var_dump($controller);
+		var_dump($action);
+		var_dump($allowed);
+		//exit();
         if($role=='Guests'){
 
             if ($allowed == \Phalcon\Acl::DENY) {
@@ -61,13 +67,13 @@ class Security extends Plugin
 
                 // Если доступа нет, перенаправляем его на контроллер "refund".
 
-                $dispatcher->forward(
+                /*$dispatcher->forward(
                     array(
                         'controller' => 'refund',
                         'action' => 'index'
                     )
-                );
-                //return $this->response->redirect("/refund");
+                );*/
+                return $this->response->redirect("/refund");
                 // Возвращая "false" мы приказываем диспетчеру прекратить текущую операцию
                 return false;
             }

@@ -13,6 +13,12 @@ class IndexController extends BaseController
 	*/
     public function indexAction()
     {
+		//Setup cookies
+		$uri = $this->request->getURI();
+		if($uri!="/aut/logout")
+		{
+			$this->session->set("uri",$uri);
+		}
     }
 	
 	/**
