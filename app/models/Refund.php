@@ -35,7 +35,7 @@ class Refund extends DbTable{
      * @param $cancelKeys array<Key>
      * @param int $status
      */
-    public static  function createRefund($email, $percent, $keys, $cancelKeys = array(), $status = 0){
+    public static  function createRefund($email, $percent, $keys, $status = 0){
         $refund = new Refund();
         $refund->keyNum = count($keys);
         $refund->percent = $percent;
@@ -50,10 +50,8 @@ class Refund extends DbTable{
             $refund->insert('key_refund', array('key_id'=>$value->keyId, 'refund_id'=>$refund->id));
         }
 
-        foreach($cancelKeys as $value)
-        {
-            $value->changeKeyStatus(1);
-        }
+        return $refund->id;
+
     }
 
     public static function  validateRefund($percent, $keysId, $email)
@@ -95,7 +93,7 @@ class Refund extends DbTable{
         return $refunds;
     }
 
-    public function updateRefund($id, $status=2, $keysCancelled=array()){
+    public function updateRefund($id, $keysCancelled=array(), $status=2){
         $this->status = $status;
         $this->insert('agent_refund',array('refund_id'=>$this->id,'agent_id'=>$id));
         if($this->finalPercent > $this->percent)
@@ -110,9 +108,7 @@ class Refund extends DbTable{
 
         if(!empty($keysCancelled)){
             foreach($keysCancelled as $key){
-                $key->status = 1;
-                $key->update(array('key_id'=>$key->keyId));
-
+                $key->changeKeyStatus(1);
             }
         }
     }

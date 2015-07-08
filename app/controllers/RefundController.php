@@ -84,6 +84,7 @@ class RefundController extends BaseController
         if($this->session->has("refund") && $this->request->isPost() === true) {
             $cancelKeysId = $this->request->getPost("cancelKeys");
             $percent = $this->request->getPost("percent");
+            $agentId = $this->request->getPost("agent_id");
 
             $refund = $this->session->get("refund");
             $keysRefund = $refund->keys;
@@ -92,13 +93,17 @@ class RefundController extends BaseController
                 $keysRefund[$value] = 1;
             endforeach;
             $refund->percent = $percent;
+            $refund->final_percent = $percent;
 
             foreach($keysRefund as $key=>$value) : $keyIds[] = $key; endforeach;
-            $keys = Refund::validateRefund($percent, $keyIds);
+            $keys = Refund::validateRefund($percent, $keyIds, $refund->email);
+            if(!$keys) return; //validation failed
 
             foreach($cancelKeysId as $key=>$value) : $cancelKeys[] = Key::getKey($key); endforeach;
 
-            $refund->createRefund($refund->email, $percent, $keys, $cancelKeys );
+            $refund->id = Refund::createRefund($refund->email, $percent, $keys);
+
+            $refund->updateRefund($agentId, $cancelKeys);
 
             $this->view->setVar("cancelKeys", $cancelKeysId);
             $this->view->setVar("percent", $percent);
