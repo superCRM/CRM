@@ -3,6 +3,7 @@ use CRM\Key;
 use CRM\Refund;
 use CRM\SecretParams;
 use CRM\JsonSender;
+use Plagins\Security;
 
 try {
 
@@ -15,7 +16,8 @@ try {
 	
 	$loader->registerNamespaces(
 		array(
-			'CRM' => '../app/models/'
+			'CRM' => '../app/models/',
+            'Plagins' => '../app/plugins/'
 		)
 	);
 	
@@ -65,6 +67,60 @@ try {
         return $session;
     });
     //Handle the request
+
+    $di->set('dispatcher', function() use ($di) {
+
+        // Получаем стандартный менеджер событий с помощью DI
+        $eventsManager = $di->getShared('eventsManager');
+
+        // Инстанцируем плагин безопасности
+        $security = new Security($di);
+
+        // Плагин безопасности слушает события, инициированные диспетчером
+        $eventsManager->attach('dispatch', $security);
+
+        $dispatcher = new Phalcon\Mvc\Dispatcher();
+
+        // Связываем менеджер событий с диспетчером
+        $dispatcher->setEventsManager($eventsManager);
+
+        return $dispatcher;
+    });
+
+    $di->set('acl', function() use ($di) {
+        $acl = new Phalcon\Acl\Adapter\Memory();
+        // Действием по умолчанию будет запрет
+        $acl->setDefaultAction(Phalcon\Acl::DENY);
+
+// Регистрируем две роли. Users - это зарегистрированные пользователи,
+// а Guests - неидентифициорованные посетители.
+        $roles = array(
+            'users' => new Phalcon\Acl\Role('Users'),
+            'guests' => new Phalcon\Acl\Role('Guests')
+        );
+        foreach ($roles as $role) {
+            $acl->addRole($role);
+        }
+
+        $publicResources = array(
+            'index' => array('index','page404'),
+            'aut' => array('index','aut'),
+            'registration' => array('index', 'register')
+        );
+        foreach ($publicResources as $resource => $actions) {
+            $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
+        }
+
+        foreach ($roles as $role) {
+            foreach ($publicResources as $resource => $actions) {
+                $acl->allow($role->getName(), $resource, $actions);
+            }
+        }
+        return $acl;
+    });
+
+
+
 	$application = new \Phalcon\Mvc\Application($di);
     //echo SecretParams::urlSigner('localhost','/refund/add','partner','key');
 	/*$postArray = array
