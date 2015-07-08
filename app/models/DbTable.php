@@ -51,9 +51,9 @@ abstract class DbTable {
         $stringQuery = 'update ' . $class::TABLE_NAME . ' set ';
         foreach($this->packObject as $key=>$value)
         {
-            $stringQuery.="$key='$value', ";
+            if($value != '') $stringQuery.="$key='$value', ";
         }
-        $stringQuery = trim($stringQuery, ',');
+        $stringQuery = trim($stringQuery, ', ');
         if(count($conditional)>0)
             $stringQuery .= ' where';
 
