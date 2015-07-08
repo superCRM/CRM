@@ -24,6 +24,10 @@ class Refund extends DbTable{
         $this->keys[$key_id] = 0;
     }
 
+    public function delKey($key_id){
+        unset($this->keys[$key_id]);
+    }
+
     /**
      * @param $email
      * @param $percent
