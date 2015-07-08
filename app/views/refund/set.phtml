@@ -40,8 +40,8 @@ if (!empty($keys)) {
                 <?php foreach($keys as $key=>$value) : ?>
                     <div class="row">
                         <div class="col-md-6 col-sm-6 checkbox">
-                            <input class="col-md-2 col-sm-5" id="<?= $key ?>" value="<?= $key ?>" name="cancelKeys[]"  type="checkbox"/>
-                            <label class="col-md-6 col-md-offset-6 col-sm-2 col-sm-offset-6" for="<?= $key ?>"><?= $key ?></label>
+                            <label class="col-md-3 col-sm-2" for="<?= $key ?>"><?= $key ?></label>
+                            <input class="col-md-10 col-sm-11" id="<?= $key ?>" value="<?= $key ?>" name="cancelKeys[]"  type="checkbox"/>
                         </div>
                         <div class="col-md-offset-2 col-md-2 col-sm-offset-2 col-sm-2">
                             <button type="submit" class="btn btn-primary" name="delete" value="<?= $key ?>" formaction="/refund/del">

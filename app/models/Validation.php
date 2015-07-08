@@ -29,5 +29,21 @@ class Validation
 		else
 			return true;
 	}
+
+    //keys это массив id а не обьектов
+    public static function validateRefund($percent,$keys)
+    {
+        if($percent>100 || $percent<0)
+            return false;
+        foreach($keys as $key => $keyId)
+        {
+            $keyItem=Key::getKey($keyId);
+            if(($keyItem!==false) || ($keyItem->status==0||($keyItem->percent+$percent)<100))
+            {
+                $validKeys[]=$keyItem;
+            }
+        }
+        return $validKeys;
+    }
 }
 ?>

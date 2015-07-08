@@ -106,5 +106,32 @@ class RefundController extends BaseController
 
     }
 
+    public function createAction() {
+
+        if($this->request->isPost() === true){
+
+            $json = json_decode($this->request->getPOst('cancel_info'));
+            $keys = $json['key_id'];//array
+            $email =$json['email'];
+            $amount =$json['amount'];
+            $response = new \Phalcon\Http\Response();
+
+            $keys = \CRM\Validation::validateRefund($amount,$keys); //протестировать
+
+            if(count($keys) > 0 && \CRM\Validation::validateEmail($email))
+            {
+                Refund::createRefund($email, $amount, $keys);
+                $response->setStatusCode(200, "OK");
+                $response->setContent("<html><body>Success</body></html>");
+                $response->send();
+            }
+            else{
+                $response->setStatusCode(422, "OK");
+                $response->setContent("<html><body>Fail</body></html>");
+                $response->send();
+            }
+        }
+    }
+
 }
 
