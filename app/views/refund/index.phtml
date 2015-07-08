@@ -1,6 +1,6 @@
 <div class="col-md-2"></div>
 <div class="col-md-8">
-    <form action = "refund/send" method = "POST">
+    <form  method = "POST" action = "/refund/indexSend">
         <table class="table table-hover">
             <thead>
             <tr>
@@ -14,7 +14,6 @@
             </tr>
             </thead>
             <?php
-
             foreach($refunds as $refund): ?>
                 <tbody>
                 <tr class="success">
@@ -28,9 +27,9 @@
                         <?php endforeach; ?>
                     </td>
                     <td><?=$refund->percent?></td>
-                    <td><input   type="text" name="finalPercent" value="<?=$refund->finalPercent?>"></td>
+                    <td><input name="finalPercent<?=$refund->id?>" type="text" class="form-control" placeholder="<?=$refund->percent?>" value="<?=$refund->percent?>" /></td>
                     <td><?=$refund->data?></td>
-                    <td><button type="submit" name="id_refund" value="<?= $refund->id ?>">Send</button></td>
+                    <td><button class="form-control" type="submit" name="id_refund" value="<?= $refund->id ?>">Send</button></td>
                 </tr>
                 </tbody>
             <?php endforeach ?>

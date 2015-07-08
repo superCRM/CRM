@@ -99,7 +99,7 @@ class RefundController extends BaseController
             $cancelKeysId = $this->request->getPost("cancelKeys");
             $percent = $this->request->getPost("percent");
 
-            $agentId = $this->session->get("agent_id");
+            $agentId = $this->session->get("agentId");
             $refund = $this->session->get("refund");
 
             $keysRefund = $refund->keys;
@@ -142,52 +142,61 @@ class RefundController extends BaseController
         }
 
     }
-	
-	
-	//я переделал через ключ: смотреть ниже 
-    public function createAction() {
 
-        if($this->request->isPost() === true){
+    public function indexSendAction(){
+        $this->view->disable();
+        var_dump($_POST);
+        var_dump($_SESSION);
+        var_dump($_GET);
+        if($this->session->has('agentId')){
+            $agentId = $this->session->get('agentId');
+        }
+        else{
+            return $this->response->redirect("/index/index");
+        }
+        if($this->request->isPost()===true){
+            $keyToCancel = $this->request->getPost('keyToCancel');
+            $refundId = $this->request->getPost('id_refund');
+            $finalPercent = $this->request->getPost("finalPercent$refundId");
+            $refund = Refund::getRefund($refundId);
+            $keyToCancelObj = array();
 
-            $json = json_decode($this->request->getPOst('cancel_info'));
-            $keys = $json['key_id'];//array
-            $email =$json['email'];
-            $amount =$json['amount'];
-            $response = new \Phalcon\Http\Response();
-
-            $keys = \CRM\Validation::validateRefund($amount,$keys); //протестировать
-
-            if(count($keys) > 0 && \CRM\Validation::validateEmail($email))
-            {
-                Refund::createRefund($email, $amount, $keys);
-                $response->setStatusCode(200, "OK");
-                $response->setContent("<html><body>Success</body></html>");
-                $response->send();
+            foreach($keyToCancel[$refundId] as $key){
+                $keyToCancelObj[] = Key::getKey($key);
             }
-            else{
-                $response->setStatusCode(422, "OK");
-                $response->setContent("<html><body>Fail</body></html>");
-                $response->send();
-            }
+
+            $refund->finalPercent = $finalPercent;
+            $refund->updateRefund($agentId, $keyToCancelObj, 1);
+
+            return $this->response->redirect("/refund");
+        }
+        else{
+            return $this->response->setContent("<html><body>Refund not found.</body></html>");
         }
     }
-	
+
 	public function addAction()
 	{
-		if($this->request->isPost()===true)
+        $this->view->disable();
+        echo 'asdasf';
+        var_dump($_GET);
+        if($this->request->isPost()===true)
 		{
 			$secretParams = SecretParams::getSecretParams('account');
-			if(!$secretParams){
-				echo "Fail! Key not set!";
+            $response = new \Phalcon\Http\Response();
+
+            if(!$secretParams){
+                $response->setContent("<html><body>Secret key not set.</body></html>");
+                $response->send();
 				return;
 			}
-
 			if(SecretParams::checkUrl($secretParams->getSecretKey())){
 				$jsonRefund = $this->request->getPost("cancel_info");
 				
 				if(!$jsonRefund)
 				{
-					echo "Refund not found";
+                    $response->setContent("<html><body>Refund not found.</body></html>");
+                    $response->send();
 				}
 				elseif($jsonRefund)
 				{
@@ -197,19 +206,24 @@ class RefundController extends BaseController
 					$result = Refund::validateRefund($percent,$refund['key_id'],$email);
 					if(!$result)
 					{
-						echo "Validation failed";
+                        $response->setStatusCode(422, "Fail");
+                        $response->setContent("<html><body>Fail</body></html>");
+                        $response->send();
 					}
 					else
 					{
 						$keys = $result;
 						Refund::createRefund($email,$percent,$keys);
-						echo "Success! Refund add to database!";
+                        $response->setStatusCode(200, "OK");
+                        $response->setContent("<html><body>Success</body></html>");
+                        $response->send();
 					}
 				}
 			}
 			else
 			{
-				echo "Fail. Key does not match!";
+                $response->setContent("<html><body>SecretParams does not match.</body></html>");
+                $response->send();
 			}
 			
 		}
