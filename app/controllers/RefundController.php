@@ -94,7 +94,7 @@ class RefundController extends BaseController
             $refund->percent = $percent;
 
             foreach($keysRefund as $key=>$value) : $keyIds[] = $key; endforeach;
-            $keys = Refund::validateRefund($percent, $keyIds);
+            $keys = Refund::validateRefund($percent, $keyIds, $refund->email);
 
             foreach($cancelKeysId as $key=>$value) : $cancelKeys[] = Key::getKey($key); endforeach;
 
@@ -107,43 +107,17 @@ class RefundController extends BaseController
         }
 
     }
-	
-	
-	//я переделал через ключ: смотреть ниже 
-    public function createAction() {
 
-        if($this->request->isPost() === true){
-
-            $json = json_decode($this->request->getPOst('cancel_info'));
-            $keys = $json['key_id'];//array
-            $email =$json['email'];
-            $amount =$json['amount'];
-            $response = new \Phalcon\Http\Response();
-
-            $keys = \CRM\Validation::validateRefund($amount,$keys); //протестировать
-
-            if(count($keys) > 0 && \CRM\Validation::validateEmail($email))
-            {
-                Refund::createRefund($email, $amount, $keys);
-                $response->setStatusCode(200, "OK");
-                $response->setContent("<html><body>Success</body></html>");
-                $response->send();
-            }
-            else{
-                $response->setStatusCode(422, "OK");
-                $response->setContent("<html><body>Fail</body></html>");
-                $response->send();
-            }
-        }
-    }
-	
 	public function addAction()
 	{
 		if($this->request->isPost()===true)
 		{
 			$secretParams = SecretParams::getSecretParams('account');
-			if(!$secretParams){
-				echo "Fail! Key not set!";
+            $response = new \Phalcon\Http\Response();
+
+            if(!$secretParams){
+                $response->setContent("<html><body>Secret key not set.</body></html>");
+                $response->send();
 				return;
 			}
 
@@ -152,7 +126,8 @@ class RefundController extends BaseController
 				
 				if(!$jsonRefund)
 				{
-					echo "Refund not found";
+                    $response->setContent("<html><body>Refund not found.</body></html>");
+                    $response->send();
 				}
 				elseif($jsonRefund)
 				{
@@ -162,19 +137,24 @@ class RefundController extends BaseController
 					$result = Refund::validateRefund($percent,$refund['key_id'],$email);
 					if(!$result)
 					{
-						echo "Validation failed";
+                        $response->setStatusCode(422, "Fail");
+                        $response->setContent("<html><body>Fail</body></html>");
+                        $response->send();
 					}
 					else
 					{
 						$keys = $result;
 						Refund::createRefund($email,$percent,$keys);
-						echo "Success! Refund add to database!";
+                        $response->setStatusCode(200, "OK");
+                        $response->setContent("<html><body>Success</body></html>");
+                        $response->send();
 					}
 				}
 			}
 			else
 			{
-				echo "Fail. Key does not match!";
+                $response->setContent("<html><body>SecretParams does not match.</body></html>");
+                $response->send();
 			}
 			
 		}
