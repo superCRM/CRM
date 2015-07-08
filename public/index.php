@@ -1,6 +1,8 @@
 <?php
 use CRM\Key;
 use CRM\Refund;
+use CRM\SecretParams;
+use CRM\JsonSender;
 
 try {
 
@@ -63,9 +65,17 @@ try {
         return $session;
     });
     //Handle the request
-    $application = new \Phalcon\Mvc\Application($di);
-
-    echo $application->handle()->getContent();
+	$application = new \Phalcon\Mvc\Application($di);
+    //echo SecretParams::urlSigner('localhost','/refund/add','partner','key');
+	/*$postArray = array
+	(
+		"email"=>"ynev@ukr.net",
+		"key_id"=>array(1,2,3),
+		"amount"=>"10"
+	);
+	
+	echo JsonSender::convertToJson($postArray);*/
+	echo $application->handle()->getContent();
 
 	
 } catch(\Phalcon\Exception $e) {

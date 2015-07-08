@@ -34,23 +34,25 @@ class SecretParams extends DbTable{
 
     public function getSecretKey()
     {
-        return $this->$secretKey;
+        return $this->secretKey;
     }
-
-    public static function saveSecretParams($service,$partner,$secretKey)
+	
+	public function save()
+	{
+		if(!$this->id)
+			$this->insert(self::TABLE_NAME);
+		else
+		{
+			$this->update(array("id"=>$secretParams->id));
+		}
+	}
+	
+    public function setSecretParams($service,$partner,$secretKey)
     {
-        $secretParams = getSecretParam($service);
-        if($secretParams==false){
-            $secretParams = new SecretParams($service,$partner,$secretKey);
-            $secretParams->insert(self::TABLE_NAME);
-        }
-        else
-        {
-            $secretParams->partner = $partner;
-            $secretParams->secretKey = $secretKey;
-            $secretParams->update(array("id"=>$secretParams->id));
-        }
-
+		$this->service = $service;
+		$this->partner = $partner;
+        $this->secretKey = $secretKey;
+		//$this->save();
     }
 
     public static function getSecretParams($service)
@@ -65,12 +67,17 @@ class SecretParams extends DbTable{
 
     public function pack()
     {
-        // TODO: Implement pack() method.
+        $this->packObject['partner'] = $this->partner;
+		$this->packObject['service'] = $this->service;
+		$this->packObject['secret_key'] = $this->secretKey;
     }
 
     public function unpack($packObject)
     {
-        // TODO: Implement unpack() method.
+        $this->id = $packObject['id'];
+		$this->partner = $packObject['partner'];
+		$this->service = $packObject['service'];
+		$this->secretKey = $packObject['secret_key'];
     }
 
     public static function urlSigner($urlDomain, $urlPath, $partner, $key){
@@ -116,7 +123,9 @@ class SecretParams extends DbTable{
         $tokken = "";
         $tokken = base64_encode(pack('H*', md5($s)));
         $tokken = str_replace(array("+", "/", "="), array(".", "_", "-"), $tokken);
-        //var_dump($tokken);
+		/*var_dump($s);
+        var_dump($tokken);
+		var_dump($hash);*/
         if ($tokken == $hash) {
             return True;
         }

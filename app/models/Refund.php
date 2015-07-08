@@ -52,9 +52,11 @@ class Refund extends DbTable{
         }
     }
 
-    public static function  validateRefund($percent, $keysId)
+    public static function  validateRefund($percent, $keysId, $email)
     {
         $keys = array();
+		if(!Validation::validateEmail($email))
+			return false;
         if($percent>100 || $percent<0)
             return false;
         foreach($keysId as $keyId)
@@ -65,7 +67,10 @@ class Refund extends DbTable{
                 $keys[] = $keyItem;
             }
         }
-        return $keys;
+		if(count($keys)>0)
+			return $keys;
+		else
+			return false;
     }
 
     public static  function getRefund($id){

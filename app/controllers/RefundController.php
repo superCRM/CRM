@@ -3,6 +3,8 @@
 use Phalcon\Mvc\Controller;
 use CRM\Refund;
 use CRM\Key;
+use CRM\SecretParams;
+use CRM\JsonSender;
 
 class RefundController extends BaseController
 {
@@ -85,6 +87,49 @@ class RefundController extends BaseController
             $this->view->setVar("keys", $keys);
         }
     }
+	
+	public function addAction()
+	{
+		if($this->request->isPost()===true)
+		{
+			$secretParams = SecretParams::getSecretParams('account');
+			if(!$secretParams){
+				echo "Fail! Key not set!";
+				return;
+			}
+
+			if(SecretParams::checkUrl($secretParams->getSecretKey())){
+				$jsonRefund = $this->request->getPost("cancel_info");
+				
+				if(!$jsonRefund)
+				{
+					echo "Refund not found";
+				}
+				elseif($jsonRefund)
+				{
+					$refund = JsonSender::convertToArray($jsonRefund);
+					$percent = $refund['amount'];
+					$email = $refund['email'];
+					$result = Refund::validateRefund($percent,$refund['key_id'],$email);
+					if(!$result)
+					{
+						echo "Validation failed";
+					}
+					else
+					{
+						$keys = $result;
+						Refund::createRefund($email,$percent,$keys);
+						echo "Success! Refund add to database!";
+					}
+				}
+			}
+			else
+			{
+				echo "Fail. Key does not match!";
+			}
+			
+		}
+	}
 
 }
 
