@@ -12,7 +12,7 @@ class RefundController extends BaseController
 
     public function indexAction()
     {
-        if(!$this->session->has("agent_id")) return $this->response->redirect("/");
+        if(!$this->session->has("agentId")) return $this->response->redirect("/");
 
         $refunds = Refund::getRefundList(0);
         //$keysList = array();
@@ -67,7 +67,7 @@ class RefundController extends BaseController
 
     public function enterAction()
     {
-        if(!$this->session->has("agent_id")) return $this->response->redirect("/");
+        if(!$this->session->has("agentId")) return $this->response->redirect("/");
 
         if($this->request->isPost() === true) {
             $currentRefund = new Refund();
@@ -84,7 +84,7 @@ class RefundController extends BaseController
 
     public function sendAction()
     {
-        if(!$this->session->has("agent_id")) return $this->response->redirect("/");
+        if(!$this->session->has("agentId")) return $this->response->redirect("/");
 
         $keyIds = array();
         $cancelKeys = array();
@@ -93,7 +93,7 @@ class RefundController extends BaseController
             $cancelKeysId = $this->request->getPost("cancelKeys");
             $percent = $this->request->getPost("percent");
 
-            $agentId = $this->session->get("agent_id");
+            $agentId = $this->session->get("agentId");
             $refund = $this->session->get("refund");
 
             $keysRefund = $refund->keys;
@@ -136,16 +136,13 @@ class RefundController extends BaseController
         }
         if($this->request->isPost()===true){
             $keyToCancel = $this->request->getPost('keyToCancel');
-            $finalPercent = $this->request->getPost('finalPercent');
-            $refund = null;
+            $refundId = $this->request->getPost('id_refund');
+            $finalPercent = $this->request->getPost("finalPercent$refundId");
+            $refund = Refund::getRefund($refundId);
             $keyToCancelObj = array();
 
-            foreach($keyToCancel as $key=>$value){
-                $refund = Refund::getRefund($key);
-
-                foreach($value as $key=>$value){
-                    $keyToCancelObj[] = Key::getKey($value);
-                }
+            foreach($keyToCancel[$refundId] as $key){
+                $keyToCancelObj[] = Key::getKey($key);
             }
 
             $refund->finalPercent = $finalPercent;
@@ -162,7 +159,7 @@ class RefundController extends BaseController
 	{
         $this->view->disable();
         echo 'asdasf';
-        var_dump($_POST);
+        var_dump($_GET);
         if($this->request->isPost()===true)
 		{
 			$secretParams = SecretParams::getSecretParams('account');
@@ -173,7 +170,6 @@ class RefundController extends BaseController
                 $response->send();
 				return;
 			}
-
 			if(SecretParams::checkUrl($secretParams->getSecretKey())){
 				$jsonRefund = $this->request->getPost("cancel_info");
 				

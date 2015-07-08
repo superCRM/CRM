@@ -102,14 +102,13 @@ class Refund extends DbTable{
         $keys = Key::getKeysByRefund($this->id);
 
         foreach($keys as $key){
+
+            if(in_array($key,$keysCancelled)){
+                $key->status = 1;
+            }
+
             $key->percent = $key->percent + $this->finalPercent;
             $key->update(array('key_id'=>$key->keyId));
-        }
-
-        if(!empty($keysCancelled)){
-            foreach($keysCancelled as $key){
-                $key->changeKeyStatus(1);
-            }
         }
     }
 

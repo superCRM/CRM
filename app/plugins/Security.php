@@ -23,7 +23,7 @@ class Security extends Plugin
     {
 
         // Проверяем, установлена ли в сессии переменная "auth" для определения активной роли.
-        $auth = $this->session->get('agent_id');
+        $auth = $this->session->get('agentId');
         if (!$auth) {
             $role = 'Guests';
         } else {
