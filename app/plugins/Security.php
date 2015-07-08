@@ -21,7 +21,6 @@ class Security extends Plugin
 
     public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
     {
-
         // Проверяем, установлена ли в сессии переменная "agentId" для определения активной роли.
         $auth = $this->session->get('agentId');
         if (!$auth) {

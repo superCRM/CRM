@@ -23,7 +23,7 @@ abstract class DbTable {
     {
         $this->pack();
        // $class = get_called_class();
-        $stringQuery = 'insert into ' . $table . ' set ';
+        $stringQuery = "insert into `" . $table . "` set ";
 
         if($conditional == null)
             foreach($this->packObject as $key=>$value)
@@ -48,7 +48,7 @@ abstract class DbTable {
     {
         $this->pack();
         $class = get_called_class();
-        $stringQuery = 'update ' . $class::TABLE_NAME . ' set ';
+        $stringQuery = 'update `' . $class::TABLE_NAME . '` set ';
         foreach($this->packObject as $key=>$value)
         {
             if($value != '') $stringQuery.="$key='$value', ";

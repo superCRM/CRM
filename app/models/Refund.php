@@ -44,10 +44,11 @@ class Refund extends DbTable{
         $refund->email = $email;
         $refund->data = 'now()';
         $refund->id = $refund->insert(self::TABLE_NAME);
+        if($refund->id == false) return false;
 
         foreach($keys as $key => $value){
 
-            $refund->insert('key_refund', array('key_id'=>$value->keyId, 'refund_id'=>$refund->id));
+            if(!$refund->insert('key_refund', array('key_id'=>$value->keyId, 'refund_id'=>$refund->id))) return false;
         }
 
         return $refund->id;
@@ -95,22 +96,23 @@ class Refund extends DbTable{
 
     public function updateRefund($id, $keysCancelled=array(), $status=2){
         $this->status = $status;
-        $this->insert('agent_refund',array('refund_id'=>$this->id,'agent_id'=>$id));
+        if(!$this->insert('agent_refund',array('refund_id'=>$this->id,'agent_id'=>$id))) return false;
+ //       $this->insert('agent_refund',array('refund_id'=>$this->id,'agent_id'=>$id));
         if($this->finalPercent > $this->percent)
             $this->finalPercent = $this->percent;
         $this->update(array('id'=>$this->id));
         $keys = Key::getKeysByRefund($this->id);
+       if(!$keys) return false;
+
 
         foreach($keys as $key){
-            $key->percent = $key->percent + $this->finalPercent;
-            $key->update(array('key_id'=>$key->keyId));
-        }
-
-        if(!empty($keysCancelled)){
-            foreach($keysCancelled as $key){
-                $key->changeKeyStatus(1);
+            if(in_array($key,$keysCancelled)){
+                $key->status = 1;
             }
+            $key->percent = $key->percent + $this->finalPercent;
+            if(!$key->update(array('key_id'=>$key->keyId))) return false;
         }
+        return true;
     }
 
     public function getAgent($id){

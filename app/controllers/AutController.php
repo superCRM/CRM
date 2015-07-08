@@ -25,6 +25,7 @@ class AutController extends  BaseController{
                     $this->session->set("agentId",$agent->id);
                     $this->session->set("agentId",$agent->id);
                     $this->session->set("login", $login);
+                    $this->session->set("agentId", $agent->id);
                     return $this->response->redirect("/refund");
                 }
                 else{
