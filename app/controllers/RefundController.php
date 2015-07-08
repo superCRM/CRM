@@ -12,6 +12,8 @@ class RefundController extends BaseController
 
     public function indexAction()
     {
+        if(!$this->session->has("agent_id")) return $this->response->redirect("/");
+
         $refunds = Refund::getRefundList(0);
         //$keysList = array();
 
@@ -25,6 +27,8 @@ class RefundController extends BaseController
 
     public function setAction()
     {
+        if(!$this->session->has("agentId")) return $this->response->redirect("/");
+
         $refund = new Refund();
         if($this->session->has("refund")) {
             $refund = $this->session->get("refund");
@@ -63,6 +67,8 @@ class RefundController extends BaseController
 
     public function enterAction()
     {
+        if(!$this->session->has("agent_id")) return $this->response->redirect("/");
+
         if($this->request->isPost() === true) {
             $currentRefund = new Refund();
             $email = $this->request->getPost("email", "string");
@@ -78,33 +84,36 @@ class RefundController extends BaseController
 
     public function sendAction()
     {
+        if(!$this->session->has("agent_id")) return $this->response->redirect("/");
+
         $keyIds = array();
         $cancelKeys = array();
 
         if($this->session->has("refund") && $this->request->isPost() === true) {
             $cancelKeysId = $this->request->getPost("cancelKeys");
             $percent = $this->request->getPost("percent");
-            $agentId = $this->request->getPost("agent_id");
 
+            $agentId = $this->session->get("agent_id");
             $refund = $this->session->get("refund");
+
             $keysRefund = $refund->keys;
 
             foreach($cancelKeysId as $key=>$value):
                 $keysRefund[$value] = 1;
             endforeach;
             $refund->percent = $percent;
-            $refund->final_percent = $percent;
+            $refund->finalPercent = $percent;
 
             foreach($keysRefund as $key=>$value) : $keyIds[] = $key; endforeach;
             $keys = Refund::validateRefund($percent, $keyIds, $refund->email);
 
             if(!$keys) return; //validation failed
 
-            foreach($cancelKeysId as $key=>$value) : $cancelKeys[] = Key::getKey($key); endforeach;
+            foreach($cancelKeysId as $key) : $cancelKeys[] = Key::getKey($key); endforeach;
 
             $refund->id = Refund::createRefund($refund->email, $percent, $keys);
 
-            $refund->updateRefund($agentId, $cancelKeys);
+            $refund->updateRefund($agentId, $cancelKeys, 1);
 
             $this->view->setVar("cancelKeys", $cancelKeysId);
             $this->view->setVar("percent", $percent);
