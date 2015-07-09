@@ -117,7 +117,7 @@ class RefundController extends BaseController
             foreach($keysRefund as $key=>$value) : $keyIds[] = $key; endforeach;
             $keys = Refund::validateRefund($percent, $keyIds, $refund->email);
             if(!$keys) {
-                $this->flashSession->error('Refund have not been added.');
+                $this->flashSession->error('Refund validation failed.');
                 return $this->response->redirect("/refund/enter");
             } //validation failed
 
@@ -126,13 +126,13 @@ class RefundController extends BaseController
             $refund->id = Refund::createRefund($refund->email, $percent, $keys);
             if($refund->id == false)
             {
-                $this->flashSession->error('Refund have not been added.');
+                $this->flashSession->error('Refund creation failed.');
                 return $this->response->redirect("/refund/enter");
             }
 
             $checkUpdate = $refund->updateRefund($agentId, $cancelKeys, 1);
             if($checkUpdate == false){
-                $this->flashSession->error('Refund have not been added.');
+                $this->flashSession->error('Refund have not been updated.');
                 return $this->response->redirect("/refund/enter");
             }
 
