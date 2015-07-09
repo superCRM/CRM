@@ -33,7 +33,7 @@ class RefundController extends BaseController
             $this->view->setVar("email", $refund->email);
         }
         else {
-            $this->session->set("successed", 'Please enter e-mail.');
+            $this->flashSession->error('Please enter e-mail.');
             return $this->response->redirect("/refund/enter");
         }
         if($this->request->isPost() === true) {
@@ -71,7 +71,6 @@ class RefundController extends BaseController
 
     public function enterAction()
     {
-        $successed = '';
         if(!$this->session->has("agentId")) return $this->response->redirect("/");
 
         if($this->request->isPost() === true) {
@@ -81,7 +80,6 @@ class RefundController extends BaseController
             $this->session->set("refund",$currentRefund);
 
 
-            $this->view->setVar("successed", $successed);
 
             return $this->response->redirect("refund/set/");
         }
@@ -132,14 +130,14 @@ class RefundController extends BaseController
                 return $this->response->redirect("/refund/enter");
             }
 
-            $variab = $refund->updateRefund($agentId, $cancelKeys, 1);
-            if($variab == false){
+            $checkUpdate = $refund->updateRefund($agentId, $cancelKeys, 1);
+            if($checkUpdate == false){
                 $this->flashSession->error('Refund have not been added.');
                 return $this->response->redirect("/refund/enter");
             }
 
 
-            //Sending to billing
+            $refund->sendRefund(); //Sending to billing
 
             $this->flashSession->success('Refund have been added successfully.');
             return $this->response->redirect("/refund/enter");
