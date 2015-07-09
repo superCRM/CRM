@@ -40,8 +40,10 @@ class RefundController extends BaseController
 
             $key_id = $this->request->getPost("key_id");
 
-            if($key_id != '') $refund->addKey($key_id);
-            $this->session->set("refund",$refund);
+            if($key_id != '' && is_int((int)$key_id) && (int)$key_id > 0) {
+                $refund->addKey($key_id);
+                $this->session->set("refund", $refund);
+            }
 
         }
 
@@ -72,11 +74,6 @@ class RefundController extends BaseController
         $successed = '';
         if(!$this->session->has("agentId")) return $this->response->redirect("/");
 
-        if($this->session->has("successed")) {
-            $this->flashSession->error($this->session->get("successed"));
-            $this->session->remove('successed');
-        }
-
         if($this->request->isPost() === true) {
             $currentRefund = new Refund();
             $email = $this->request->getPost("email", "string");
@@ -101,6 +98,10 @@ class RefundController extends BaseController
         if($this->session->has("refund") && $this->request->isPost() === true) {
             $cancelKeysId = $this->request->getPost("cancelKeys");
             $percent = $this->request->getPost("percent");
+            if(!is_numeric($percent) || (double)$percent < 0 || (double)$percent > 100){
+                $this->flashSession->error("Enter correct percent");
+                return $this->response->redirect("refund/set/");
+            }
 
             $agentId = $this->session->get("agentId");
             $refund = $this->session->get("refund");
@@ -118,7 +119,7 @@ class RefundController extends BaseController
             foreach($keysRefund as $key=>$value) : $keyIds[] = $key; endforeach;
             $keys = Refund::validateRefund($percent, $keyIds, $refund->email);
             if(!$keys) {
-                $this->session->set("successed", 'Refund have not been added.');
+                $this->flashSession->error('Refund have not been added.');
                 return $this->response->redirect("/refund/enter");
             } //validation failed
 
@@ -127,20 +128,20 @@ class RefundController extends BaseController
             $refund->id = Refund::createRefund($refund->email, $percent, $keys);
             if($refund->id == false)
             {
-                $this->session->set("successed", 'Refund have not been added.');
+                $this->flashSession->error('Refund have not been added.');
                 return $this->response->redirect("/refund/enter");
             }
 
             $variab = $refund->updateRefund($agentId, $cancelKeys, 1);
             if($variab == false){
-                $this->session->set("successed", 'Refund have not been added.');
+                $this->flashSession->error('Refund have not been added.');
                 return $this->response->redirect("/refund/enter");
             }
 
 
             //Sending to billing
 
-            $this->session->set("successed", 'Refund have been added successfully.');
+            $this->flashSession->success('Refund have been added successfully.');
             return $this->response->redirect("/refund/enter");
         }
 
