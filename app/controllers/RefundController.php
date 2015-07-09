@@ -32,6 +32,10 @@ class RefundController extends BaseController
             $refund = $this->session->get("refund");
             $this->view->setVar("email", $refund->email);
         }
+        else {
+            $this->session->set("successed", 'Please enter e-mail.');
+            return $this->response->redirect("/refund/enter");
+        }
         if($this->request->isPost() === true) {
 
             $key_id = $this->request->getPost("key_id");
@@ -65,10 +69,11 @@ class RefundController extends BaseController
 
     public function enterAction()
     {
+        $successed = '';
         if(!$this->session->has("agentId")) return $this->response->redirect("/");
 
         if($this->session->has("successed")) {
-            $successed = $this->session->get("successed");
+            $this->flashSession->error($this->session->get("successed"));
             $this->session->remove('successed');
         }
 
@@ -165,8 +170,9 @@ class RefundController extends BaseController
 
             $refund->finalPercent = $finalPercent;
             $refund->updateRefund($agentId, $keyToCancelObj, 1);
+            $refund->sendRefund();
 
-            return $this->response->redirect("/refund");
+            //return $this->response->redirect("/refund");
         }
         else{
             return $this->response->setContent("<html><body>Refund not found.</body></html>");

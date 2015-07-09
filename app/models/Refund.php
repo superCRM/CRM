@@ -7,8 +7,8 @@
  */
 
 
-
 namespace CRM;
+
 class Refund extends DbTable{
     const TABLE_NAME='refund';
     public $keyNum;
@@ -76,6 +76,10 @@ class Refund extends DbTable{
 			return false;
     }
 
+    /**
+     * @param $id
+     * @return Refund
+     */
     public static  function getRefund($id){
         $items=self::select(array("id"=>$id));
         $refund = $items[0];
@@ -117,6 +121,19 @@ class Refund extends DbTable{
 
     public function getAgent($id){
         return Agent::select(array("email"=>$this->email));
+    }
+
+    public function sendRefund(){
+        $keys = Key::getKeysByRefund($this->id);
+        $info = JsonSender::convertToJson(array('keys'=>$keys,
+                                    'percent'=>$this->finalPercent,
+                                    'refundID'=>$this->id));
+        $secretParams = SecretParams::getSecretParams('billing');
+        echo JsonSender::sendData($info,
+            SecretParams::urlSigner(JsonSender::BILLING_DOMAIN,
+                                    JsonSender::BILLING_PATH,
+                                    $secretParams->getPartner(),
+                                    $secretParams->getSecretKey()));
     }
 
     public function pack()
