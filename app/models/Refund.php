@@ -76,6 +76,11 @@ class Refund extends DbTable{
 			return false;
     }
 
+    public function getKeys()
+    {
+        return Key::getKeysByRefund($this->id);
+    }
+
     /**
      * @param $id
      * @return Refund

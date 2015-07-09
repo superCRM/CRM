@@ -25,9 +25,9 @@ class Agent extends DbTable{
         return $agent;
     }
 
-    public static function getAgent($conditional)
+    public static function getAgent($conditional,$connector='and')
     {
-        $agents=self::select($conditional);
+        $agents=self::select($conditional,$connector);
         if(count($agents)==0)
             return false;
         else
@@ -61,7 +61,8 @@ class Agent extends DbTable{
 		elseif(self::getAgentByLogin($login,$email)!=false)
 		{
 			$status = false;
-			$message = "Agent with login " . $login . " is already exists!";
+			$message = "Agent with login: " . $login;
+            $message .= $email==NULL  ?:  " or email: " . $email .  "is already exists!";
 			$messages[]=$message;
 		}
 		
@@ -93,10 +94,7 @@ class Agent extends DbTable{
 	public function setCookie()
 	{
 		$this->cookie=$this->id .  time();
-		if($this->id)
-			$this->update(array('id'=>$this->id));
-		else
-			$this->insert();
+		$this->update(array('id'=>$this->id));
 		return $this->cookie;
 	}
 

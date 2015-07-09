@@ -117,7 +117,7 @@ class RefundController extends BaseController
             foreach($keysRefund as $key=>$value) : $keyIds[] = $key; endforeach;
             $keys = Refund::validateRefund($percent, $keyIds, $refund->email);
             if(!$keys) {
-                $this->flashSession->error('Refund have not been added.');
+                $this->flashSession->error('Refund validation failed.');
                 return $this->response->redirect("/refund/enter");
             } //validation failed
 
@@ -126,13 +126,13 @@ class RefundController extends BaseController
             $refund->id = Refund::createRefund($refund->email, $percent, $keys);
             if($refund->id == false)
             {
-                $this->flashSession->error('Refund have not been added.');
+                $this->flashSession->error('Refund creation failed.');
                 return $this->response->redirect("/refund/enter");
             }
 
             $checkUpdate = $refund->updateRefund($agentId, $cancelKeys, 1);
             if($checkUpdate == false){
-                $this->flashSession->error('Refund have not been added.');
+                $this->flashSession->error('Refund have not been updated.');
                 return $this->response->redirect("/refund/enter");
             }
 
@@ -187,11 +187,11 @@ class RefundController extends BaseController
         if($this->request->isPost()===true)
 		{
 			$secretParams = SecretParams::getSecretParams('account');
-            $response = new \Phalcon\Http\Response();
+
 
             if(!$secretParams){
-                $response->setContent("<html><body>Secret key not set.</body></html>");
-                $response->send();
+                $this->response->setContent("<html><body>Secret key not set.</body></html>");
+                $this->response->send();
 				return;
 			}
 			if(SecretParams::checkUrl($secretParams->getSecretKey())){
@@ -199,8 +199,8 @@ class RefundController extends BaseController
 				
 				if(!$jsonRefund)
 				{
-                    $response->setContent("<html><body>Refund not found.</body></html>");
-                    $response->send();
+                    $this->response->setContent("<html><body>Refund not found.</body></html>");
+                    $this->response->send();
 				}
 				elseif($jsonRefund)
 				{
@@ -210,28 +210,114 @@ class RefundController extends BaseController
 					$result = Refund::validateRefund($percent,$refund['key_id'],$email);
 					if(!$result)
 					{
-                        $response->setStatusCode(422, "Fail");
-                        $response->setContent("<html><body>Fail</body></html>");
-                        $response->send();
+                        $this->response->setStatusCode(422, "Fail");
+                        $this->response->setContent("<html><body>Fail</body></html>");
+                        $this->response->send();
 					}
 					else
 					{
 						$keys = $result;
 						Refund::createRefund($email,$percent,$keys);
-                        $response->setStatusCode(200, "OK");
-                        $response->setContent("<html><body>Success</body></html>");
-                        $response->send();
+                        $this->response->setStatusCode(200, "OK");
+                        $this->response->setContent("<html><body>Success</body></html>");
+                        $this->response->send();
 					}
 				}
 			}
 			else
 			{
-                $response->setContent("<html><body>SecretParams does not match.</body></html>");
-                $response->send();
+                $this->response->setContent("<html><body>SecretParams does not match.</body></html>");
+                $this->response->send();
 			}
 			
 		}
 	}
+
+    public function receiveResponseAction()
+    {
+        //TODO Change add actions
+        $this->view->disable();
+        if($this->request->isPost()===true)
+        {
+            $secretParams = SecretParams::getSecretParams('billing');
+
+            if(!$secretParams){
+                $this->response->setStatusCode(500, "Fail");
+                $this->response->setContent("<html><body>Secret key not set.</body></html>");
+                $this->response->send();
+                return;
+            }
+            if(SecretParams::checkUrl($secretParams->getSecretKey())){
+                $jsonResponse = $this->request->getPost("refunds");
+
+                if(!$jsonResponse)
+                {
+                    $this->response->setStatusCode(422, "Fail");
+                    $this->response->setContent("<html><body>Response not found.</body></html>");
+                    $this->response->send();
+                }
+                elseif($jsonResponse)
+                {
+                    $response = JsonSender::convertToArray($jsonResponse);
+                    $refundId = $response['id_refund'];
+                    $success = $response['success'];
+
+
+                    if(!$refundId)
+                    {
+                        $this->response->setStatusCode(422, "Fail");
+                        $this->response->setContent("<html><body>Validation failed</body></html>");
+                        $this->response->send();
+                    }
+                    else
+                    {
+                        $refund = Refund::getRefund($refundId);
+                        if(!$refund)
+                        {
+                            $this->response->setStatusCode(422, "Fail");
+                            $this->response->setContent("<html><body>Refund not found</body></html>");
+                            $this->response->send();
+                        }
+
+                        if($success)
+                        {
+                            $refund->status = 2;
+                            $keysId = $response['id_keys'];
+                            if(count($keysId)>0)
+                            {
+                                foreach($keysId as $keyId)
+                                {
+                                    $key = Key::getKey($keyId);
+                                    $key->decrementKeyPercent($refund->finalPercent);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $refund->status = 3;
+                            foreach($refund->getKeys() as $key)
+                            {
+                                $key->decrementKeyPercent($refund->finalPercent);
+                            }
+                        }
+
+                        $refund->update(array("id"=>$refund->id));
+
+                        $this->response->setStatusCode(200, "OK");
+                        $this->response->setContent("<html><body>Success</body></html>");
+                        $this->response->send();
+                    }
+                }
+            }
+            else
+            {
+                $this->response->setStatusCode(422, "Fail");
+                $this->response->setContent("<html><body>SecretParams does not match.</body></html>");
+                $this->response->send();
+            }
+
+        }
+    }
 
 }
 

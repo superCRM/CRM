@@ -78,7 +78,7 @@ try {
         $security = new Security($di);
 
         // Плагин безопасности слушает события, инициированные диспетчером
-        $eventsManager->attach('dispatch', $security);
+
 
         $eventsManager->attach(
             "dispatch:beforeException",
@@ -94,6 +94,8 @@ try {
                     return false;
             }
         });
+
+        $eventsManager->attach('dispatch', $security);
 
         $dispatcher = new Phalcon\Mvc\Dispatcher();
 
@@ -164,7 +166,7 @@ try {
 	
 	$di->set('crypt', function() {
 		$crypt = new Phalcon\Crypt();
-		$crypt->setKey('%67$3mv*2BHngj*4@!6:)N-_');
+		$crypt->setKey('%67$3mv*');
 		return $crypt;
 	});
 
