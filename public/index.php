@@ -132,7 +132,9 @@ try {
             'refund' => array('*'),
             'order' => array('*'),
             'user' => array('*'),
-            'aut' => array('logout','page404')
+            'aut' => array('logout'),
+            'index' => array('page404'),
+            'agent' => array('*')
         );
         foreach ($publicResources as $resource => $actions) {
             $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
