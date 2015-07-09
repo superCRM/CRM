@@ -125,8 +125,9 @@ class Refund extends DbTable{
 
     public function sendRefund(){
         $keys = Key::getKeysByRefund($this->id);
-        $info = JsonSender::convertToJson(
-            array('keys'=>$keys, 'percent'=>$this->finalPercent, 'refundID'=>$this->id));
+        $info = JsonSender::convertToJson(array('keys'=>$keys,
+                                    'percent'=>$this->finalPercent,
+                                    'refundID'=>$this->id));
         $secretParams = SecretParams::getSecretParams('billing');
         echo JsonSender::sendData($info,
             SecretParams::urlSigner(JsonSender::BILLING_DOMAIN,
