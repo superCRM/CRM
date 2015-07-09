@@ -14,6 +14,7 @@
     </div>
 </form>
 
-<?php
-//var_dump($_SESSION);
-$this->flashSession->output();
+<?php $this->flashSession->output(); ?>
+<script>
+    document.getElementById("refund").classList.add("active");
+</script>

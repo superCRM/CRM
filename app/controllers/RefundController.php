@@ -147,10 +147,10 @@ class RefundController extends BaseController
     }
 
     public function indexSendAction(){
-        $this->view->disable();
+        /*$this->view->disable();
         var_dump($_POST);
         var_dump($_SESSION);
-        var_dump($_GET);
+        var_dump($_GET);*/
         if($this->session->has('agentId')){
             $agentId = $this->session->get('agentId');
         }
@@ -161,6 +161,10 @@ class RefundController extends BaseController
             $keyToCancel = $this->request->getPost('keyToCancel');
             $refundId = $this->request->getPost('id_refund');
             $finalPercent = $this->request->getPost("finalPercent$refundId");
+            if(!is_numeric($finalPercent)||($finalPercent > 100)){
+                $this->flashSession->error('Enter correct percent');
+                return $this->response->redirect('/refund');
+            }
             $refund = Refund::getRefund($refundId);
             $keyToCancelObj = array();
 

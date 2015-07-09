@@ -6,42 +6,44 @@ $this->assets->outputCss();
 <html>
 <head>
     <title>Title</title>
-    <link rel='stylesheet' href='../public/css/style.css'>
-    <link rel='stylesheet' href='../public/css/bootstrap.min.css' type='text/css'>
-    <script src="../public/js/addEvent.js"></script>
 </head>
 <body>
 <div class="container">
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="col-md-2 navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"><strong>superCRM</strong></a>
-        </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="col-md-2 navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#"><strong>superCRM</strong></a>
+                    </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="col-md-6 collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li id="main"><a href="cancelRequestList.php">main <span class="sr-only">(current)</span></a></li>
-                <li id="refund"><a href="/refund/enter">refund <span class="sr-only">(current)</span></a></li>
-                <li id="account"><a href="#">account <span class="sr-only">(current)</span></a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-<?php echo $this->getContent() ?>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="col-md-6 collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li id="main"><a href="/refund/index">main <span class="sr-only">(current)</span></a></li>
+                            <li id="refund"><a href="/refund/enter">refund <span class="sr-only">(current)</span></a></li>
+                            <li id="orders"><a href="/order">orders <span class="sr-only">(current)</span></a></li>
+                            <li id="account"><a href="#">account <span class="sr-only">(current)</span></a></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <?php echo $this->getContent() ?>
+        </div>
+    <div class="col-md-2"></div>
 </div>
-<!--script src="js/bootstrap-dropdown.js"></script>
-<script src="js/bootstrap.min.js"></script-->
-<script src="../public/js/jquery-1.11.3.min.js"></script>
-<script src="../public/js/bootstrap.js"></script>
-<script src="../public/js/timer.js"></script>
-<script src="../public/js/addEvent.js"></script>
 </body>
 </html>

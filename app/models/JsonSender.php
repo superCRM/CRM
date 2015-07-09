@@ -10,9 +10,9 @@ namespace CRM;
 
 
 class JsonSender {
-    const BILLING = "http://10.55.33.38/billing_v1/get_test/test_get_refunds.php";
+    const BILLING = "http://10.55.33.38/getRefund";
     const BILLING_DOMAIN = '10.55.33.38';
-    const BILLING_PATH = '/billing_v1/get_test/test_get_refunds.php';
+    const BILLING_PATH = '/getRefund';
 
     const KEY_INFO = "refund";
 
