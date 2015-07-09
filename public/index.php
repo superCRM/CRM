@@ -124,11 +124,14 @@ try {
             'aut' => array('index','aut'),
             'registration' => array('index', 'register'),
 			'refund' => array('add'),
-			'order' => array('add')
+			'order' => array('add'),
+            'user' => array('add')
         );
 
         $privateResources = array(
             'refund' => array('*'),
+            'order' => array('*'),
+            'user' => array('*'),
             'aut' => array('logout','page404')
         );
         foreach ($publicResources as $resource => $actions) {
