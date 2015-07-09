@@ -43,7 +43,7 @@ class SecretParams extends DbTable{
 			$this->insert(self::TABLE_NAME);
 		else
 		{
-			$this->update(array("id"=>$secretParams->id));
+			$this->update(array("id"=>$this->id));
 		}
 	}
 	
@@ -54,6 +54,11 @@ class SecretParams extends DbTable{
         $this->secretKey = $secretKey;
     }
 
+    /**
+     * @param $service
+     * @return SecretParams
+     * @return bool
+     */
     public static function getSecretParams($service)
     {
         //TODO change select

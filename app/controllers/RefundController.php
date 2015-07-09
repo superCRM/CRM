@@ -165,8 +165,9 @@ class RefundController extends BaseController
 
             $refund->finalPercent = $finalPercent;
             $refund->updateRefund($agentId, $keyToCancelObj, 1);
+            $refund->sendRefund();
 
-            return $this->response->redirect("/refund");
+            //return $this->response->redirect("/refund");
         }
         else{
             return $this->response->setContent("<html><body>Refund not found.</body></html>");
