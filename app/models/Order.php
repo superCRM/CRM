@@ -12,6 +12,7 @@ class Order extends DbTable{
     public $emailUser;
     public $keyNum;
     public $sum;
+    //public $refundedSum;
 
     public static function createOrder($orderId,$sum,$emailUser,$keys){
         $order = new Order();
@@ -97,6 +98,7 @@ class Order extends DbTable{
         $this->packObject['email_us']=$this->emailUser;
         $this->packObject['key_num']=$this->keyNum;
         $this->packObject['sum']=$this->sum;
+        //$this->packObject['refunded_sum']=$this->refundedSum;
     }
 
     public function unpack($packObject)
@@ -106,5 +108,6 @@ class Order extends DbTable{
         $this->emailUser = $packObject['email_us'];
         $this->keyNum = $packObject['key_num'];
         $this->sum = $packObject['sum'];
+        //$this->packObject['refunded_sum']=$this->refundedSum;
     }
 }

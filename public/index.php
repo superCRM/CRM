@@ -129,6 +129,7 @@ try {
 
         $privateResources = array(
             'refund' => array('*'),
+            'order' => array('*'),
             'aut' => array('logout','page404')
         );
         foreach ($publicResources as $resource => $actions) {

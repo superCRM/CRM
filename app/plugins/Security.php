@@ -25,7 +25,7 @@ class Security extends Plugin
 
     public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
     {
-        // Проверяем, установлена ли в кукух переменная "remember-me" для определения agent`а.
+        // Проверяем, установлена ли в куках переменная "remember-me" для определения agent`а.
 		if($this->cookies->has('remember-me'))
 		{
 			$rememberMe = $this->cookies->get('remember-me');
@@ -93,7 +93,7 @@ class Security extends Plugin
                 );*/
                 return $this->response->redirect("/refund");
                 // Возвращая "false" мы приказываем диспетчеру прекратить текущую операцию
-                return false;
+                //return false;
             }
         }
 
