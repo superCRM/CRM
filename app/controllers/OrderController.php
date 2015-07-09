@@ -14,7 +14,7 @@ class OrderController extends BaseController
 
     public function indexAction()
     {
-		$this->view->disable();
+		//$this->view->disable();
         $orders = Order::getOrderList(array());
         $this->view->setVar("orders", $orders);
     }
@@ -40,8 +40,8 @@ class OrderController extends BaseController
 				if(!$jsonOrder)
 				{
 					$this->response->setStatusCode(422, "Fail");
-                    $response->setContent("<html><body>Order not found.</body></html>");
-                    $response->send();
+                    $this->response->setContent("<html><body>Order not found.</body></html>");
+                    $this->response->send();
 				}
 				elseif($jsonOrder)
 				{
