@@ -184,9 +184,6 @@ class RefundController extends BaseController
 
 	public function addAction()
 	{
-        $this->view->disable();
-        echo 'asdasf';
-        var_dump($_GET);
         if($this->request->isPost()===true)
 		{
 			$secretParams = SecretParams::getSecretParams('account');

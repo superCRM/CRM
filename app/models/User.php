@@ -12,7 +12,7 @@ class User extends DbTable{
     public $email;
     public $idUser;
 
-    public function createUser($login, $email, $idUser){
+    public static function createUser($login, $email, $idUser){
         $user = new User();
         $user->login = $login;
         $user->email = $email;

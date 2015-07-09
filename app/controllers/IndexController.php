@@ -28,5 +28,11 @@ class IndexController extends BaseController
 	{
 		echo '404 - route not found';
 	}
+
+    public function accountAction()
+    {
+        echo '404 - route not found';
+    }
+
 	
 }
