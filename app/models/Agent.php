@@ -12,12 +12,13 @@ class Agent extends DbTable{
     public $login;
     private  $password;
     public $email;
+	private $cookie;
 
     public static function  createAgent($login,$password,$email)
     {
         $agent = new Agent();
         $agent->login = $login;
-        $agent->password = $password;
+        $agent->changePassword(crypt($password,'CRYPT_SHA256'));
         $agent->email = $email;
         $agent->id = $agent->insert(self::TABLE_NAME);
 
@@ -82,6 +83,22 @@ class Agent extends DbTable{
         return self::getAgent($conditional,'or');
 
     }
+	
+	public static function getAgentByCookie($cookie)
+	{
+		$conditional = array("cookie"=>$cookie);
+		return self::getAgent($conditional);
+	}
+	
+	public function setCookie()
+	{
+		$this->cookie=$this->id .  time();
+		if($this->id)
+			$this->update(array('id'=>$this->id));
+		else
+			$this->insert();
+		return $this->cookie;
+	}
 
     public static function checkAgent($login,$password)
     {
@@ -109,8 +126,9 @@ class Agent extends DbTable{
     public function pack()
     {
         $this->packObject['login']=$this->login;
-		$this->packObject['password']=crypt($this->password,'CRYPT_SHA256');
+		$this->packObject['password']=$this->password;
 		$this->packObject['email']=$this->email;
+		$this->packObject['cookie']=$this->cookie;
     }
 
     public function unpack($packObject)
@@ -119,6 +137,7 @@ class Agent extends DbTable{
         $this->login = $packObject['login'];
 		$this->password = $packObject['password'];
 		$this->email = $packObject['email'];
+		$this->cookie = $packObject['cookie'];
     }
 
     public function getPassword(){

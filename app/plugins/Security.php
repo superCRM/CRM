@@ -10,18 +10,36 @@ namespace Plagins;
 
 use Phalcon\Events\Event,
     Phalcon\Mvc\Dispatcher,
-    Phalcon\Mvc\User\Plugin;
+    Phalcon\Mvc\User\Plugin,
+	CRM\Agent;
 
 
 
 class Security extends Plugin
 {
 
-    // ...
+    public function setCookie($agent)
+	{
+		$this->cookies->set('remember-me',$agent->setCookie(),time()+ 15 * 86400);
+	}
 
     public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
     {
-        // Проверяем, установлена ли в сессии переменная "agentId" для определения активной роли.
+        // Проверяем, установлена ли в кукух переменная "remember-me" для определения agent`а.
+		if($this->cookies->has('remember-me'))
+		{
+			$rememberMe = $this->cookies->get('remember-me');
+			$value = $rememberMe->getValue();
+			$agent = Agent::getAgentByCookie($value);
+			if($agent){
+				$this->session->set('agentId',$agent->id);
+				$this->session->set('login',$agent->login);
+				$this->setCookie($agent);
+			}
+			
+		}
+		
+		// Проверяем, установлена ли в сессии переменная "agentId" для определения активной роли.
         $auth = $this->session->get('agentId');
         if (!$auth) {
             $role = 'Guests';
@@ -39,10 +57,10 @@ class Security extends Plugin
         $allowed = $acl->isAllowed($role, $controller, $action);
         // Проверяем, имеет ли данная роль доступ к контроллеру (ресурсу)
 		
-		var_dump($role);
+		/*var_dump($role);
 		var_dump($controller);
 		var_dump($action);
-		var_dump($allowed);
+		var_dump($allowed);*/
 		//exit();
         if($role=='Guests'){
 

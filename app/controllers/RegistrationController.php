@@ -24,7 +24,7 @@ class RegistrationController extends  BaseController{
             $login = $this->request->getPost("login","string");
             $email = $this->request->getPost("email","email");
             $password =  $this->request->getPost("password");
-
+			var_dump($password);
             $result = Agent::validateAgent($login,$password,$email);
 
             if($result['status']){

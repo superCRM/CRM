@@ -12,17 +12,15 @@ class RefundController extends BaseController
 
     public function indexAction()
     {
-        if(!$this->session->has("agentId")) return $this->response->redirect("/");
+        //if(!$this->session->has("agentId")) return $this->response->redirect("/");
 
         $refunds = Refund::getRefundList(0);
-        //$keysList = array();
 
         foreach($refunds as $refund){
             $id = $refund->getId();
             $refund->keys = Key::getKeysByRefund($id);
         }
         $this->view->setVar("refunds", $refunds);
-        //$this->view->setVar("keysList", $keysList);
     }
 
     public function setAction()

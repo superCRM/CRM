@@ -52,7 +52,6 @@ class SecretParams extends DbTable{
 		$this->service = $service;
 		$this->partner = $partner;
         $this->secretKey = $secretKey;
-		//$this->save();
     }
 
     public static function getSecretParams($service)

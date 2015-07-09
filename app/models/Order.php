@@ -24,7 +24,7 @@ class Order extends DbTable{
         {
             Key::createKey($orderId,$keyId);
         }
-        $order->id = $order->insert(TABLE_NAME);
+        $order->id = $order->insert(self::TABLE_NAME);
         return $order;
     }
 
@@ -39,36 +39,48 @@ class Order extends DbTable{
         }
     }
 
-    public static function getOrderList($email){
-        $orders = array();
-        $items=self::select(array("email_us"=>$email));
+    public static function getOrderListByEmail($email){
+        return self::getOrderList(array("email_us"=>$email));;
+    }
+	
+	public static function getOrderList($conditional,$connector='and')
+	{
+		$orders = array();
+        $items=self::select($conditional,$connector);
         for ($i = 0; $i < count($items); $i++) {
             $order =  $items[$i];
             $orders[$i] = $order;
         }
         return $orders;
-    }
+	}
 
-    public static function validateOrder($orderId,$sum,$keysId)
+    public static function validateOrder($orderId,$sum,$keysId,$userId)
     {
-        $keys = array();
+		
         if(count($keysId)==0)
             return false;
+		
         if($sum<0)
         {
             return false;
         }
-        if(self::getOrder($orderId)!=false)
+		
+		if(User::getUser($userId)==false)
+			return false;
+        
+		if(self::getOrder($orderId)!=false)
         {
             return false;
         }
-        foreach($keysId as $keyId)
+        
+		foreach($keysId as $key=>$keyId)
         {
-            $key = Key::getKey($keyId);
-            if($key!=false)
-                $keys[] = $key;
+            $item = Key::getKey($keyId);
+            if($item!=false)
+                unset($keysId[$key]);
         }
-        return $keys;
+        
+		return $keysId;
     }
 
     public function getKeys(){

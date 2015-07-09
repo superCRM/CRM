@@ -110,7 +110,7 @@ try {
         $acl->setDefaultAction(Phalcon\Acl::DENY);
 
 // Регистрируем две роли. Users - это зарегистрированные пользователи,
-// а Guests - неидентифициорованные посетители.
+// а Guests - неидентифицированные посетители.
         $roles = array(
             'users' => new Phalcon\Acl\Role('Users'),
             'guests' => new Phalcon\Acl\Role('Guests')
@@ -122,7 +122,9 @@ try {
         $publicResources = array(
             'index' => array('index','page404'),
             'aut' => array('index','aut'),
-            'registration' => array('index', 'register')
+            'registration' => array('index', 'register'),
+			'refund' => array('add'),
+			'order' => array('add')
         );
 
         $privateResources = array(
@@ -147,16 +149,33 @@ try {
 
         return $acl;
     });
-
-
+	
+	
+	$di->set('cookies', function() {
+		$cookies = new Phalcon\Http\Response\Cookies();
+		$cookies->useEncryption(true);
+		return $cookies;
+	});
+	
+	$di->set('crypt', function() {
+		$crypt = new Phalcon\Crypt();
+		$crypt->setKey('%67$3mv*2BHngj*4@!6:)N-_');
+		return $crypt;
+	});
 
 	$application = new \Phalcon\Mvc\Application($di);
-    //echo SecretParams::urlSigner('localhost','/refund/add','partner','key');
+	/*$sec1 = new SecretParams('account','CRM','password');
+	$sec1->save();
+	$sec1 = new SecretParams('billing','CRM','password');
+	$sec1->save();*/
+    //echo SecretParams::urlSigner('localhost','/order/add','CRM','password');
+
 	/*$postArray = array
 	(
-		"email"=>"ynev@ukr.net",
-		"key_id"=>array(1,2,3),
-		"amount"=>"10"
+		"sum"=>50,
+		"order_id"=>30009,
+		"user_id"=>25,
+		"keys"=>array(55,87)
 	);
 	
 	echo JsonSender::convertToJson($postArray);*/

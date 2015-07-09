@@ -2,6 +2,7 @@
 
 use CRM\Agent;
 use CRM\Validation;
+use Plagins\Security;
 
 class AutController extends  BaseController{
 
@@ -21,12 +22,13 @@ class AutController extends  BaseController{
                 return $this->response->redirect("/");
             }
             $agent = Agent::getAgentByLogin($login);
+			
             if($agent) {
                 if (Validation::validatePassword($password)&&$agent->getPassword() == crypt($password,'CRYPT_SHA256')) {
-                    $this->session->set("agentId",$agent->id);
-                    $this->session->set("agentId",$agent->id);
+					$security = new Security();
+					$security->setCookie($agent);
+					$this->session->set("agentId",$agent->id);
                     $this->session->set("login", $login);
-                    $this->session->set("agentId", $agent->id);
 					if($this->session->has("uri")) {
 						return $this->response->redirect($this->session->get('uri'));
 					}
@@ -48,6 +50,7 @@ class AutController extends  BaseController{
     {
         $this->session->remove("agentId");
         $this->session->remove("login");
+		$this->cookies->delete('remember-me');
         return $this->response->redirect("/");
     }
 }
