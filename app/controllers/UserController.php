@@ -18,11 +18,11 @@ class UserController extends BaseController{
 
     public function indexAction()
     {
-
+        $this->view->disable();
     }
 
     public function addAction()
     {
-        
+
     }
 } 

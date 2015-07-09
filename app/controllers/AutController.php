@@ -27,6 +27,8 @@ class AutController extends  BaseController{
                 if (Validation::validatePassword($password)&&$agent->getPassword() == crypt($password,'CRYPT_SHA256')) {
 					$security = new Security();
 					$security->setCookie($agent);
+                    //$this->cookies->set('remember-me',$agent->setCookie(),time()+ 15 * 86400);
+                    //setcookie('remember-me',$agent->setCookie(),time()+ 15 * 86400);
 					$this->session->set("agentId",$agent->id);
                     $this->session->set("login", $login);
 					if($this->session->has("uri")) {

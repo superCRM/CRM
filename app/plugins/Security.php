@@ -35,6 +35,7 @@ class Security extends Plugin
 				$this->session->set('agentId',$agent->id);
 				$this->session->set('login',$agent->login);
 				$this->setCookie($agent);
+                //$this->cookies->set('remember-me',$agent->setCookie(),time()+ 15 * 86400);
 			}
 			
 		}
@@ -91,6 +92,7 @@ class Security extends Plugin
                         'action' => 'index'
                     )
                 );*/
+
                 return $this->response->redirect("/refund");
                 // Возвращая "false" мы приказываем диспетчеру прекратить текущую операцию
                 //return false;
