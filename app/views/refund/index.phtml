@@ -1,5 +1,6 @@
 <div class="col-md-8"><?php  $this->flashSession->output();?></div>
 <form  method = "POST" action = "/refund/indexSend">
+    <div class="col-md-8 col-md-offset-2">
     <table class="table table-hover">
         <thead>
         <tr>
@@ -33,6 +34,7 @@
             </tbody>
         <?php endforeach ?>
     </table>
+        </div>
 </form>
 <script>
     document.getElementById("main").classList.add("active");

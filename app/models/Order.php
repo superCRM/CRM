@@ -47,7 +47,7 @@ class Order extends DbTable{
 	public static function getOrderList($conditional,$connector='and')
 	{
 		$orders = array();
-        $items=self::select($conditional,$connector);
+        $items=self::select($conditional,$connector, null, " ORDER BY order_id ASC");
         for ($i = 0; $i < count($items); $i++) {
             $order =  $items[$i];
             $orders[$i] = $order;
