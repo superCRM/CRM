@@ -128,7 +128,7 @@ class SecretParams extends DbTable{
         $tokken = base64_encode(pack('H*', md5($s)));
         $tokken = str_replace(array("+", "/", "="), array(".", "_", "-"), $tokken);
 		/*var_dump($s);
-        var_dump($tokken);
+         var_dump($tokken);
 		var_dump($hash);*/
         if ($tokken == $hash) {
             return True;

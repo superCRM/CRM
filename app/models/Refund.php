@@ -95,7 +95,7 @@ class Refund extends DbTable{
         //$status - array
         //to create (change) function select: and => or
         $refunds = array();
-        $items=self::select(array("status"=>$status));
+        $items=self::select(array("status"=>$status), 'and', null, " ORDER BY data ASC");
         for ($i = 0; $i < count($items); $i++) {
             $refund = $items[$i];
             $refunds[$i] = $refund;
@@ -135,7 +135,7 @@ class Refund extends DbTable{
                                     'refundID'=>$this->id));
         $secretParams = SecretParams::getSecretParams('billing');
         echo JsonSender::sendData($info,
-            SecretParams::urlSigner(JsonSender::BILLING_DOMAIN,
+             SecretParams::urlSigner(JsonSender::BILLING_DOMAIN,
                                     JsonSender::BILLING_PATH,
                                     $secretParams->getPartner(),
                                     $secretParams->getSecretKey()));
