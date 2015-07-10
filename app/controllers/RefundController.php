@@ -207,6 +207,7 @@ class RefundController extends BaseController
 					$refund = JsonSender::convertToArray($jsonRefund);
 					$percent = $refund['amount'];
 					$email = $refund['email'];
+
 					$result = Refund::validateRefund($percent,$refund['key_id'],$email);
 					if(!$result)
 					{
@@ -249,7 +250,6 @@ class RefundController extends BaseController
             }
             if(SecretParams::checkUrl($secretParams->getSecretKey())){
                 $jsonResponse = $this->request->getPost("refunds");
-
                 if(!$jsonResponse)
                 {
                     $this->response->setStatusCode(422, "Fail");
@@ -262,8 +262,7 @@ class RefundController extends BaseController
                     $refundId = $response['id_refund'];
                     $success = $response['success'];
 
-
-                    if(!$refundId)
+                    if(!is_int($refundId))
                     {
                         $this->response->setStatusCode(422, "Fail");
                         $this->response->setContent("<html><body>Validation failed</body></html>");
@@ -272,11 +271,12 @@ class RefundController extends BaseController
                     else
                     {
                         $refund = Refund::getRefund($refundId);
-                        if(!$refund)
+                        if($refund===false)
                         {
                             $this->response->setStatusCode(422, "Fail");
                             $this->response->setContent("<html><body>Refund not found</body></html>");
                             $this->response->send();
+                            return;
                         }
 
                         if($success)
