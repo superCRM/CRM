@@ -140,7 +140,7 @@ class RefundController extends BaseController
             $refund->sendRefund(); //Sending to billing
 
             $this->flashSession->success('Refund have been added successfully.');
-            return $this->response->redirect("/refund/enter");
+         //   return $this->response->redirect("/refund/enter");
         }
 
     }

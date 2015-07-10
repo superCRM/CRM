@@ -81,12 +81,12 @@ abstract class DbTable {
      * @param $conditional
      * @return array
      */
-    public static function select($conditional,$connector='and', $additionalTable=null)
+    public static function select($conditional,$connector='and', $additionalTable=null, $order = null)
     {
         $class = get_called_class();
         $result = array();
 
-        $rows = self::selectRows($class::TABLE_NAME,$conditional,$connector,$additionalTable);
+        $rows = self::selectRows($class::TABLE_NAME,$conditional,$connector,$additionalTable, $order);
         foreach($rows as $row)
         {
             $item = new $class();
@@ -96,7 +96,7 @@ abstract class DbTable {
         return $result;
     }
 
-    public static function selectRows($table,$conditional,$connector, $additionalTable)
+    public static function selectRows($table,$conditional,$connector, $additionalTable, $order)
     {
 
         $stringQuery = "select `" . $table . "`.* from `" . $table. '`';
@@ -119,6 +119,7 @@ abstract class DbTable {
         }
 
         $stringQuery = trim($stringQuery, $connector);
+        if ($order != null) $stringQuery .= $order;
         $db=DB::getConnect();
         $query = $db->prepare($stringQuery);
         $query->execute();
