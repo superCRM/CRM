@@ -24,13 +24,20 @@ class RegistrationController extends  BaseController{
             $login = $this->request->getPost("login","string");
             $email = $this->request->getPost("email","email");
             $password =  $this->request->getPost("password");
-			var_dump($password);
             $result = Agent::validateAgent($login,$password,$email);
 
             if($result['status']){
-                Agent::createAgent($login,$password,$email);
-                $this->flashSession->success("Success! You are registered!");
-                return $this->response->redirect("/");
+                $agent = Agent::createAgent($login,$password,$email);
+				if(is_object($agent)){
+					$this->flashSession->success("Success! You are registered!");
+					$this->mail->send(
+						array($agent->email => $agent->login),
+						"You are registered on CRM service. Confirm your email.",
+						'confirm',
+						array('confirmUrl' => '/confirmEmail/' . $agent->email)
+					);
+					return $this->response->redirect("/");
+				}
             }
             else
             {

@@ -59,7 +59,7 @@ abstract class DbTable {
 
         foreach($conditional as $key=>$value)
         {
-            var_dump($key);
+            //var_dump($key);
             if($value!=null){
                 $stringQuery .= " $key = '$value' $connector";
             }

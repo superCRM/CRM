@@ -5,9 +5,28 @@ use CRM\SecretParams;
 use CRM\JsonSender;
 use Plagins\Security;
 use Phalcon\Dispatcher;
+use Phalcon\Config;
+use Plagins\Mail;
 
 try {
-
+	
+	$config = new Config(array(
+			'mail' => array(
+				'fromName' => 'CRM',
+				'fromEmail' => 'ynevmerzhitsky@ukr.net',
+				'smtp' => array(
+					'server' => 'smtp.ukr.net',
+					'port' => '2525',
+					'security' => 'SSL',
+					'username' => 'ynevmerzhitsky@ukr.net',
+					'password' => 'BwsgSan1'
+				)
+			)
+		)
+	);
+	
+	
+	
     //Register an autoloader
     $loader = new \Phalcon\Loader();
     $loader->registerDirs(array(
@@ -22,13 +41,20 @@ try {
 		)
 	);
 	
+	require_once __DIR__ . '/../vendor/autoload.php';
+	
 	
 	
 	$loader->register();
 	
     //Create a DI
     $di = new Phalcon\DI\FactoryDefault();
-
+	
+	$di->set('config', $config);
+	
+	$di->set('mail', function () {
+		return new Mail();
+	});
     //Setting up the view component
 	
 	 /*$di->set('router', function() {
@@ -166,10 +192,11 @@ try {
 	
 	$di->set('crypt', function() {
 		$crypt = new Phalcon\Crypt();
-		$crypt->setKey('%67$3mv*');
+		$crypt->setKey('%7$3mv^g3>0/!$*;');
 		return $crypt;
 	});
-
+	
+	
 	$application = new \Phalcon\Mvc\Application($di);
 	/*$sec1 = new SecretParams('account','CRM','password');
 	$sec1->save();

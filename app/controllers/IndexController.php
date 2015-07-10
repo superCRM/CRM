@@ -14,6 +14,8 @@ class IndexController extends BaseController
     public function indexAction()
     {
 		//TODO Setup cookies 
+		/*$this->view->disable();
+		phpinfo();*/
 		$uri = $this->request->getURI();
 		if($uri!="/aut/logout")
 		{

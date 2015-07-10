@@ -31,6 +31,7 @@ class Security extends Plugin
 			$rememberMe = $this->cookies->get('remember-me');
 			$value = $rememberMe->getValue();
 			$agent = Agent::getAgentByCookie($value);
+			//var_dump($agent);
 			if($agent){
 				$this->session->set('agentId',$agent->id);
 				$this->session->set('login',$agent->login);

@@ -93,7 +93,7 @@ class Agent extends DbTable{
 	
 	public function setCookie()
 	{
-		$this->cookie=$this->id .  time();
+		$this->cookie=$this->id .  time() . rand(1000,9999);
 		$this->update(array('id'=>$this->id));
 		return $this->cookie;
 	}
