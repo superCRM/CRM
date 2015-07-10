@@ -7,7 +7,7 @@ use Plagins\Security;
 use Phalcon\Dispatcher;
 use Phalcon\Config;
 use Plagins\Mail;
-
+//добавить проценты
 try {
 	
 	$config = new Config(array(
@@ -41,7 +41,7 @@ try {
 		)
 	);
 	
-	require_once __DIR__ . '/../vendor/autoload.php';
+	//require_once __DIR__ . '/../vendor/autoload.php';
 	
 	
 	
@@ -151,7 +151,7 @@ try {
             'index' => array('index','page404'),
             'aut' => array('index','aut'),
             'registration' => array('index', 'register'),
-			'refund' => array('add'),
+			'refund' => array('add','receiveResponse'),
 			'order' => array('add'),
             'user' => array('add')
         );
