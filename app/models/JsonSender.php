@@ -10,9 +10,9 @@ namespace CRM;
 
 
 class JsonSender {
-    const BILLING = "http://10.55.33.38/getRefund";
-    const BILLING_DOMAIN = '10.55.33.38';
-    const BILLING_PATH = '/getRefund';
+    const BILLING = "http://dev-billing.mvc/get-refund http://10.55.33.38:8080/get-refund";
+    const BILLING_DOMAIN = '10.55.33.38:8080';
+    const BILLING_PATH = '/get-refund';
 
     const KEY_INFO = "refund";
 
@@ -23,7 +23,7 @@ class JsonSender {
 
     public static function convertToArray($jsonData)
     {
-        return json_decode($jsonData,true);
+        return json_decode($jsonData, true);
     }
 
     public static function sendData($info, $address=self::BILLING, $key_info=self::KEY_INFO){

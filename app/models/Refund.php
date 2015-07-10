@@ -135,7 +135,7 @@ class Refund extends DbTable{
                                     'refundID'=>$this->id));
         $secretParams = SecretParams::getSecretParams('billing');
         echo JsonSender::sendData($info,
-            SecretParams::urlSigner(JsonSender::BILLING_DOMAIN,
+             SecretParams::urlSigner(JsonSender::BILLING_DOMAIN,
                                     JsonSender::BILLING_PATH,
                                     $secretParams->getPartner(),
                                     $secretParams->getSecretKey()));

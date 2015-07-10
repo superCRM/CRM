@@ -136,18 +136,17 @@ class RefundController extends BaseController
                 return $this->response->redirect("/refund/enter");
             }
 
-
+            var_dump($refund);
             $refund->sendRefund(); //Sending to billing
 
             $this->flashSession->success('Refund have been added successfully.');
-            return $this->response->redirect("/refund/enter");
         }
 
     }
 
     public function indexSendAction(){
-        /*$this->view->disable();
-        var_dump($_POST);
+        $this->view->disable();
+        /*var_dump($_POST);
         var_dump($_SESSION);
         var_dump($_GET);*/
         if($this->session->has('agentId')){
@@ -173,21 +172,22 @@ class RefundController extends BaseController
 
             $refund->finalPercent = $finalPercent;
             $refund->updateRefund($agentId, $keyToCancelObj, 1);
-            $refund->sendRefund();
+            return $refund->sendRefund();
 
             //return $this->response->redirect("/refund");
         }
         else{
-            return $this->response->setContent("<html><body>Refund not found.</body></html>");
+            return $this->response->setContent("<html><body>Post not found.</body></html>");
         }
     }
 
 	public function addAction()
 	{
+        $this->view->disable();
+
         if($this->request->isPost()===true)
 		{
 			$secretParams = SecretParams::getSecretParams('account');
-
 
             if(!$secretParams){
                 $this->response->setContent("<html><body>Secret key not set.</body></html>");
@@ -262,17 +262,16 @@ class RefundController extends BaseController
                     $refundId = $response['id_refund'];
                     $success = $response['success'];
 
-
-                    if(!$refundId)
+                    if(!is_int((int)$refundId))
                     {
                         $this->response->setStatusCode(422, "Fail");
-                        $this->response->setContent("<html><body>Validation failed</body></html>");
+                        $this->response->setContent("<html><body>Post[id_refund] not found</body></html>");
                         $this->response->send();
                     }
                     else
                     {
                         $refund = Refund::getRefund($refundId);
-                        if(!$refund)
+                        if($refund === false)
                         {
                             $this->response->setStatusCode(422, "Fail");
                             $this->response->setContent("<html><body>Refund not found</body></html>");
@@ -300,9 +299,9 @@ class RefundController extends BaseController
                                 $key->decrementKeyPercent($refund->finalPercent);
                             }
                         }
-
                         $refund->update(array("id"=>$refund->id));
 
+                        return $this->response->redirect('/refund/receiveresponse');
                         $this->response->setStatusCode(200, "OK");
                         $this->response->setContent("<html><body>Success</body></html>");
                         $this->response->send();
