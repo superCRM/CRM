@@ -7,19 +7,19 @@ use Plagins\Security;
 use Phalcon\Dispatcher;
 use Phalcon\Config;
 use Plagins\Mail;
-
+//добавить проценты
 try {
 	
 	$config = new Config(array(
 			'mail' => array(
 				'fromName' => 'CRM',
-				'fromEmail' => 'ynevmerzhitsky@ukr.net',
+				'fromEmail' => 'for_communication@ukr.net',
 				'smtp' => array(
 					'server' => 'smtp.ukr.net',
 					'port' => '2525',
 					'security' => 'SSL',
-					'username' => 'ynevmerzhitsky@ukr.net',
-					'password' => 'BwsgSan1'
+					'username' => 'for_communication@ukr.net',
+					'password' => ''
 				)
 			)
 		)
@@ -41,7 +41,7 @@ try {
 		)
 	);
 	
-	require_once __DIR__ . '/../vendor/autoload.php';
+	//require_once __DIR__ . '/../vendor/autoload.php';
 	
 	
 	
@@ -151,7 +151,7 @@ try {
             'index' => array('index','page404'),
             'aut' => array('index','aut'),
             'registration' => array('index', 'register'),
-			'refund' => array('add'),
+			'refund' => array('add','receiveResponse'),
 			'order' => array('add'),
             'user' => array('add')
         );
@@ -202,7 +202,7 @@ try {
 	$sec1->save();
 	$sec1 = new SecretParams('billing','CRM','password');
 	$sec1->save();*/
-    //echo SecretParams::urlSigner('localhost','/order/add','CRM','password');
+    //echo SecretParams::urlSigner('http://10.55.33.27','/refund/receiveResponse','CRM','1');
 
 	/*$postArray = array
 	(
@@ -210,7 +210,14 @@ try {
 		"order_id"=>30009,
 		"user_id"=>25,
 		"keys"=>array(55,87)
-	);
+	);*/
+
+    /*$postArray = array
+    (
+        "amount"=>50,
+        "email"=>'rtrtr@tye@iui',
+        "id_key"=>array(55,87)
+    );
 	
 	echo JsonSender::convertToJson($postArray);*/
 	echo $application->handle()->getContent();
