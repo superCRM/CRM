@@ -1,6 +1,7 @@
 <?php
 
 use CRM\Agent;
+use Plagins\SendMailSmtpClass;
 /**
  * @RoutePrefix("/registration")
  */
@@ -30,12 +31,14 @@ class RegistrationController extends  BaseController{
                 $agent = Agent::createAgent($login,$password,$email);
 				if(is_object($agent)){
 					$this->flashSession->success("Success! You are registered!");
-					/*$this->mail->send(
-						array($agent->email => $agent->login),
-						"You are registered on CRM service. Confirm your email.",
+					
+					
+					$this->mail->send(
+						array($email => $login),
+						'Welcome to CRM. Confirm your mail.',
 						'confirm',
-						array('confirmUrl' => '/confirmEmail/' . $agent->email)
-					);*/
+						array('confirmUrl' => '/confirmEmail/' . $email)
+					);
 					return $this->response->redirect("/");
 				}
             }
