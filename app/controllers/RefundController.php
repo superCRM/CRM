@@ -10,7 +10,7 @@ class RefundController extends BaseController
 {
 
 
-    public function indexAction()
+    public function indexAction($page)
     {
         //if(!$this->session->has("agentId")) return $this->response->redirect("/");
 
@@ -20,9 +20,23 @@ class RefundController extends BaseController
             $id = $refund->getId();
             $refund->keys = Key::getKeysByRefund($id);
         }
+
         $uri = $this->request->getURI();
         $this->session->set("uri",$uri);
-        $this->view->setVar("refunds", $refunds);
+
+
+        $paginator = new \Phalcon\Paginator\Adapter\NativeArray(
+            array(
+                "data" => $refunds,
+                "limit"=> 10,
+                "page" => $page
+            )
+        );
+
+        $page = $paginator->getPaginate();
+
+        $this->view->setVar("refunds", $page->items);
+
     }
 
     public function setAction()
