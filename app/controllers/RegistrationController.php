@@ -32,13 +32,13 @@ class RegistrationController extends  BaseController{
 				if(is_object($agent)){
 					$this->flashSession->success("Success! You are registered!");
 					
-					
-					$this->mail->send(
+					//Send Mail
+					/*$this->mail->send(
 						array($email => $login),
 						'Welcome to CRM. Confirm your mail.',
 						'confirm',
 						array('confirmUrl' => '/confirmEmail/' . $email)
-					);
+					);*/
 					return $this->response->redirect("/");
 				}
             }

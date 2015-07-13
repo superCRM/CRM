@@ -23,7 +23,7 @@
                     <?php $i = 0;
                     foreach($refund->keys as $key):
                         $i++;?>
-                        <input type="checkbox" name="keyToCancel[<?= $refund->id ?>][<?= $i ?>]" value="<?=$key->keyId?>" />  <?=$key->keyId?><br>
+                        <input type="checkbox" name="keyToCancel[<?= $refund->id ?>][<?= $i ?>]" value="<?=$key->keyId?>" />  <?=$key->keyId . ' ' . $key->percent . '%'?><br>
                     <?php endforeach; ?>
                 </td>
                 <td><?=$refund->percent?></td>

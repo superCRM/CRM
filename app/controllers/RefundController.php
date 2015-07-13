@@ -25,8 +25,6 @@ class RefundController extends BaseController
 
     public function setAction()
     {
-        if(!$this->session->has("agentId")) return $this->response->redirect("/");
-
         $refund = new Refund();
         if($this->session->has("refund")) {
             $refund = $this->session->get("refund");
@@ -52,6 +50,7 @@ class RefundController extends BaseController
 
     public function delAction()
     {
+		$this->view->disable();
         $refund = $this->session->get("refund");
         $this->view->setVar("email", $refund->email);
 
@@ -71,7 +70,6 @@ class RefundController extends BaseController
 
     public function enterAction()
     {
-        if(!$this->session->has("agentId")) return $this->response->redirect("/");
 
         if($this->request->isPost() === true) {
             $currentRefund = new Refund();
@@ -88,61 +86,83 @@ class RefundController extends BaseController
 
     public function sendAction()
     {
-        if(!$this->session->has("agentId")) return $this->response->redirect("/");
+        $finalPercent = 0;
+		$cancelKeysId = array();
+		$agentId = $this->session->get("agentId");
+		$refund = new Refund();
+		//Is new $cancelKeysId; is exists $cancelKeysId = $keyToCancel[$refundId];
+		
+		if($this->request->isPost() === true){
+			if($this->session->has("refund")){
+			 
+				$cancelKeysId = $this->request->getPost("cancelKeys");
+				$finalPercent = $this->request->getPost("percent");
+				
+				$refund = $this->session->get("refund");
 
-        $keyIds = array();
-        $cancelKeys = array();
+				$refund->id=Refund::createRefund($refund->email, $percent, $refund->keys);
+				
+				if($refund->id === false)
+				{
+					$this->flashSession->error('Refund creation failed.');
+					return $this->response->redirect("/refund/enter");
+				}
+				else
+				{
+					$this->flashSession->success('Refund have been added successfully.');
+				}
+			}
+			else
+			{
+				$keyToCancel = $this->request->getPost('keyToCancel');
+				
+				$refundId = $this->request->getPost('id_refund');
+				$refund = Refund::getRefund($refundId);
+				
+				$finalPercent = $this->request->getPost("finalPercent");
 
-        if($this->session->has("refund") && $this->request->isPost() === true) {
-            $cancelKeysId = $this->request->getPost("cancelKeys");
-            $percent = $this->request->getPost("percent");
-            if(!is_numeric($percent) || (double)$percent < 0 || (double)$percent > 100){
-                $this->flashSession->error("Enter correct percent");
-                return $this->response->redirect("refund/set/");
-            }
+				$refund->keys=Key::getKeysByRefund($refund->id);
+				$cancelKeysId = $keyToCancel[$refundId];
+			}
+			
+			if(!is_numeric($finalPercent) || (double)$finalPercent < 0 || (double)$finalPercent > 100){
+					$this->flashSession->error("Enter correct percent");
+					//TODO create variable uri in session
+					return $this->response->redirect("refund/set/");
+			}
+			
+			$keysRefund = $refund->keys;
+			foreach($keysRefund as $key)
+			{
+				if($key->percent+$percent>100)
+				{
+					$refund->delKey($key->keyId);
+				}
+			}
+			
+			if(count($refund->keys)==0)
+			{
+				$this->flashSession->error('Refund validation failed.');
+				return $this->response->redirect("/refund/enter");
+			}
+			
+			$keyToCancelObj = array();
 
-            $agentId = $this->session->get("agentId");
-            $refund = $this->session->get("refund");
+			foreach($cancelKeysId as $key){
+				$keyToCancelObj[] = Key::getKey($key);
+			}
 
-            $keysRefund = $refund->keys;
-
-            if(!empty($cancelKeysId)) {
-                foreach ($cancelKeysId as $value):
-                    $keysRefund[$value] = 1;
-                endforeach;
-            }
-            $refund->percent = $percent;
-            $refund->finalPercent = $percent;
-
-            foreach($keysRefund as $key=>$value) : $keyIds[] = $key; endforeach;
-            $keys = Refund::validateRefund($percent, $keyIds, $refund->email);
-            if(!$keys) {
-                $this->flashSession->error('Refund validation failed.');
-                return $this->response->redirect("/refund/enter");
-            } //validation failed
-
-            foreach($cancelKeysId as $key) : $cancelKeys[] = Key::getKey($key); endforeach;
-
-            $refund->id = Refund::createRefund($refund->email, $percent, $keys);
-            if($refund->id == false)
-            {
-                $this->flashSession->error('Refund creation failed.');
-                return $this->response->redirect("/refund/enter");
-            }
-
-            $checkUpdate = $refund->updateRefund($agentId, $cancelKeys, 1);
-            if($checkUpdate == false){
-                $this->flashSession->error('Refund have not been updated.');
-                return $this->response->redirect("/refund/enter");
-            }
-
-            var_dump($refund);
-            $refund->sendRefund(); //Sending to billing
-
-            $this->flashSession->success('Refund have been added successfully.');
-         //   return $this->response->redirect("/refund/enter");
-        }
-
+			$refund->finalPercent = $finalPercent;
+			$checkUpdate = $refund->updateRefund($agentId, $keyToCancelObj, 1);
+			if($checkUpdate == false){
+				$this->flashSession->error('Refund have not been updated.');
+				//TODO create variable uri in session
+				return $this->response->redirect("/refund/enter");
+			}
+			
+			return $refund->sendRefund();
+		}
+			
     }
 
     public function indexSendAction(){
@@ -150,16 +170,11 @@ class RefundController extends BaseController
         /*var_dump($_POST);
         var_dump($_SESSION);
         var_dump($_GET);*/
-        if($this->session->has('agentId')){
-            $agentId = $this->session->get('agentId');
-        }
-        else{
-            return $this->response->redirect("/index/index");
-        }
+        
         if($this->request->isPost()===true){
             $keyToCancel = $this->request->getPost('keyToCancel');
             $refundId = $this->request->getPost('id_refund');
-            $finalPercent = $this->request->getPost("finalPercent$refundId");
+            $finalPercent = $this->request->getPost("finalPercent");
             if(!is_numeric($finalPercent)||($finalPercent > 100)){
                 $this->flashSession->error('Enter correct percent');
                 return $this->response->redirect('/refund');

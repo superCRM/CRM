@@ -21,7 +21,11 @@ class Refund extends DbTable{
     public $keys = array();
 
     public function addKey($key_id){
-        $this->keys[$key_id] = 0;
+		$key = Key::ValidateKey($key_id,0);
+		if($key === false)
+			return false;
+		else
+			$this->keys[$key_id] = $key;
     }
 
     public function delKey($key_id){

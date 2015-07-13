@@ -30,24 +30,28 @@ if (!empty($keys)) {
                 <table class="table">
                     <thead>
                     <tr>
-                        <th class="col-md-3 col-sm-3">Key id</th>
+                        <th>Key id</th>
                         <th>Deactivate?</th>
+						<th>Percent</th>
+						<th></th>
                     </tr>
                     </thead>
-                </table>
-                <?php foreach($keys as $key=>$value) : ?>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6 checkbox">
-                            <label class="col-md-3 col-sm-2" for="<?= $key ?>"><?= $key ?></label>
-                            <input class="col-md-10 col-sm-11" id="<?= $key ?>" value="<?= $key ?>" name="cancelKeys[]"  type="checkbox"/>
-                        </div>
-                        <div class="col-md-offset-2 col-md-2 col-sm-offset-2 col-sm-2">
-                            <button type="submit" class="btn btn-primary" name="delete" value="<?= $key ?>" formaction="/refund/del">
-                                Del <span class=""></span>
-                            </button>
-                        </div>
-                    </div>
+					<tbody>
+                <?php foreach($keys as $key) : ?>
+					<tr>
+						<td><label  for="<?= $key->keyId ?>"><?= $key->keyId ?></label></td>
+						<td><input  id="<?= $key->status ?>" value="<?= $key->status ?>" name="cancelKeys[]"  type="checkbox"/></td>
+						<td><label><?= $key->percent ?></label></td>
+						<td>
+							<button type="submit" class="btn btn-primary" name="delete" value="<?= $key->keyId ?>" formaction="/refund/del">
+								Del <span class=""></span>
+							</button>
+						</td>
+					</tr>
+				
                 <?php endforeach; ?>
+					<tbody>
+				</table>
             </div>
         </div>
 

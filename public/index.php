@@ -41,7 +41,7 @@ try {
 		)
 	);
 	
-	require_once __DIR__ . '/../vendor/autoload.php';
+	//require_once __DIR__ . '/../vendor/autoload.php';
 	
 	
 	$loader->register();
@@ -218,31 +218,8 @@ try {
         "id_key"=>array(55,87)
     );
 	
-	
-	
 	echo JsonSender::convertToJson($postArray);*/
-	/*$from = 'for_communication@ukr.net';
-	$to = 'uraura2010@ukr.net';
-	$name = 'Ura';
-	$subject = 'Test mail';
-	$html_content = '';
-			try{
-	$transporter = Swift_SmtpTransport::newInstance('smtp.ukr.net', 465, 'ssl')
-          ->setUsername('for_communication@ukr.net')
-          ->setPassword("BwsgSan1");
-        $mailer = Swift_Mailer::newInstance($transporter);
-        $message = Swift_Message::newInstance($subject)
-          ->setFrom(array($from => 'From name'))
-          ->setTo(array($to=> $name))
-          ->setBody($html_content);
-
-       echo $result = $mailer->send($message);
-		}
-		catch(Exception $exception)
-		{
-			var_dump($exception);
-			echo 'Fail';
-		}*/
+	
 	echo $application->handle()->getContent();
 
 	
