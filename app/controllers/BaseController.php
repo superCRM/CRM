@@ -12,13 +12,13 @@ class BaseController extends Controller
         $this->assets->addJs('js/bootstrap.min.js')
             ->addJs('js/jquery-1.11.3.min.js');
 		
-		$this->flashSession->setCssClasses(
+		/*$this->flashSession->setCssClasses(
 			array(
 				 'error' => 'alert alert-danger' ,
 				 'success' => 'alert alert-success' ,
 				 'notice' => 'alert alert-info' ,
 			)
-		);
+		);*/
 		
 	}
    

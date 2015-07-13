@@ -1,15 +1,15 @@
 <?php  $this->flashSession->output();?>
 <form  method = "POST" action = "/refund/indexSend">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="table-responsive">
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>User email</th>
-            <th>Num of keys</th>
-            <th>Keys id</th>
-            <th>Percent</th>
-            <th>Final percent</th>
-            <th>Date</th>
+            <th class="col-md-3">User email</th>
+            <th class="col-md-1">Num of keys</th>
+            <th class="col-md-3">Keys id</th>
+            <th class="col-md-1">Percent</th>
+            <th class="col-md-2">Final percent</th>
+            <th class="col-md-2">Date</th>
             <th></th>
         </tr>
         </thead>
@@ -34,19 +34,21 @@
             </tbody>
         <?php endforeach ?>
     </table>
-        </div>
+    </div>
 </form>
-
-<nav class="col-md-6 col-md-offset-3">
-    <ul class="pagination">
-        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-        <li class="active"><a href="#">2 <span class="sr-only">(current)</span></a></li>
-        <li class="active"><a href="#">3 <span class="sr-only">(current)</span></a></li>
-        <li class="active"><a href="#">4 <span class="sr-only">(current)</span></a></li>
-        <li class="active"><a href="#">5 <span class="sr-only">(current)</span></a></li>
-    </ul>
-</nav>
+<form method="GET">
+    <nav class="col-md-6 col-md-offset-3">
+        <ul class="pagination">
+            <li><a name="page" href="">&laquo;</a></li>
+            <li><a name="page" href="/refund/index/1">1</a></li>
+            <li><a name="page" href="/refund/index/2">2</a></li>
+            <li><a name="page" href="/refund/index/3">3</a></li>
+            <li><a name="page" href="/refund/index/4">4</a></li>
+            <li><a name="page" href="/refund/index/5">5</a></li>
+            <li><a name="page" href="">&raquo;</a></li>
+        </ul>
+    </nav>
+</form>
 <script>
     document.getElementById("main").classList.add("active");
 </script>
