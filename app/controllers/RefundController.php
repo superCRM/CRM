@@ -20,6 +20,8 @@ class RefundController extends BaseController
             $id = $refund->getId();
             $refund->keys = Key::getKeysByRefund($id);
         }
+        $uri = $this->request->getURI();
+        $this->session->set("uri",$uri);
         $this->view->setVar("refunds", $refunds);
     }
 
@@ -44,7 +46,8 @@ class RefundController extends BaseController
             }
 
         }
-
+        $uri = $this->request->getURI();
+        $this->session->set("uri",$uri);
         $this->view->setVar("keys", $refund ->keys);
     }
 
@@ -100,7 +103,7 @@ class RefundController extends BaseController
 				
 				$refund = $this->session->get("refund");
 
-				$refund->id=Refund::createRefund($refund->email, $percent, $refund->keys);
+				$refund->id=Refund::createRefund($refund->email, $finalPercent, $refund->keys);
 				
 				if($refund->id === false)
 				{
@@ -111,6 +114,7 @@ class RefundController extends BaseController
 				{
 					$this->flashSession->success('Refund have been added successfully.');
 				}
+                $this->session->remove('refund');
 			}
 			else
 			{
@@ -119,7 +123,7 @@ class RefundController extends BaseController
 				$refundId = $this->request->getPost('id_refund');
 				$refund = Refund::getRefund($refundId);
 				
-				$finalPercent = $this->request->getPost("finalPercent");
+				$finalPercent = $this->request->getPost("finalPercent$refundId");
 
 				$refund->keys=Key::getKeysByRefund($refund->id);
 				$cancelKeysId = $keyToCancel[$refundId];
@@ -128,13 +132,15 @@ class RefundController extends BaseController
 			if(!is_numeric($finalPercent) || (double)$finalPercent < 0 || (double)$finalPercent > 100){
 					$this->flashSession->error("Enter correct percent");
 					//TODO create variable uri in session
-					return $this->response->redirect("refund/set/");
+					return $this->response->redirect($this->session->get('uri'));
 			}
-			
+
+            $refund->finalPercent = $finalPercent;
+
 			$keysRefund = $refund->keys;
 			foreach($keysRefund as $key)
 			{
-				if($key->percent+$percent>100)
+				if($key->percent+$finalPercent>100)
 				{
 					$refund->delKey($key->keyId);
 				}
@@ -143,21 +149,22 @@ class RefundController extends BaseController
 			if(count($refund->keys)==0)
 			{
 				$this->flashSession->error('Refund validation failed.');
-				return $this->response->redirect("/refund/enter");
+				return $this->response->redirect($this->session->get('uri'));
 			}
 			
 			$keyToCancelObj = array();
-
-			foreach($cancelKeysId as $key){
-				$keyToCancelObj[] = Key::getKey($key);
-			}
+            if($cancelKeysId!=NULL){
+                foreach($cancelKeysId as $key){
+                    $keyToCancelObj[] = Key::getKey($key);
+                }
+            }
 
 			$refund->finalPercent = $finalPercent;
 			$checkUpdate = $refund->updateRefund($agentId, $keyToCancelObj, 1);
 			if($checkUpdate == false){
 				$this->flashSession->error('Refund have not been updated.');
 				//TODO create variable uri in session
-				return $this->response->redirect("/refund/enter");
+				return $this->response->redirect($this->session->get('uri'));
 			}
 			
 			return $refund->sendRefund();
