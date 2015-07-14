@@ -1,0 +1,36 @@
+<nav class="col-md-6 col-md-offset-3">
+    <ul class="pagination">
+        <li><a name="page" href="<?= $uri ?><?= $currentPage - 1?>">&laquo;</a></li>
+        <?php
+        if($size <= 5) {
+            for ($i = 1; $i < $size; $i++): ?>
+                <li id="<?= $i ?>"><a name="page" href="<?=$uri?><?= $i ?>"><?= $i ?></a></li>
+            <?php endfor;
+        }else{
+            if($currentPage > 3){
+                if((int)$currentPage == $size){
+                    ?><li id="<?= 1 ?>"><a name="page" href="<?=$uri?>1">1</a></li><li><a>...</a></li>
+                    <li id="<?= $currentPage ?>"><a name="page" href="<?=$uri?><?= $currentPage ?>"><?= $currentPage ?></a></li><?php
+                }else {
+                    ?>
+                    <li id="<?= 1 ?>"><a name="page" href="<?=$uri?>1">1</a></li>
+                    <li><a>...</a></li>
+                    <li id="<?= $currentPage ?>"><a name="page" href="<?=$uri?><?= $currentPage ?>"><?= $currentPage ?></a></li>
+                    <li><a>...</a></li>
+                    <li <?= $size ?> ><a name="page" href="<?=$uri?><?= $size ?>"><?= $size ?></a></li>
+                <?php
+                }
+            }else{
+                for ($i = 1; $i < 4; $i++): ?>
+                    <li id="<?= $i ?>"><a name="page" href="<?=$uri?><?= $i ?>"><?= $i ?></a></li>
+                <?php endfor; ?>
+                <li><a>...</a></li><li id="<?= $size ?>"><a name="page" href="<?=$uri?><?= $size ?>"><?= $size ?></a></li><?php
+            }
+        }
+        ?>
+        <li><a name="page" href="<?=$uri?><?= $currentPage + 1?>">&raquo;</a></li>
+    </ul>
+</nav>
+<script>
+    document.getElementById("<?= $currentPage ?>").classList.add("active");
+</script>
