@@ -35,7 +35,8 @@ class Security extends Plugin
 			if($agent){
 				$this->session->set('agentId',$agent->id);
 				$this->session->set('login',$agent->login);
-				$this->setCookie($agent);
+                if($rememberMe->getExpiration()<time()+24*3600)
+				    $this->setCookie($agent);
                 //$this->cookies->set('remember-me',$agent->setCookie(),time()+ 15 * 86400);
 			}
 			

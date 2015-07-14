@@ -88,29 +88,36 @@ class RefundController extends BaseController
     public function sendAction()
     {
         $finalPercent = 0;
-        $cancelKeysId = array();
-        $agentId = $this->session->get("agentId");
-        $refund = new Refund();
-//Is new $cancelKeysId; is exists $cancelKeysId = $keyToCancel[$refundId];
-        if($this->request->isPost() === true){
-            if($this->session->has("refund")){
-                $cancelKeysId = $this->request->getPost("cancelKeys");
-                $finalPercent = $this->request->getPost("percent");
-                $refund = $this->session->get("refund");
 
-                $refund->status = 0;
+		$cancelKeysId = array();
+		$agentId = $this->session->get("agentId");
+		$refund = new Refund();
+		//Is new $cancelKeysId; is exists $cancelKeysId = $keyToCancel[$refundId];
+		
+		if($this->request->isPost() === true){
+			if($this->session->has("refund")){
+			 
+				$cancelKeysId = $this->request->getPost("cancelKeys");
+				$finalPercent = $this->request->getPost("percent");
+                if(!is_numeric($finalPercent) || (double)$finalPercent < 0 || (double)$finalPercent > 100){
+                    $this->flashSession->error("Enter correct percent");
+                    //TODO create variable uri in session
+                    return $this->response->redirect($this->session->get('uri'));
+                }
+				
+				$refund = $this->session->get("refund");
                 $refund->percent = $finalPercent;
-
-                $refund->id=Refund::createRefund($refund->email, $refund->percent, $refund->keys);
-                if($refund->id === false)
-                {
-                    $this->flashSession->error('Refund creation failed.');
-                    return $this->response->redirect("/refund/enter");
-                }
-                else
-                {
-                    $this->flashSession->success('Refund have been added successfully.');
-                }
+				$refund->id=Refund::createRefund($refund->email, $refund->percent, $refund->keys);
+				
+				if($refund->id === false)
+				{
+					$this->flashSession->error('Refund creation failed.');
+					return $this->response->redirect("/refund/enter");
+				}
+				else
+				{
+					$this->flashSession->success('Refund have been added successfully.');
+				}
                 $this->session->remove('refund');
             }
             else
