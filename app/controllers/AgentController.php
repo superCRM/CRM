@@ -49,7 +49,10 @@ class AgentController extends BaseController{
                 $currentAgent->changePassword(crypt($password,'CRYPT_SHA256'));
             }
 
-            $currentAgent->update(array('id'=>$id));
+            if(!$currentAgent->update(array('id'=>$id))) {
+                $this->flashSession->error('Account update failed.');
+                return $this->response->redirect('/agent');
+            }
         }
     }
 }

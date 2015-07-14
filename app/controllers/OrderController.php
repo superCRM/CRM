@@ -16,6 +16,7 @@ class OrderController extends BaseController
     {
 		//$this->view->disable();
         $orders = Order::getOrderList(array());
+
         $this->view->setVar("orders", $orders);
     }
 

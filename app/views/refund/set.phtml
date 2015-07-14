@@ -22,7 +22,6 @@
 <form method="post" action = "/refund/send">
 
 <?php
-//var_dump($keys);
 if (!empty($keys)) {
 ?>
         <div class="panel panel-default">
@@ -40,7 +39,7 @@ if (!empty($keys)) {
                 <?php foreach($keys as $key) : ?>
 					<tr>
 						<td><label  for="<?= $key->keyId ?>"><?= $key->keyId ?></label></td>
-						<td><input  id="<?= $key->status ?>" value="<?= $key->status ?>" name="cancelKeys[]"  type="checkbox"/></td>
+						<td><input  id="<?= $key->status ?>" value="<?= $key->keyId ?>" name="cancelKeys[]"  type="checkbox"/></td>
 						<td><label><?= $key->percent ?></label></td>
 						<td>
 							<button type="submit" class="btn btn-primary" name="delete" value="<?= $key->keyId ?>" formaction="/refund/del">
