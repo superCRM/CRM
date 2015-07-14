@@ -8,12 +8,8 @@ use CRM\JsonSender;
 
 class RefundController extends BaseController
 {
-
-
-    public function indexAction($page)
+    public function indexAction($currentPage)
     {
-        //if(!$this->session->has("agentId")) return $this->response->redirect("/");
-
         $refunds = Refund::getRefundList(0);
 
         foreach($refunds as $refund){
@@ -29,14 +25,22 @@ class RefundController extends BaseController
             array(
                 "data" => $refunds,
                 "limit"=> 10,
-                "page" => $page
+                "page" => $currentPage
             )
         );
 
         $page = $paginator->getPaginate();
 
+        if($currentPage > $page->total_pages || $currentPage < 0){
+            $this->response->redirect('index/page404');
+        }
+        $uri = '/'.$this->dispatcher->getControllerName().'/'.$this->dispatcher->getActionName().'/';
+
         $this->view->setVar("refunds", $page->items);
 
+        $this->view->setVar("currentPage", $currentPage);
+        $this->view->setVar("size", $page->total_pages);
+        $this->view->setVar("uri", $uri);
     }
 
     public function setAction()
