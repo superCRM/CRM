@@ -7,6 +7,7 @@ use Plagins\Security;
 use Phalcon\Dispatcher;
 use Phalcon\Config;
 use Plagins\Mail;
+use Plagins\CustomFlash;
 //добавить проценты
 try {
 	
@@ -78,8 +79,8 @@ try {
         return $view;
     });
 
-    $di->set('flash', function(){
-        $flash = new \Phalcon\Flash\Direct(array(
+    $di->set('flashSession', function(){
+        $flash = new \Plagins\CustomFlash(array(
             'error' => 'alert alert-error',
             'success' => 'alert alert-success',
             'notice' => 'alert alert-info',
