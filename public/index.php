@@ -8,7 +8,6 @@ use Phalcon\Dispatcher;
 use Phalcon\Config;
 use Plagins\Mail;
 use Plagins\CustomFlash;
-//добавить проценты
 try {
 	
 	$config = new Config(array(
@@ -79,19 +78,29 @@ try {
         return $view;
     });
 
-    $di->set('flashSession', function(){
-        $flash = new \Plagins\CustomFlash(array(
-            'error' => 'alert alert-error',
-            'success' => 'alert alert-success',
-            'notice' => 'alert alert-info',
-        ));
-        return $flash;
-    });
+
 
     $di->setShared('session', function() {
         $session = new Phalcon\Session\Adapter\Files();
         $session->start();
         return $session;
+    });
+
+    $di->set('flashSession', function(){
+        $flash = new CustomFlash(array(
+            'error' => 'alert alert-error',
+            'success' => 'alert alert-success',
+            'notice' => 'alert alert-info',
+        ));
+
+        $flash->setCssClasses(
+            array(
+                'error' => 'alert alert-danger' ,
+                'success' => 'alert alert-success' ,
+                'notice' => 'alert alert-info' ,
+            )
+        );
+        return $flash;
     });
     //Handle the request
 

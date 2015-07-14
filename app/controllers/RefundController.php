@@ -114,10 +114,15 @@ class RefundController extends BaseController
 			 
 				$cancelKeysId = $this->request->getPost("cancelKeys");
 				$finalPercent = $this->request->getPost("percent");
+                if(!is_numeric($finalPercent) || (double)$finalPercent < 0 || (double)$finalPercent > 100){
+                    $this->flashSession->error("Enter correct percent");
+                    //TODO create variable uri in session
+                    return $this->response->redirect($this->session->get('uri'));
+                }
 				
 				$refund = $this->session->get("refund");
-
-				$refund->id=Refund::createRefund($refund->email, $finalPercent, $refund->keys);
+                $refund->percent = $finalPercent;
+				$refund->id=Refund::createRefund($refund->email, $refund->percent, $refund->keys);
 				
 				if($refund->id === false)
 				{
