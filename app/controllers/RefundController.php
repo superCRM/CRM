@@ -42,6 +42,7 @@ class RefundController extends BaseController
                 $refund->addKey($key_id);
                 $this->session->set("refund", $refund);
             }
+            else $this->flashSession->error('Enter correct key id.');
 
         }
 
