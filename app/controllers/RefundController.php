@@ -20,11 +20,21 @@ class RefundController extends BaseController
             array(
                 "data" => $refunds,
                 "limit"=> 10,
-                "page" => $page
+                "page" => $currentPage
             )
         );
         $page = $paginator->getPaginate();
+
+        if($currentPage > $page->total_pages || $currentPage < 0){
+            $this->response->redirect('index/page404');
+        }
+        $uri = '/'.$this->dispatcher->getControllerName().'/'.$this->dispatcher->getActionName().'/';
+
         $this->view->setVar("refunds", $page->items);
+
+        $this->view->setVar("currentPage", $currentPage);
+        $this->view->setVar("size", $page->total_pages);
+        $this->view->setVar("uri", $uri);
     }
     public function setAction()
     {

@@ -128,21 +128,4 @@ abstract class DbTable {
         }
         return $result;
     }
-
-
-
-    public static function getNumberOfRows(){
-        $class = get_called_class();
-
-        $stringQuery = "SELECT COUNT(*) as count FROM ".$class::TABLE_NAME;
-
-        $db = DB::getConnect();
-        $query = $db->prepare($stringQuery);
-
-        if($query->execute()){
-            return $query->fetch(\PDO::FETCH_ASSOC)['count'];
-        }
-
-        return false;
-    }
 } 

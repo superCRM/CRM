@@ -12,13 +12,31 @@ class OrderController extends BaseController
 {
 
 
-    public function indexAction()
+    public function indexAction($currentPage=1)
     {
-		//$this->view->disable();
         $orders = Order::getOrderList(array());
 
-        $this->view->setVar("orders", $orders);
-    }
+        $paginator = new \Phalcon\Paginator\Adapter\NativeArray(
+            array(
+                "data" => $orders,
+                "limit"=> 10,
+                "page" => $currentPage
+            )
+        );
+
+        $page = $paginator->getPaginate();
+
+        if($currentPage > $page->total_pages || $currentPage < 0){
+            $this->response->redirect('index/page404');
+        }
+
+        $uri = '/'.$this->dispatcher->getControllerName().'/'.$this->dispatcher->getActionName().'/';
+
+        $this->view->setVar("orders", $page->items);
+        $this->view->setVar("currentPage", $currentPage);
+        $this->view->setVar("size", $page->total_pages);
+        $this->view->setVar('uri', $uri);
+	}
 
     
 

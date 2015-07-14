@@ -11,7 +11,7 @@
     <?php
     foreach($orders as $order): ?>
         <tbody>
-        <tr class="success">
+        <tr>
             <td><?=$order->orderId?></td>
             <td><?=$order->emailUser?></td>
             <td><?=$order->keyNum?></td>
@@ -27,6 +27,7 @@
         </tbody>
     <?php endforeach ?>
 </table>
+    <?php $this->partial('shared/paginator'); ?>
 <script>
     document.getElementById("orders").classList.add("active");
 </script>
