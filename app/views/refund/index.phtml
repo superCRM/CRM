@@ -1,7 +1,6 @@
 <?php  $this->flashSession->output();?>
 
 <form  method = "POST" action = "/refund/send">
-    <div class="col-md-8 col-md-offset-2">
     <table class="table table-hover">
         <thead>
         <tr>
@@ -33,7 +32,6 @@
             </tbody>
         <?php endforeach ?>
     </table>
-    </div>
 </form>
 <div class="navButtons">
     <?php $this->partial('shared/paginator'); ?>

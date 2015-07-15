@@ -49,6 +49,7 @@ class User extends DbTable{
 			return false;
 		if(Validation::validateUsername($login)===false)
 			return false;
+
 		if(self::getUser($idUser)!=false)
 			return false;
 		return true;

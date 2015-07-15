@@ -33,6 +33,9 @@
             </tbody>
     <?php  endforeach; ?>
 </table>
+<div class="navButtons">
+    <?php $this->partial('shared/paginator'); ?>
+</div>
 <script>
     document.getElementById("report").classList.add("active");
 </script>

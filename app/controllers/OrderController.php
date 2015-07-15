@@ -43,13 +43,14 @@ class OrderController extends BaseController
 	public function addAction()
 	{
         $this->view->disable();
+        //var_dump($_POST);
         if($this->request->isPost()===true)
 		{
 			$secretParams = SecretParams::getSecretParams('billing');
 
             if(!$secretParams){
 				$this->response->setStatusCode(500, "Fail");
-                $this->response->setContent("<html><body>Secret key not set.</body></html>");
+                $this->response->setContent("Secret key not set.");
                 $this->response->send();
 				return;
 			}
@@ -59,7 +60,7 @@ class OrderController extends BaseController
 				if(!$jsonOrder)
 				{
 					$this->response->setStatusCode(422, "Fail");
-                    $this->response->setContent("<html><body>Order not found.</body></html>");
+                    $this->response->setContent("Order not found.");
                     $this->response->send();
 				}
 				elseif($jsonOrder)
@@ -69,11 +70,16 @@ class OrderController extends BaseController
 					$orderId = $order['order_id'];
 					$userId = $order['user_id'];
 					$keysId = $order['keys'];
+                    /*var_dump($keysId);
+                    var_dump($userId);
+                    var_dump($orderId);
+                    var_dump($sum);*/
+
 					$result = Order::validateOrder($orderId,$sum,$keysId,$userId);
 					if(!$result)
 					{
                         $this->response->setStatusCode(422, "Fail");
-                        $this->response->setContent("<html><body>Validation failed</body></html>");
+                        $this->response->setContent("Validation failed");
                         $this->response->send();
 					}
 					else
@@ -81,7 +87,7 @@ class OrderController extends BaseController
 						$keysId = $result;
 						Order::createOrder($orderId,$sum,User::getUser($userId)->email,$keysId);
                         $this->response->setStatusCode(200, "OK");
-                        $this->response->setContent("<html><body>Success</body></html>");
+                        $this->response->setContent("Success");
                         $this->response->send();
 					}
 				}
@@ -89,10 +95,9 @@ class OrderController extends BaseController
 			else
 			{
 				$this->response->setStatusCode(422, "Fail");
-                $this->response->setContent("<html><body>SecretParams does not match.</body></html>");
+                $this->response->setContent("SecretParams does not match.");
                 $this->response->send();
 			}
-			
 		}
 	}
 

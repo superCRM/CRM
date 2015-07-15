@@ -23,13 +23,15 @@ class UserController extends BaseController{
 
     public function addAction()
     {
+        $this->view->disable();
+        var_dump($_POST);
         if($this->request->isPost()===true)
         {
             $secretParams = SecretParams::getSecretParams('account');
             $response = new \Phalcon\Http\Response();
 
             if(!$secretParams){
-                $response->setContent("<html><body>Secret key not set.</body></html>");
+                $response->setContent("Secret key not set.");
                 $response->send();
                 return;
             }
@@ -38,7 +40,7 @@ class UserController extends BaseController{
 
                 if(!$jsonUser)
                 {
-                    $response->setContent("<html><body>Post with key 'regInfo' not found.</body></html>");
+                    $response->setContent("Post with key 'regInfo' not found.");
                     $response->send();
                 }
                 elseif($jsonUser)
@@ -46,26 +48,28 @@ class UserController extends BaseController{
                     $user = JsonSender::convertToArray($jsonUser);
                     $login = $user['name'];
                     $email = $user['email'];
+
                     $idUser = $user['userId'];
+
                     $result = User::validateUser($idUser, $email, $login);
                     if(!$result)
                     {
                         $response->setStatusCode(422, "Fail");
-                        $response->setContent("<html><body>Validation failed</body></html>");
+                        $response->setContent("Validation failed");
                         $response->send();
                     }
                     else
                     {
                         User::createUser($login, $email, $idUser);
                         $response->setStatusCode(200, "OK");
-                        $response->setContent("<html><body>Success</body></html>");
+                        $response->setContent("Success");
                         $response->send();
                     }
                 }
             }
             else
             {
-                $response->setContent("<html><body>SecretParams does not match.</body></html>");
+                $response->setContent("SecretParams does not match.");
                 $response->send();
             }
 
