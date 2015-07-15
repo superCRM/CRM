@@ -211,7 +211,7 @@ try {
 	$sec1->save();
 	$sec1 = new SecretParams('billing','CRM','password');
 	$sec1->save();*/
-    echo SecretParams::urlSigner('http://10.55.33.27','/user/add','CRM','password');
+    //echo SecretParams::urlSigner('http://10.55.33.27','/user/add','CRM','password');
 
 	/*$postArray = array
 	(
@@ -229,13 +229,13 @@ try {
     );*/
 
 
-    $postArray = array(
+    /*$postArray = array(
       "name" => 'test',
         "email" => "test@test.com",
         "userId" => 3330
-    );
-	echo JsonSender::convertToJson($postArray);
-	//echo $application->handle()->getContent();
+    );*/
+	//echo JsonSender::convertToJson($postArray);
+	echo $application->handle()->getContent();
 
 	
 } catch(\Phalcon\Exception $e) {
