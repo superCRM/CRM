@@ -6,16 +6,15 @@ use CRM\SecretParams;
 use CRM\JsonSender;
 class RefundController extends BaseController
 {
-    public function indexAction($page)
+    public function indexAction($currentPage)
     {
-//if(!$this->session->has("agentId")) return $this->response->redirect("/");
         $refunds = Refund::getRefundList(0);
+
         foreach($refunds as $refund){
             $id = $refund->getId();
             $refund->keys = Key::getKeysByRefund($id);
         }
-        $uri = $this->request->getURI();
-        $this->session->set("uri",$uri);
+
         $paginator = new \Phalcon\Paginator\Adapter\NativeArray(
             array(
                 "data" => $refunds,
@@ -36,6 +35,7 @@ class RefundController extends BaseController
         $this->view->setVar("size", $page->total_pages);
         $this->view->setVar("uri", $uri);
     }
+
     public function setAction()
     {
         $refund = new Refund();
@@ -62,6 +62,7 @@ class RefundController extends BaseController
         $this->session->set("uri",$uri);
         $this->view->setVar("keys", $refund ->keys);
     }
+
     public function delAction()
     {
         $this->view->disable();
@@ -75,6 +76,7 @@ class RefundController extends BaseController
         $this->view->setVar("keys", $refund ->keys);
         return $this->response->redirect("refund/set/");
     }
+
     public function enterAction()
     {
         if($this->request->isPost() === true) {
@@ -85,6 +87,7 @@ class RefundController extends BaseController
             return $this->response->redirect("refund/set/");
         }
     }
+
     public function sendAction()
     {
         $finalPercent = 0;
@@ -166,6 +169,7 @@ class RefundController extends BaseController
             return $refund->sendRefund();
         }
     }
+
     public function indexSendAction(){
         $this->view->disable();
         /*var_dump($_POST);
@@ -194,7 +198,7 @@ class RefundController extends BaseController
         }
     }
 
-    public function receivedAction()
+    public function receivedAction($currentPage)
     {
    //     $refundsSuccess = Refund::getRefundList(2);
     //    $refundsFailed = Refund::getRefundList(3);
@@ -202,7 +206,34 @@ class RefundController extends BaseController
      //   $refunds = array_merge($refundsSuccess, $refundsFailed);
         $refunds = Refund::getRefundList(null);
 
-        $this->view->setVar("refunds", $refunds);
+        foreach($refunds as $refund){
+            $id = $refund->getId();
+            $refund->keys = Key::getKeysByRefund($id);
+        }
+
+        $paginator = new \Phalcon\Paginator\Adapter\NativeArray(
+            array(
+                "data" => $refunds,
+                "limit"=> 10,
+                "page" => $currentPage
+            )
+        );
+        $page = $paginator->getPaginate();
+
+        if($currentPage > $page->total_pages || $currentPage < 0){
+            $this->response->redirect('index/page404');
+        }
+        $uri = '/'.$this->dispatcher->getControllerName().'/'.$this->dispatcher->getActionName().'/';
+
+        $this->view->setVar("refunds", $page->items);
+
+        $this->view->setVar("currentPage", $currentPage);
+        $this->view->setVar("size", $page->total_pages);
+        $this->view->setVar("uri", $uri);
+        /*
+        $refunds = Refund::getRefundList(null);
+
+        $this->view->setVar("refunds", $refunds);*/
     }
 
     public function addAction()
