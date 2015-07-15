@@ -3,7 +3,6 @@
     <tr>
         <th>Order id</th>
         <th>User email</th>
-        <th>Num of keys</th>
         <th>Keys id</th>
         <th>Sum</th>
     </tr>
@@ -14,7 +13,6 @@
         <tr>
             <td><?=$order->orderId?></td>
             <td><?=$order->emailUser?></td>
-            <td><?=$order->keyNum?></td>
             <td>
                 <table>
                     <?php foreach($order->getKeys() as $key):?>
