@@ -47,7 +47,7 @@ class UserController extends BaseController{
                     $login = $user['name'];
                     $email = $user['email'];
                     $idUser = $user['userId'];
-                    $result = Refund::validateUser($idUser, $email, $login);
+                    $result = User::validateUser($idUser, $email, $login);
                     if(!$result)
                     {
                         $response->setStatusCode(422, "Fail");

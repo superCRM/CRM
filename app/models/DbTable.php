@@ -111,9 +111,11 @@ abstract class DbTable {
                 $stringQuery .= " $key $connector";
             else
             {
-                $stringQuery .= " $key =
-                '$value' " . "
-                 $connector";
+                if(count($value)>1)
+                    foreach($value as $item)
+                        $stringQuery .= " $key = '$item' " . "$connector";
+                else
+                    $stringQuery .= " $key = '$value' " . "$connector";
             }
 
         }
