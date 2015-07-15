@@ -16,11 +16,9 @@
 
         <tr
         <?php if ($refund->status == 2) { ?> class="success"
-        <?php }  else  if ($refund->status == 3) {?> class="danger"
-        <?php }
-        else {}?> >
+        <?php }  else  {?> class="danger"
+        <?php }?> >
 
-            <?php if ($refund->status == 3 || $refund->status == 2) { ?>
                 <td><?=$refund->id?></td>
                 <td><?=$refund->email?></td>
                 <td><?=$refund->keyNum?></td>
@@ -35,7 +33,7 @@
                 <td><?=$refund->data?></td>
             </tr>
             </tbody>
-    <?php } endforeach; ?>
+    <?php  endforeach; ?>
 </table>
 <div class="navButtons">
     <?php $this->partial('shared/paginator'); ?>
