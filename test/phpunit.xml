@@ -1,9 +1,13 @@
 <phpunit bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="money">
+<<<<<<< HEAD
+            <directory>tests</directory>
+=======
             <file>tests/IntlFormatterTest.php</file>
             <file>tests/MoneyTest.php</file>
             <file>tests/CurrencyTest.php</file>
+>>>>>>> e80824d70be6973691406223128d924e5611dc25
         </testsuite>
     </testsuites>
 </phpunit>

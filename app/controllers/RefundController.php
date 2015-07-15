@@ -339,6 +339,16 @@ class RefundController extends BaseController
                                     $key->decrementKeyPercent($refund->finalPercent);
                                 }
                             }
+
+                            $payment_keys = $response['id_keys_payment'];
+                            if(count($payment_keys)>0)
+                            {
+                                foreach($payment_keys as $keyId)
+                                {
+                                    $key = Key::getKey($keyId);
+                                    $key->decrementKeyPercent($refund->finalPercent);
+                                }
+                            }
                         }
                         else
                         {
@@ -349,7 +359,8 @@ class RefundController extends BaseController
                             }
                         }
                         $refund->update(array("id"=>$refund->id));
-                        return $this->response->redirect('/refund/receiveresponse');
+
+                        return $this->response->redirect('/refund/receiveResponse');
                         $this->response->setStatusCode(200, "OK");
                         $this->response->setContent("<html><body>Success</body></html>");
                         $this->response->send();

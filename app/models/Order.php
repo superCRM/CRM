@@ -65,11 +65,9 @@ class Order extends DbTable{
         {
             return false;
         }
-		//var_dump(User::getUser($userId)==false);
 		if(User::getUser($userId)==false)
 			return false;
-        //var_dump(self::getOrder($userId)==false);
-		if(self::getOrder($orderId)!=false)
+        if(self::getOrder($orderId)!=false)
         {
             return false;
         }

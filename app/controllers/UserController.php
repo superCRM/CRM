@@ -49,7 +49,9 @@ class UserController extends BaseController{
                     $user = JsonSender::convertToArray($jsonUser);
                     $login = $user['name'];
                     $email = $user['email'];
-                    $idUser = $user['id'];
+
+                    $idUser = $user['userId'];
+
                     $result = User::validateUser($idUser, $email, $login);
                     if(!$result)
                     {

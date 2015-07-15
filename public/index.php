@@ -207,7 +207,7 @@ try {
 	$sec1->save();
 	$sec1 = new SecretParams('billing','CRM','password');
 	$sec1->save();*/
-    //echo SecretParams::urlSigner('http://10.55.33.27','/refund/receiveResponse','CRM','1');
+    //echo SecretParams::urlSigner('http://10.55.33.27','/user/add','CRM','password');
 
 	/*$postArray = array
 	(
@@ -222,10 +222,15 @@ try {
         "amount"=>50,
         "email"=>'rtrtr@tye@iui',
         "id_key"=>array(55,87)
-    );
-	
-	echo JsonSender::convertToJson($postArray);*/
-	
+    );*/
+
+
+    /*$postArray = array(
+      "name" => 'test',
+        "email" => "test@test.com",
+        "userId" => 3330
+    );*/
+	//echo JsonSender::convertToJson($postArray);
 	echo $application->handle()->getContent();
 
 	
