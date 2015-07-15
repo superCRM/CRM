@@ -3,7 +3,6 @@
     <tr>
         <th>Refund id</th>
         <th>User email</th>
-        <th>Num of keys</th>
         <th>Keys id</th>
         <th>Percent</th>
         <th>Date</th>
@@ -21,7 +20,6 @@
 
                 <td><?=$refund->id?></td>
                 <td><?=$refund->email?></td>
-                <td><?=$refund->keyNum?></td>
                 <td>
                     <table>
                         <?php foreach($refund->getKeys() as $key):?>
