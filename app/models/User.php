@@ -33,6 +33,16 @@ class User extends DbTable{
 			return false;
     }
 
+    public static function getUserByEmail($email){
+        $items=self::select(array("email"=>$email));
+        if(count($items)>0){
+            $user = $items[0];
+            return $user;
+        }
+        else
+            return false;
+    }
+
     public function getUserList(){
         $users = array();
         $items=self::select(array());

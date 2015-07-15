@@ -26,7 +26,7 @@ class OrderController extends BaseController
 
         $page = $paginator->getPaginate();
 
-        if($currentPage > $page->total_pages || $currentPage < 0){
+        if($currentPage > $page->total_pages + 1 || $currentPage < 0){
             $this->response->redirect('index/page404');
         }
 

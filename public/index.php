@@ -87,17 +87,13 @@ try {
     });
 
     $di->set('flashSession', function(){
-        $flash = new CustomFlash(array(
-            'error' => 'alert alert-error',
-            'success' => 'alert alert-success',
-            'notice' => 'alert alert-info',
-        ));
+        $flash = new CustomFlash();
 
         $flash->setCssClasses(
             array(
                 'error' => 'alert alert-danger' ,
                 'success' => 'alert alert-success' ,
-                'notice' => 'alert alert-info' ,
+                'notice' => 'alert alert-warning' ,
             )
         );
         return $flash;
@@ -162,7 +158,7 @@ try {
             'registration' => array('index', 'register'),
 			'refund' => array('add','receiveResponse'),
 			'order' => array('add'),
-            'user' => array('add')
+            'user' => array('add','activation')
         );
 
         $privateResources = array(

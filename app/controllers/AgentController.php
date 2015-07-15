@@ -39,14 +39,16 @@ class AgentController extends BaseController{
                 $currentAgent->email = $email;
             }
 
-            if( (!Validation::validatePassword($password)) ||
-                (!Validation::validatePassword($confirmPas)) ||
-                ($password != $confirmPas)){
-                $this->flashSession->error('Password validation failed or password does not match.');
-                return $this->response->redirect('/agent');
-            }
-            else{
-                $currentAgent->changePassword(crypt($password,'CRYPT_SHA256'));
+            if($password != '' && $confirmPas != ''){
+                if(!Validation::validatePassword($password) ||
+                    !Validation::validatePassword($confirmPas) ||
+                    ($password != $confirmPas)){
+                    $this->flashSession->error('Password validation failed or password does not match.');
+                    return $this->response->redirect('/agent');
+                }
+                else{
+                    $currentAgent->changePassword(crypt($password,'CRYPT_SHA256'));
+                }
             }
 
             if(!$currentAgent->update(array('id'=>$id))) {

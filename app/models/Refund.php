@@ -140,7 +140,7 @@ class Refund extends DbTable{
                                     'percent'=>$this->finalPercent,
                                     'refundID'=>$this->id));
         $secretParams = SecretParams::getSecretParams('billing');
-        echo JsonSender::sendData($info,
+        return JsonSender::sendData($info,
              SecretParams::urlSigner(JsonSender::BILLING_DOMAIN,
                                     JsonSender::BILLING_PATH,
                                     $secretParams->getPartner(),

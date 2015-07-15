@@ -8,6 +8,7 @@ class RefundController extends BaseController
 {
     public function indexAction($currentPage)
     {
+        $this->session->remove('refund');
         $refunds = Refund::getRefundList(0);
 
         foreach($refunds as $refund){
@@ -22,6 +23,7 @@ class RefundController extends BaseController
                 "page" => $currentPage
             )
         );
+
         $page = $paginator->getPaginate();
 
         if($currentPage > $page->total_pages || $currentPage < 0){
@@ -41,6 +43,7 @@ class RefundController extends BaseController
         $refund = new Refund();
         if($this->session->has("refund")) {
             $refund = $this->session->get("refund");
+            $this->session->set("refund",$refund);
             $this->view->setVar("email", $refund->email);
         }
         else {
@@ -166,7 +169,18 @@ class RefundController extends BaseController
 //TODO create variable uri in session
                 return $this->response->redirect($this->session->get('uri'));
             }
-            return $refund->sendRefund();
+            $response = $refund->sendRefund();
+            $result = JsonSender::convertToArray($response);
+
+            if($result['success'] === true){
+                if($result['status'] == 'OK'){
+                    $this->flashSession->success("Success");
+                }else{
+                    $this->flashSession->notice("Warning ".$result['id_keys']." ".$result['status']);
+                }
+            }else{
+                $this->flashSession->error("Error. refund failed. ".$result['success']);
+            }
         }
     }
 

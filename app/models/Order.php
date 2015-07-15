@@ -57,7 +57,7 @@ class Order extends DbTable{
 
     public static function validateOrder($orderId,$sum,$keysId,$userId)
     {
-		
+		//var_dump($userId);
         if(count($keysId)==0)
             return false;
 		
@@ -65,10 +65,10 @@ class Order extends DbTable{
         {
             return false;
         }
-		
-		if(User::getUser($userId)==false || $userId != 'anonymous')
+		//var_dump(User::getUser($userId)==false);
+		if(User::getUser($userId)==false)
 			return false;
-        
+        //var_dump(self::getOrder($userId)==false);
 		if(self::getOrder($orderId)!=false)
         {
             return false;
