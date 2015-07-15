@@ -43,6 +43,7 @@ class OrderController extends BaseController
 	public function addAction()
 	{
         $this->view->disable();
+        //var_dump($_POST);
         if($this->request->isPost()===true)
 		{
 			$secretParams = SecretParams::getSecretParams('billing');
@@ -69,6 +70,10 @@ class OrderController extends BaseController
 					$orderId = $order['order_id'];
 					$userId = $order['user_id'];
 					$keysId = $order['keys'];
+                    /*var_dump($keysId);
+                    var_dump($userId);
+                    var_dump($orderId);
+                    var_dump($sum);*/
 
 					$result = Order::validateOrder($orderId,$sum,$keysId,$userId);
 					if(!$result)

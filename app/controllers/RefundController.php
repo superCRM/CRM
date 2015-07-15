@@ -200,16 +200,7 @@ class RefundController extends BaseController
 
     public function receivedAction($currentPage)
     {
-   //     $refundsSuccess = Refund::getRefundList(2);
-    //    $refundsFailed = Refund::getRefundList(3);
-
-     //   $refunds = array_merge($refundsSuccess, $refundsFailed);
         $refunds = Refund::getRefundList(array(2,3));
-
-        foreach($refunds as $refund){
-            $id = $refund->getId();
-            $refund->keys = Key::getKeysByRefund($id);
-        }
 
         $paginator = new \Phalcon\Paginator\Adapter\NativeArray(
             array(
@@ -228,12 +219,8 @@ class RefundController extends BaseController
         $this->view->setVar("refunds", $page->items);
 
         $this->view->setVar("currentPage", $currentPage);
-        $this->view->setVar("size", $page->total_pages);
+        $this->view->setVar("size", $page->total_pages + 1);
         $this->view->setVar("uri", $uri);
-        /*
-        $refunds = Refund::getRefundList(null);
-
-        $this->view->setVar("refunds", $refunds);*/
     }
 
     public function addAction()
@@ -283,6 +270,7 @@ class RefundController extends BaseController
             }
         }
     }
+
     public function receiveResponseAction()
     {
 //TODO Change add actions
