@@ -100,7 +100,7 @@ class Refund extends DbTable{
         //to create (change) function select: and => or
         $refunds = array();
 
-        $items=self::select(array("status"=>$status), 'and', null, " ORDER BY data ASC");
+        $items=self::select(array("status"=>$status), 'or', null, " ORDER BY data ASC");
 
         for ($i = 0; $i < count($items); $i++) {
             $refund = $items[$i];
