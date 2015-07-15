@@ -200,7 +200,7 @@ class RefundController extends BaseController
     //    $refundsFailed = Refund::getRefundList(3);
 
      //   $refunds = array_merge($refundsSuccess, $refundsFailed);
-        $refunds = Refund::getRefundList(null);
+        $refunds = Refund::getRefundList(array(2,3));
 
         $this->view->setVar("refunds", $refunds);
     }

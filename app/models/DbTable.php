@@ -105,16 +105,22 @@ abstract class DbTable {
         if(count($conditional)>0)
             $stringQuery .= ' where';
 
-        foreach($conditional as $key=>$value)
-        {
-            if($value===null)
-                $stringQuery .= " $key $connector";
-            else
-            {
-                $stringQuery .= " $key = '$value' " . " $connector";
+
+            foreach ($conditional as $key => $value) {
+                if ($value === null)
+                    $stringQuery .= " $key $connector";
+                else {
+                    if (count($value) > 1){
+                        foreach($value as $status){
+                            $connector = 'or';
+                            $stringQuery .= " $key = '$status' " . " $connector";
+                        }
+                    }
+                    else $stringQuery .= " $key = '$value' " . " $connector";
+                }
+
             }
 
-        }
 
         $stringQuery = trim($stringQuery, $connector);
         if ($order != null) $stringQuery .= $order;
