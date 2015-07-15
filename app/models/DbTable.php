@@ -105,6 +105,7 @@ abstract class DbTable {
         if(count($conditional)>0)
             $stringQuery .= ' where';
 
+
         foreach($conditional as $key=>$value)
         {
             if($value===null)
@@ -116,9 +117,10 @@ abstract class DbTable {
                         $stringQuery .= " $key = '$item' " . "$connector";
                 else
                     $stringQuery .= " $key = '$value' " . "$connector";
-            }
 
+            }
         }
+
 
         $stringQuery = trim($stringQuery, $connector);
         if ($order != null) $stringQuery .= $order;

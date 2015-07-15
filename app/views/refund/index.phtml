@@ -1,11 +1,11 @@
 <?php  $this->flashSession->output();?>
+
 <form  method = "POST" action = "/refund/send">
     <div class="col-md-8 col-md-offset-2">
     <table class="table table-hover">
         <thead>
         <tr>
             <th class="col-md-3">User email</th>
-            <th class="col-md-1">Num of keys</th>
             <th class="col-md-3">Keys id</th>
             <th class="col-md-1">Percent</th>
             <th class="col-md-2">Final percent</th>
@@ -18,12 +18,11 @@
             <tbody>
             <tr >
                 <td><?=$refund->email?></td>
-                <td><?=$refund->keyNum?></td>
                 <td>
                     <?php $i = 0;
                     foreach($refund->keys as $key):
                         $i++;?>
-                        <input type="checkbox" name="keyToCancel[<?= $refund->id ?>][<?= $i ?>]" value="<?=$key->keyId?>" />  <?=$key->keyId . ' ' . $key->percent . '%'?><br>
+                        <input type="checkbox" name="keyToCancel[<?= $refund->id ?>][<?= $i ?>]" value="<?=$key->keyId?>" />  <?=$key->keyId . ' (' . $key->percent . '%)'?><br>
                     <?php endforeach; ?>
                 </td>
                 <td><?=$refund->percent?></td>

@@ -1,0 +1,38 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Refund id</th>
+        <th>User email</th>
+        <th>Keys id</th>
+        <th>Percent</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <?php
+    foreach($refunds as $refund):
+        ?>
+        <tbody>
+
+        <tr
+        <?php if ($refund->status == 2) { ?> class="success"
+        <?php }  else  {?> class="danger"
+        <?php }?> >
+
+                <td><?=$refund->id?></td>
+                <td><?=$refund->email?></td>
+                <td>
+                    <table>
+                        <?php foreach($refund->getKeys() as $key):?>
+                            <tr><td><label><?=$key->keyId?></label></td></tr>
+                        <?php endforeach; ?>
+                    </table>
+                </td>
+                <td><?=$refund->percent?></td>
+                <td><?=$refund->data?></td>
+            </tr>
+            </tbody>
+    <?php  endforeach; ?>
+</table>
+<script>
+    document.getElementById("report").classList.add("active");
+</script>

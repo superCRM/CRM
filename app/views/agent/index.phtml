@@ -1,6 +1,7 @@
 <div class="col-md-6">
     <div>
-        <h3>Hello <?= $this->session->get('login'); ?>!</h3>
+        <h3><spun style="color: #428bca;">Hello <?= $this->session->get('login'); ?>! </spun></h3>
+        <h5>You can change your data below:</h5><br>
     </div>
     <?php  $this->flashSession->output();?>
     <form action="/agent/account" method="POST">
