@@ -54,23 +54,6 @@ try {
 	$di->set('mail', function () {
 		return new Mail();
 	});
-    //Setting up the view component
-	
-	 /*$di->set('router', function() {
-        $router = new \Phalcon\Mvc\Router\Annotations(true);
-        $router->removeExtraSlashes(true);
-        $router->setUriSource(\Phalcon\Mvc\Router::URI_SOURCE_SERVER_REQUEST_URI);
-        $router->addResource('Index', "/");
-		$router->addResource('Registration',"/registration");
-        $router->notFound([
-                          "controller" => "index",
-                           "action"  => "page404"
-        ]);
-        return $router;
-    });*/
-	
-	
-	
 	
     $di->set('view', function(){
         $view = new \Phalcon\Mvc\View();
@@ -203,34 +186,7 @@ try {
 	
 	
 	$application = new \Phalcon\Mvc\Application($di);
-	/*$sec1 = new SecretParams('account','CRM','password');
-	$sec1->save();
-	$sec1 = new SecretParams('billing','CRM','password');
-	$sec1->save();*/
-    //echo SecretParams::urlSigner('http://10.55.33.27','/user/add','CRM','password');
 
-	/*$postArray = array
-	(
-		"sum"=>50,
-		"order_id"=>30009,
-		"user_id"=>25,
-		"keys"=>array(55,87)
-	);*/
-
-    /*$postArray = array
-    (
-        "amount"=>50,
-        "email"=>'rtrtr@tye@iui',
-        "id_key"=>array(55,87)
-    );*/
-
-
-    /*$postArray = array(
-      "name" => 'test',
-        "email" => "test@test.com",
-        "userId" => 3330
-    );*/
-	//echo JsonSender::convertToJson($postArray);
 	echo $application->handle()->getContent();
 
 	

@@ -95,8 +95,7 @@ class Security extends Plugin
                     )
                 );*/
 
-                //return $this->response->redirect("/refund");
-                return false;
+                return $this->response->redirect("/account");
                 // Возвращая "false" мы приказываем диспетчеру прекратить текущую операцию
                 //return false;
             }

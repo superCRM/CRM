@@ -1,3 +1,4 @@
+<?php $this->partial('shared/search'); ?>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -14,11 +15,22 @@
             <td><?=$order->orderId?></td>
             <td><?=$order->emailUser?></td>
             <td>
-                <table>
-                    <?php foreach($order->getKeys() as $key):?>
+                <?php $keys=$order->getKeys(); ?>
+                <table id="accordion">
+                    <?php if(count($keys) < 5){
+                    foreach($keys as $key):?>
                         <tr><td><label><?=$key->keyId?></label></td></tr>
                     <?php endforeach; ?>
                 </table>
+                <?php }else{ ?>
+                    <tr><td><label><?=$keys[0]->keyId?></label></td></tr>
+                    <tr data-toggle="collapse" data-target="#collapseTarget"><td><label>...</label></td></tr><?php
+                ?><tbody id="collapseTarget" class="collapse"><?php
+                $this->partial('shared/collapse');
+                ?></tbody><?php
+                ?></table><?php
+                }
+                ?>
             </td>
             <td><?=$order->sum?></td>
         </tr>

@@ -50,7 +50,7 @@ class UserController extends BaseController{
                     $login = $user['name'];
                     $email = $user['email'];
 
-                    $idUser = $user['userId'];
+                    $idUser = $user['id'];
 
                     $result = User::validateUser($idUser, $email, $login);
                     if(!$result)
