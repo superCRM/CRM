@@ -34,7 +34,7 @@ class OrderController extends BaseController
 
         $this->view->setVar("orders", $page->items);
         $this->view->setVar("currentPage", $currentPage);
-        $this->view->setVar("size", $page->total_pages);
+        $this->view->setVar("size", $page->total_pages+1);
         $this->view->setVar('uri', $uri);
 	}
 

@@ -54,12 +54,14 @@ class RefundController extends BaseController
             $key_id = $this->request->getPost("key_id");
             if($key_id != '' && is_int((int)$key_id) && (int)$key_id > 0) {
                 $refund->addKey($key_id);
+                if(!array_key_exists($key_id,$refund->keys)) {
+                    $this->flashSession->error("Key not found");
+                    return $this->response->redirect("/refund/set");
+                }
                 $this->session->set("refund", $refund);
+
             }
-            else{
-                $this->flashSession->error("Key not found");
-                return $this->response->redirect("/refund/set");
-            }
+
         }
         $uri = $this->request->getURI();
         $this->session->set("uri",$uri);

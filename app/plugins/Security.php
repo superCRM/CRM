@@ -95,7 +95,7 @@ class Security extends Plugin
                     )
                 );*/
 
-                return $this->response->redirect("/account");
+                return $this->response->redirect("/agent");
                 // Возвращая "false" мы приказываем диспетчеру прекратить текущую операцию
                 //return false;
             }
